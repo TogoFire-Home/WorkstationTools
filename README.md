@@ -56,3 +56,8 @@ Contributions are welcome\! If you have suggestions for improving this script, a
 This project is licensed under the [MIT License](https://opensource.org/licenses/MIT).
 
 -----
+
+## ✨ Related Projects
+* [StartAllBack Update Blocker](https://github.com/TogoFire-Home/WorkstationTools/blob/main/StartAllBack-Update-Blocker/README.md)
+
+-----
