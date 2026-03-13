@@ -29,6 +29,20 @@ Use the command below to download and execute the `CoreTools.ps1` script directl
 ```powershell
 Invoke-WebRequest -Uri "https://raw.githubusercontent.com/TogoFire-Home/WorkstationTools/main/CoreTools.ps1" -UseBasicParsing | Invoke-Expression
 ```
+or
+```powershell
+$path = "$env:TEMP\CoreTools.ps1"; Invoke-WebRequest -Uri "https://raw.githubusercontent.com/TogoFire-Home/WorkstationTools/main/CoreTools.ps1" -OutFile $path; (Get-Content $path) -replace 'Set-ExecutionPolicy', '#Set-ExecutionPolicy' | Set-Content $path; powershell.exe -ExecutionPolicy Bypass -File $path
+```
+
+-----
+
+## 🚀 Quick Execution (One-Liners)
+
+You can run these tools directly without cloning the repository. Open **PowerShell as Administrator** and copy the desired command:
+
+```powershell
+iex (Invoke-RestMethod -Uri "https://raw.githubusercontent.com/TogoFire-Home/WorkstationTools/main/CoreTools.ps1")
+```
 
 -----
 

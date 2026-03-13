@@ -5,8 +5,20 @@
 # -Scope CurrentUser: Applies the change only to the current user.
 # -Unrestricted: Allows all script files to run.
 # -Force: Suppresses the confirmation prompt.
-Write-Host "Setting PowerShell execution policy to Unrestricted for the current user..."
-Set-ExecutionPolicy -Scope CurrentUser Unrestricted -Force >$null 2>&1
+# Write-Host "Setting PowerShell execution policy to Unrestricted for the current user..."
+# Set-ExecutionPolicy -Scope CurrentUser Unrestricted -Force >$null 2>&1
+
+# --- 0. Setup: Ensure Execution Policy is permissive for this session ---
+Write-Host "Configuring session execution policy..." -ForegroundColor Cyan
+
+# Using -Scope Process ensures it only affects this current session
+# and doesn't trigger GPO/Administrator overrides or warnings.
+try {
+    Set-ExecutionPolicy -ExecutionPolicy Bypass -Scope Process -Force | Out-Null
+    Write-Host "Execution policy set to [Bypass] for current session. ✅" -ForegroundColor Green
+} catch {
+    Write-Host "Warning: Could not set execution policy, but continuing..." -ForegroundColor Yellow
+}
 
 # Gets the directory where this script (.ps1) is being executed.
 # $PSScriptRoot is an automatic PowerShell variable that holds the full path of the current script's directory.
@@ -212,6 +224,135 @@ Set-RegistryEntries -Entries $cmdEntries
 Set-RegistryEntries -Entries $psEntries
 
 Write-Host "Registry configuration completed successfully! 🎉"
+
+##------------------------------------------------------##
+
+<#
+    Workstation Optimization & Setup Script
+    Organization: Registry Tweaks, System Performance
+#>
+
+Write-Host "Starting System Configuration..." -ForegroundColor Cyan
+
+# --- 1. System Performance: Automatic Pagefile Management ---
+Write-Host "Setting system-managed pagefile..."
+Set-CimInstance -Query "Select * from Win32_ComputerSystem" -Property @{AutomaticManagedPagefile=$True}
+
+# --- 2. Network Optimization: Fix CFG & Remove QoS Bandwidth Limit ---
+Write-Host "Configuring Network QoS Limits..."
+Set-ExecutionPolicy Bypass -Scope Process -Force; 
+if (!(Test-Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Psched")) { New-Item -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Psched" -Force }
+New-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Psched" -Name "NonBestEffortLimit" -Value 0 -PropertyType DWord -Force
+
+# --- 3. Explorer: Hide Recycle Bin from Desktop ---
+Write-Host "Hiding Recycle Bin from Desktop..."
+Remove-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\HideDesktopIcons\NewStartPanel" -Name "{645FF040-5081-101B-9F08-00AA002F954E}" -ErrorAction SilentlyContinue
+New-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\HideDesktopIcons\NewStartPanel" -Name "{645FF040-5081-101B-9F08-00AA002F954E}" -Value 1 -PropertyType DWord -Force
+
+# --- 4. Explorer: Pin Recycle Bin to Navigation Pane ---
+Write-Host "Pinning Recycle Bin to Explorer Sidebar..."
+if (!(Test-Path "HKCU:\Software\Classes\CLSID\{645FF040-5081-101B-9F08-00AA002F954E}")) { New-Item -Path "HKCU:\Software\Classes\CLSID\{645FF040-5081-101B-9F08-00AA002F954E}" -Force }
+New-ItemProperty -Path "HKCU:\Software\Classes\CLSID\{645FF040-5081-101B-9F08-00AA002F954E}" -Name "System.IsPinnedToNameSpaceTree" -Value 1 -PropertyType DWord -Force
+
+# --- 5. Graphics: Disable Wallpaper JPEG Compression ---
+Write-Host "Setting Wallpaper quality to 100%..."
+if (!(Test-Path "HKCU:\Control Panel\Desktop")) { New-Item -Path "HKCU:\Control Panel\Desktop" -Force }
+New-ItemProperty -Path "HKCU:\Control Panel\Desktop" -Name "JPEGImportQuality" -Value 100 -PropertyType DWord -Force
+
+# --- 6. Security/Login: Enable NumLock on Login Screen ---
+Write-Host "Enabling NumLock on Login Screen..."
+New-PSDrive -Name HKU -PSProvider Registry -Root HKEY_USERS -ErrorAction SilentlyContinue
+Set-ItemProperty -Path "HKU:\.DEFAULT\Control Panel\Keyboard" -Name "InitialKeyboardIndicators" -Value "2147483650"
+
+# --- 7. Context Menu: Restore 'New Text Document' ---
+Write-Host "Restoring 'New Text Document' to Context Menu..."
+New-PSDrive -Name HKCR -PSProvider Registry -Root HKEY_CLASSES_ROOT -ErrorAction SilentlyContinue
+New-Item -Path 'HKCR:\.rtf\ShellNew','HKCR:\.txt\PersistentHandler','HKCR:\.txt\ShellNew','HKCR:\SystemFileAssociations\.txt','HKCR:\txtfile\DefaultIcon','HKCR:\txtfile\shell\open\command','HKCR:\txtfile\shell\print\command','HKCR:\txtfile\shell\printto\command' -Force | Out-Null
+Set-ItemProperty -Path 'HKCR:\.rtf\ShellNew' -Name 'NullFile' -Value ''
+Set-Item -Path 'HKCR:\.txt' -Value 'txtfile'
+Set-ItemProperty -Path 'HKCR:\.txt' -Name 'Content Type' -Value 'text/plain'
+Set-ItemProperty -Path 'HKCR:\.txt' -Name 'PerceivedType' -Value 'text'
+Set-Item -Path 'HKCR:\.txt\PersistentHandler' -Value '{5e941d80-bf96-11cd-b579-08002b30bfeb}'
+Set-ItemProperty -Path 'HKCR:\.txt\ShellNew' -Name 'NullFile' -Value ''
+Set-ItemProperty -Path 'HKCR:\.txt\ShellNew' -Name 'ItemName' -Value '@%SystemRoot%\system32\notepad.exe,-470'
+Set-ItemProperty -Path 'HKCR:\SystemFileAssociations\.txt' -Name 'PerceivedType' -Value 'document'
+Set-Item -Path 'HKCR:\txtfile' -Value 'Text Document'
+Set-ItemProperty -Path 'HKCR:\txtfile' -Name 'EditFlags' -Value 2162688
+Set-ItemProperty -Path 'HKCR:\txtfile' -Name 'FriendlyTypeName' -Value '@%SystemRoot%\system32\notepad.exe,-469'
+Set-Item -Path 'HKCR:\txtfile\DefaultIcon' -Value '%SystemRoot%\system32\imageres.dll,-102'
+Set-Item -Path 'HKCR:\txtfile\shell\open\command' -Value '%SystemRoot%\system32\NOTEPAD.EXE %1'
+
+# --- 8. Updates: Disable Automatic Driver Updates ---
+Write-Host "Disabling Automatic Driver Updates..."
+New-Item -Path 'HKLM:\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate' -Force | Out-Null
+Set-ItemProperty -Path 'HKLM:\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate' -Name 'ExcludeWUDriversInQualityUpdate' -Value 1 -Type DWord
+New-Item -Path 'HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\DriverSearching' -Force | Out-Null
+Set-ItemProperty -Path 'HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\DriverSearching' -Name 'SearchOrderConfig' -Value 0
+
+# --- 9. Updates: Disable Malicious Software Removal Tool (MRT) via WU ---
+Write-Host "Disabling MRT Offers..."
+if(!(Test-Path 'HKLM:\SOFTWARE\Policies\Microsoft\MRT')){ New-Item -Path 'HKLM:\SOFTWARE\Policies\Microsoft\MRT' -Force | Out-Null }
+Set-ItemProperty -Path 'HKLM:\SOFTWARE\Policies\Microsoft\MRT' -Name 'DontOfferThroughWUAU' -Value 1 -Type DWord
+
+# --- 10. Context Menu: Restore ShellNew for Scripts (.bat, .ps1, .reg, .vbs) ---
+Write-Host "Restoring Scripting ShellNew Menu Items..."
+New-Item -Path 'HKCR:\.vbs\ShellNew','HKCR:\.bat\ShellNew','HKCR:\.cmd\ShellNew','HKCR:\.reg\ShellNew','HKCR:\.ps1\ShellNew' -Force | Out-Null
+Set-ItemProperty -Path 'HKCR:\.vbs\ShellNew' -Name 'NullFile' -Value ''
+Set-ItemProperty -Path 'HKCR:\.bat\ShellNew' -Name 'NullFile' -Value ''
+Set-ItemProperty -Path 'HKCR:\.cmd\ShellNew' -Name 'NullFile' -Value ''
+Set-ItemProperty -Path 'HKCR:\.reg\ShellNew' -Name 'NullFile' -Value ''
+Set-ItemProperty -Path 'HKCR:\.ps1\ShellNew' -Name 'NullFile' -Value ''
+
+# --- 11. Context Menu: Add 'Check File Ownership' (Strict Check) ---
+
+# Get the ReleaseId or DisplayVersion (this is where "25H2" is stored)
+$regPath = "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion"
+$releaseVersion = (Get-ItemProperty -Path $regPath -Name "DisplayVersion").DisplayVersion
+
+# Apply configuration ONLY if version is NOT "25H2" and is "26H1" or higher
+# We check if the version is specifically NOT 25H2
+if ($releaseVersion -ne "25H2") {
+    $cmd = 'powershell.exe -NoExit -Command "$owner = (Get-ChildItem ''%1'' -Force).GetAccessControl().Owner; Write-Host \"Owner : $owner\""'
+    $keys = @(
+        'HKCU:\Software\Classes\*\shell\Owner\command', 
+        'HKCU:\Software\Classes\Directory\shell\Owner\command', 
+        'HKCU:\Software\Classes\Drive\shell\Owner\command'
+    )
+    
+    foreach ($k in $keys) { 
+        if (!(Test-Path $k)) { 
+            New-Item -Path $k -Force | Out-Null 
+        }
+        Set-Item -Path $k -Value $cmd -Force 
+    }
+    Write-Host "Context Menu 'Owner' check configured successfully." -ForegroundColor Green
+} else {
+    Write-Host "Detected version $releaseVersion. Skipping configuration (Only for 26H1+)." -ForegroundColor Yellow
+}
+
+# --- 12. Disable Network Access in Modern Standby ---
+$regPath = "HKLM:\SOFTWARE\Policies\Microsoft\Power\PowerSettings\f15576e8-98b7-4186-b944-eafa664402d9"
+
+# Ensure the registry key exists
+if (!(Test-Path $regPath)) {
+    [void](New-Item -Path $regPath -Force)
+}
+
+# Use the .NET Registry class to bypass PowerShell cmdlet parameter issues
+$key = [Microsoft.Win32.Registry]::LocalMachine.OpenSubKey("SOFTWARE\Policies\Microsoft\Power\PowerSettings\f15576e8-98b7-4186-b944-eafa664402d9", $true)
+if ($key) {
+    $key.SetValue("ACSettingIndex", 0, [Microsoft.Win32.RegistryValueKind]::DWord)
+    $key.Close()
+}
+
+Write-Host "Modern Standby network connectivity setting has been applied." -ForegroundColor Green
+
+# --- Refresh System ---
+Write-Host "Restarting Explorer to apply changes..."
+Stop-Process -Name explorer -Force
+Write-Host "`nConfiguration Completed Successfully! ✅" -ForegroundColor Green
+
+##------------------------------------------------------##
 
 # --- Function to check if a command exists ---
 function Test-CommandExists {
@@ -538,7 +679,37 @@ if ($pwshInstalledVersion) {
 }
 Write-Host "" # Add a blank line for readability
 
-# --- 4. Software Installations via Chocolatey ---
+# --- 4 Optional Category with 5-second Timeout ---
+$optionalPackages = @("git", "qbittorrent-enhanced", "veracrypt", "element-desktop")
+$shell = New-Object -ComObject WScript.Shell
+
+Write-Host "`n--- Optional Software Check ---" -ForegroundColor Cyan
+
+foreach ($package in $optionalPackages) {
+    # Popup parameters: (Message, SecondsToWait, Title, ButtonType)
+    # ButtonType 4 + 32 = Yes/No buttons + Question Icon
+    $msg = "Do you want to install [$package]?`n(Automatically skips in 5 seconds)"
+    $response = $shell.Popup($msg, 5, "Optional Installation", 4 + 32)
+
+    if ($response -eq 6) { # 6 = 'Yes' button clicked
+        Write-Host "Installing $package..." -ForegroundColor Green
+        try {
+            if ((choco list --local-only --exact $package -r).Count -eq 0) {
+                choco install $package -y --no-progress
+            } else {
+                Write-Host "$package is already installed."
+            }
+        }
+        catch {
+            Write-Error "Failed to install $package."
+        }
+    } else {
+        # -1 = Timeout, 7 = 'No' button clicked
+        Write-Host "Skipping $package (denied or timeout)." -ForegroundColor Yellow
+    }
+}
+
+# --- 4.1 Software Installations via Chocolatey ---
 Write-Host "Starting software installations via Chocolatey..."
 
 $packagesToInstall = @(
@@ -549,7 +720,6 @@ $packagesToInstall = @(
     "openssh"
     "vscodium"
     "notepadplusplus"
-    "git"
     "nano"
     "gh"
     "curl"
@@ -561,14 +731,16 @@ $packagesToInstall = @(
     "paint.net"
     "fastfetch"
     "qalculate"
-    "element-desktop"
     "audacity"
     "lightshot"
     "hashcheck"
     "openhashtab"
     "jami"
     "sd-card-formatter"
-    "veracrypt"
+    "th-ch-youtube-music"
+    "winscp.install"
+    "zstandard"
+    "wiresockvpnclient"
 )
 
 # Handle Python separately before the loop to ensure robust check
@@ -670,8 +842,7 @@ Write-Host "--------------------------------------------------------"
 Write-Host ""
 
 # --- 6. Revert Execution Policy to RemoteSigned for CurrentUser ---
-Write-Host "Reverting PowerShell execution policy to RemoteSigned for current user..."
-Set-ExecutionPolicy -Scope CurrentUser RemoteSigned -Force >$null 2>&1
-Write-Host "Execution policy set to RemoteSigned for current user."
-
-Write-Host "Software setup and installation completed successfully! ✅"
+#Write-Host "Reverting PowerShell execution policy to RemoteSigned for current user..."
+#Set-ExecutionPolicy -Scope CurrentUser RemoteSigned -Force >$null 2>&1
+#Write-Host "Execution policy set to RemoteSigned for current user."
+#Write-Host "Software setup and installation completed successfully! ✅"
