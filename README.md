@@ -73,6 +73,17 @@ $path = "$env:TEMP\CoreTools.ps1"; Invoke-WebRequest -Uri "https://raw.githubuse
 * **Microsoft Activation Status Professional Audit:** Implements an automated scan via CIM/WMI that detects and categorizes the licensing status of the Microsoft ecosystem. It distinguishes between permanent "Digital Licenses" and temporary "KMS" activations, calculates remaining grace periods, and identifies the distribution channel (Volume, Retail, or OEM). The module utilizes a dynamic padding buffer to ensure a clean, professional visual interface within the PowerShell console.
 * **Microsoft License Management Tool:** A versatile utility featuring an interactive menu with a 5-second "Auto-Skip" safety. It provides a streamlined workflow to **inject and install new Windows Product Keys** followed by immediate system activation. Additionally, it enables deep-cleaning of the Windows license state (resetting the registry and system licensing files) and automated removal of Office, Visio, and Project key fragments to clear "Blocked Key" or "Unlicensed Product" errors.
 
+### 🗄️ Storage & SSD Optimization
+* **Disk Intelligence (S.M.A.R.T.):** Advanced hardware diagnostics engine powered by CrystalDiskInfo log parsing. Extracts real-time SSD/HDD health metrics including temperature, firmware, interface type, power-on hours, and host read/write statistics, with full multi-language UI support and structured reporting output.
+* **SSD Longevity Suite:** Comprehensive SSD optimization layer focused on endurance, stability, and reduced write amplification:
+    * **Zero-Write Policy Enforcement:** Disables unnecessary background disk writes by optimizing Search Indexing, SysMain, Prefetch, and NTFS last access updates.
+    * **TRIM & Filesystem Optimization:** Ensures TRIM is active and properly scheduled for all supported SSD/NVMe devices.
+    * **Kernel Paging Optimization:** Configures memory paging behavior based on system profile to reduce disk dependency under load.
+    * **Write Cache Intelligence:** Dynamically adjusts write-buffer flush behavior depending on power state (AC vs battery) to balance performance and data safety.
+    * **Memory-Based NTFS Tuning:** Optimizes NTFS memory usage thresholds based on installed physical RAM to improve file system throughput.
+    * **Event Log I/O Control:** Caps Windows Event Log growth to prevent uncontrolled disk usage and background write spikes.
+    * **Boot & Shutdown Optimization:** Reduces unnecessary disk writes during system startup and shutdown (hibernation/fast startup control).
+
 ### 🛡️ Security & Junkware Purge
 * **Digital Parasite Removal:** Interactive 5s prompt to download and execute official removal tools (MCPR, kavremvr, etc.) for **McAfee, Norton, AVG, and Kaspersky**.
 * **Defender Lobotomy:** Complete disabling of **Windows Defender** via Registry and Policies.

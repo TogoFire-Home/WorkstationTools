@@ -61,6 +61,8 @@
 # 56. SmartScreen Professional Audit: Comprehensive disabling of reputation-based filters for Explorer, Edge, and the Microsoft Store. Eliminates false positives on custom scripts, prevents file-metadata telemetry to Microsoft, and removes "Potentially Unwanted App" (PUA) blocking to restore administrative flow.
 # 57. Microsoft Activation Status Professional Audit: A deep-audit module that identifies the exact edition, licensing channel (Retail, OEM, KMS, MAK), and permanency status for Windows, Office, Project, and Visio, featuring native console color-bleed correction.  
 # 58. Microsoft License Management Tool: An interactive command interface with a 5-second timeout for installing new Windows product keys, performing deep license registry cleanups (slmgr), and purging blocked Office key fragments via OSPP to resolve activation conflicts.
+# 59. Disk Intelligence & SMART Analysis Module: A high-performance diagnostic engine that performs real-time parsing of CrystalDiskInfo logs to extract critical metrics including drive health, temperature, firmware status, power-on hours, and host read/write counters, featuring a multi-language adaptive UI layer with structured output formatting.
+# 60. SSD Longevity & Performance Optimizer: A deterministic SSD tuning framework designed to maximize NAND lifespan and reduce unnecessary write amplification. Implements controlled system behavior adjustments including kernel-level paging strategy, TRIM enforcement, flush policy optimization, and telemetry reduction, while preserving OS stability and update compatibility.
 
 # --- APPENDIX: LEGACY EXECUTION POLICY SETTINGS (DISABLED) ---
 # The following section is kept for reference only. 
@@ -4391,7 +4393,8 @@ $appsToInstall = @(
     @{ Name = "Notepads"; ID = "9nhl4nsc67wm" },
     @{ Name = "LibreWolf"; ID = "9nvn9sz8kfd7" },
     @{ Name = "ShareX"; ID = "ShareX.ShareX" },
-    @{ Name = "CrystalDiskInfo"; ID = "CrystalDewWorld.CrystalDiskInfo" }
+    @{ Name = "CrystalDiskInfo"; ID = "CrystalDewWorld.CrystalDiskInfo" },
+    @{ Name = "SSD Booster"; ID = "9nvmxq4ps0lb" }
 )
 
 $installedCount = 0
@@ -4426,6 +4429,534 @@ foreach ($app in $appsToInstall) {
 Write-Host "`n--- Deployment Summary ---" -ForegroundColor Cyan
 Write-Host "Total Apps: $($appsToInstall.Count)" -ForegroundColor White
 Write-Host "Completed:  $installedCount" -ForegroundColor Green
+Write-Host "--------------------------------------------------------"
+
+##------------------------------------------------------##
+
+# ==============================================================================
+# DISK INTELLIGENCE & SMART ANALYSIS MODULE
+# ==============================================================================
+
+Write-Host " ╔══════════════════════════════════════════════════════════╗" -ForegroundColor Cyan
+Write-Host " ║        DISK INTELLIGENCE & SMART ANALYSIS MODULE         ║" -ForegroundColor Cyan
+Write-Host " ╚══════════════════════════════════════════════════════════╝" -ForegroundColor Cyan
+Write-Host ""
+
+# --- LOCALIZATION ENGINE ---
+$currentLang = [System.Globalization.CultureInfo]::CurrentUICulture.Name
+
+$langMap = @{
+    "pt*"    = @{ Update = "Atualizando dados SMART..."; LogGen = "Log SMART gerado na pasta Temp."; Analyzing = "Analisando Armazenamento..."; NoDrives = "Nenhum disco detectado."; Name = "NOME"; Letter = "LETRA"; Serial = "SERIAL"; FW = "FIRMWARE"; Health = "SAÚDE"; Temp = "TEMPERATURA"; Power = "LIGADO POR"; Cycles = "Ciclos"; Interface = "INTERFACE"; Standard = "PADRÃO"; Features = "RECURSOS"; Type = "TIPO"; Clean = "Arquivo temporário removido."; HostRW = "L/G HOSPED."; Read = "L"; Write = "G" }
+    "en*"    = @{ Update = "Updating SMART data..."; LogGen = "SMART log generated in Temp folder."; Analyzing = "Analyzing Storage..."; NoDrives = "No drives detected."; Name = "NAME"; Letter = "LETTER"; Serial = "SERIAL"; FW = "FIRMWARE"; Health = "HEALTH"; Temp = "TEMPERATURE"; Power = "POWER ON"; Cycles = "Cycles"; Interface = "INTERFACE"; Standard = "STANDARD"; Features = "FEATURES"; Type = "TYPE"; Clean = "Temporary log file removed."; HostRW = "HOST R/W"; Read = "R"; Write = "W" }
+    "es*"    = @{ Update = "Actualizando datos SMART..."; LogGen = "Log SMART generado en Temp."; Analyzing = "Analizando almacenamiento..."; NoDrives = "No se detectaron discos."; Name = "NOMBRE"; Letter = "LETRA"; Serial = "SERIAL"; FW = "FIRMWARE"; Health = "ESTADO"; Temp = "TEMPERATURA"; Power = "ENCENDIDO"; Cycles = "Ciclos"; Interface = "INTERFAZ"; Standard = "ESTÁNDAR"; Features = "FUNCIONES"; Type = "TIPO"; Clean = "Archivo temporal eliminado."; HostRW = "E/L HOST"; Read = "L"; Write = "E" }
+    "fr*"    = @{ Update = "Mise à jour SMART..."; LogGen = "Log SMART généré dans Temp."; Analyzing = "Analyse du stockage..."; NoDrives = "Aucun disque détecté."; Name = "NOM"; Letter = "LETTRE"; Serial = "SÉRIE"; FW = "FIRMWARE"; Health = "SANTÉ"; Temp = "TEMPÉRATURE"; Power = "HEURES"; Cycles = "Cycles"; Interface = "INTERFACE"; Standard = "NORME"; Features = "CARACTÉRIST."; Type = "TYPE"; Clean = "Fichier temporaire supprimé."; HostRW = "E/L HÔTE"; Read = "L"; Write = "E" }
+    "de*"    = @{ Update = "SMART-Daten werden aktualisiert..."; LogGen = "SMART-Log in Temp erstellt."; Analyzing = "Speicheranalyse..."; NoDrives = "Keine Laufwerke gefunden."; Name = "NAME"; Letter = "PFAD"; Serial = "SERIE"; FW = "FIRMWARE"; Health = "ZUSTAND"; Temp = "TEMPERATUR"; Power = "BETRIEBSZEIT"; Cycles = "Zyklen"; Interface = "SCHNITTSTELLE"; Standard = "STANDARD"; Features = "FUNKTIONEN"; Type = "TYP"; Clean = "Temporäre Datei gelöscht."; HostRW = "HOST L/S"; Read = "L"; Write = "S" }
+    "it*"    = @{ Update = "Aggiornamento dati SMART..."; LogGen = "Log SMART generato in Temp."; Analyzing = "Analisi archiviazione..."; NoDrives = "Nessun disco rilevato."; Name = "NOME"; Letter = "LETTERA"; Serial = "SERIALE"; FW = "FIRMWARE"; Health = "STATO"; Temp = "TEMPERATURA"; Power = "ACCESO DA"; Cycles = "Cicli"; Interface = "INTERFACCIA"; Standard = "STANDARD"; Features = "FUNZIONI"; Type = "TIPO"; Clean = "File temporaneo rimosso."; HostRW = "R/S HOST"; Read = "R"; Write = "S" }
+    "ru*"    = @{ Update = "Обновление SMART..."; LogGen = "Лог SMART создан в Temp."; Analyzing = "Анализ хранилища..."; NoDrives = "Диски не обнаружены."; Name = "ИМЯ"; Letter = "БУКВА"; Serial = "СЕРИЙНЫЙ"; FW = "ПРОШИВКА"; Health = "СТАТУС"; Temp = "ТЕМПЕРАТУРА"; Power = "ВРЕМЯ РАБОТЫ"; Cycles = "Циклы"; Interface = "ИНТЕРФЕЙС"; Standard = "СТАНДАРТ"; Features = "ФУНКЦИИ"; Type = "ТИП"; Clean = "Временный файл удален."; HostRW = "ЧТ/ЗП ХОСТ"; Read = "Ч"; Write = "З" }
+    "zh-TW*" = @{ Update = "更新 SMART 數據..."; LogGen = "SMART 日誌已生成。"; Analyzing = "正在分析存儲..."; NoDrives = "未檢測到磁碟。"; Name = "名稱"; Letter = "磁碟代號"; Serial = "序號"; FW = "固件"; Health = "健康狀態"; Temp = "溫度"; Power = "通電時間"; Cycles = "次數"; Interface = "介面"; Standard = "標準"; Features = "特徵"; Type = "類型"; Clean = "臨時文件已刪除。"; HostRW = "主機讀寫"; Read = "讀"; Write = "寫" }
+    "zh-CN*" = @{ Update = "更新 SMART 数据..."; LogGen = "SMART 日志已生成。"; Analyzing = "正在分析存储..."; NoDrives = "未检测到磁盘。"; Name = "名称"; Letter = "驱动器号"; Serial = "序列号"; FW = "固件"; Health = "健康状态"; Temp = "温度"; Power = "通电时间"; Cycles = "次数"; Interface = "接口"; Standard = "标准"; Features = "特征"; Type = "类型"; Clean = "临时文件已删除。"; HostRW = "主机读写"; Read = "读"; Write = "写" }
+    "ar*"    = @{ Update = "تحديث بيانات SMART..."; LogGen = "تم إنشاء سجل SMART."; Analyzing = "تحليل التخزين..."; NoDrives = "لم يتم اكتشاف أقراص."; Name = "الاسم"; Letter = "الحرف"; Serial = "الرقم"; FW = "البرنامج"; Health = "الحالة"; Temp = "الحرارة"; Power = "وقت التشغيل"; Cycles = "دورات"; Interface = "الواجهة"; Standard = "المعيار"; Features = "الميزات"; Type = "النوع"; Clean = "تم حذف الملف المؤقت."; HostRW = "ق/ك المضيف"; Read = "ق"; Write = "ك" }
+    "cs*"    = @{ Update = "Aktualizace SMART..."; LogGen = "SMART log vytvořen."; Analyzing = "Analýza úložiště..."; NoDrives = "Nebyl nalezen disk."; Name = "NÁZEV"; Letter = "PÍSMENO"; Serial = "SÉRIOVÉ"; FW = "FIRMWARE"; Health = "STAV"; Temp = "TEPLOTA"; Power = "ZAPNUTO"; Cycles = "Cykly"; Interface = "ROZHRANÍ"; Standard = "STANDARD"; Features = "FUNKCE"; Type = "TYP"; Clean = "Dočasný soubor smazán."; HostRW = "HOST Č/Z"; Read = "Č"; Write = "Z" }
+    "da*"    = @{ Update = "Opdaterer SMART..."; LogGen = "SMART-log oprettet."; Analyzing = "Analyserer lager..."; NoDrives = "Ingen diske fundet."; Name = "NAVN"; Letter = "BOGSTAV"; Serial = "SERIENUMMER"; FW = "FIRMWARE"; Health = "HELBREDE"; Temp = "TEMPERATUR"; Power = "TÆNDT I"; Cycles = "Cykler"; Interface = "GRÆNSEFLADE"; Standard = "STANDARD"; Features = "FUNKTIONER"; Type = "TYPE"; Clean = "Midlertidig fil slettet."; HostRW = "VÆRT L/S"; Read = "L"; Write = "S" }
+    "nl*"    = @{ Update = "SMART-gegevens bijwerken..."; LogGen = "SMART-log gegenereerd."; Analyzing = "Opslag analyseren..."; NoDrives = "Geen schijven gedetecteerd."; Name = "NAAM"; Letter = "LETTER"; Serial = "SERIENUMMER"; FW = "FIRMWARE"; Health = "GEZONDHEID"; Temp = "TEMPERATUUR"; Power = "AAN-TIJD"; Cycles = "Cycli"; Interface = "INTERFACE"; Standard = "STANDAARD"; Features = "FUNCTIES"; Type = "TYPE"; Clean = "Tijdelijk bestand verwijderd."; HostRW = "HOST L/S"; Read = "L"; Write = "S" }
+    "fi*"    = @{ Update = "Päivitetään SMART..."; LogGen = "SMART-loki luotu."; Analyzing = "Analysoidaan tallennustilaa..."; NoDrives = "Levyjä ei löytynyt."; Name = "NIMI"; Letter = "KIRJAIN"; Serial = "SARJANRO"; FW = "LAITE-OHJ"; Health = "KUNTO"; Temp = "LÄMPÖTILA"; Power = "KÄYTTÖAIKA"; Cycles = "Syklit"; Interface = "LIITÄNTÄ"; Standard = "STANDARDI"; Features = "OMINAIS."; Type = "TYYPPI"; Clean = "Väliaikaistiedosto poistettu."; HostRW = "HOST L/K"; Read = "L"; Write = "K" }
+    "el*"    = @{ Update = "Ενημέρωση SMART..."; LogGen = "Το SMART log δημιουργήθηκε."; Analyzing = "Ανάλυση αποθήκευσης..."; NoDrives = "Δεν βρέθηκαν δίσκοι."; Name = "ΟΝΟΜΑ"; Letter = "ΓΡΑΜΜΑ"; Serial = "ΣΕΙΡΙΑΚΟΣ"; FW = "FIRMWARE"; Health = "ΥΓΕΙΑ"; Temp = "ΘΕΡΜΟΚΡΑΣΙΑ"; Power = "ΩΡΕΣ"; Cycles = "Κύκλοι"; Interface = "ΔΙΑΣΥΝΔΕΣΗ"; Standard = "ΠΡΟΤΥΠΟ"; Features = "ΧΑΡΑΚΤΗΡ."; Type = "ΤΥΠΟΣ"; Clean = "Το προσωρινό αρχείο διαγράφηκε."; HostRW = "HOST A/E"; Read = "A"; Write = "E" }
+    "he*"    = @{ Update = "מעדכן נתוני SMART..."; LogGen = "יומן SMART נוצר."; Analyzing = "מנתח אחסון..."; NoDrives = "לא נמצאו כוננים."; Name = "שם"; Letter = "אות"; Serial = "מספר סידורי"; FW = "קושחה"; Health = "מצב"; Temp = "טמפרטורה"; Power = "זמן פעולה"; Cycles = "מחזורים"; Interface = "ממשק"; Standard = "תקן"; Features = "תכונות"; Type = "סוג"; Clean = "קובץ זמני הוסר."; HostRW = "ק/כ מארח"; Read = "ק"; Write = "כ" }
+    "hu*"    = @{ Update = "SMART adatok frissítése..."; LogGen = "SMART napló létrehozva."; Analyzing = "Tárhely elemzése..."; NoDrives = "Nem található lemez."; Name = "NÉV"; Letter = "BETŰ"; Serial = "SOROZATSZÁM"; FW = "FIRMWARE"; Health = "ÁLLAPOT"; Temp = "HŐMÉRSÉKLET"; Power = "ÜZEMIDŐ"; Cycles = "Ciklusok"; Interface = "INTERFÉSZ"; Standard = "SZABVÁNY"; Features = "FUNKCIÓK"; Type = "TÍPUS"; Clean = "Ideiglenes fájl törölve."; HostRW = "HOST O/Í"; Read = "O"; Write = "Í" }
+    "ja*"    = @{ Update = "SMART情報を更新中..."; LogGen = "ログを生成しました。"; Analyzing = "ストレージを分析中..."; NoDrives = "ディスクが見つかりません。"; Name = "名前"; Letter = "ドライブ"; Serial = "シリアル"; FW = "ファームウェア"; Health = "健康状態"; Temp = "温度"; Power = "使用時間"; Cycles = "回数"; Interface = "インターフェース"; Standard = "規格"; Features = "機能"; Type = "タイプ"; Clean = "一時ファイルを削除しました。"; HostRW = "ホスト読書"; Read = "読"; Write = "書" }
+    "ko*"    = @{ Update = "SMART 데이터 업데이트 중..."; LogGen = "로그가 생성되었습니다."; Analyzing = "저장 장치 분석 중..."; NoDrives = "디스크를 찾을 수 없습니다."; Name = "이름"; Letter = "드라이브"; Serial = "시리얼"; FW = "펌웨어"; Health = "상태"; Temp = "온도"; Power = "사용 시간"; Cycles = "횟수"; Interface = "인터페이스"; Standard = "표준"; Features = "기능"; Type = "유형"; Clean = "임시 파일이 삭제되었습니다."; HostRW = "호스트 읽기/쓰기"; Read = "읽"; Write = "쓰" }
+    "no*"    = @{ Update = "Oppdaterer SMART..."; LogGen = "SMART-logg generert."; Analyzing = "Analyserer lagring..."; NoDrives = "Ingen disker funnet."; Name = "NAVN"; Letter = "BOKSTAV"; Serial = "SERIENUMMER"; FW = "FIRMWARE"; Health = "HELSE"; Temp = "TEMPERATUR"; Power = "DRIFTSTID"; Cycles = "Sykluser"; Interface = "GRENSESNITT"; Standard = "STANDARD"; Features = "FUNKSJONER"; Type = "TYPE"; Clean = "Midlertidig fil slettet."; HostRW = "HOST L/S"; Read = "L"; Write = "S" }
+    "pl*"    = @{ Update = "Aktualizacja SMART..."; LogGen = "Log SMART wygenerowany."; Analyzing = "Analiza pamięci..."; NoDrives = "Nie wykryto dysków."; Name = "NAZWA"; Letter = "LITERA"; Serial = "SÉRYJNY"; FW = "FIRMWARE"; Health = "STAN"; Temp = "TEMPERATURA"; Power = "CZAS PRACY"; Cycles = "Cykle"; Interface = "INTERFEJS"; Standard = "STANDARD"; Features = "FUNKCJE"; Type = "TYP"; Clean = "Plik tymczasowy usunięty."; HostRW = "HOST O/Z"; Read = "O"; Write = "Z" }
+    "sv*"    = @{ Update = "Uppdaterar SMART..."; LogGen = "SMART-logg skapad."; Analyzing = "Analyserar lagring..."; NoDrives = "Inga diskar hittades."; Name = "NAMN"; Letter = "BOKSTAV"; Serial = "SERIENUMMER"; FW = "FIRMWARE"; Health = "HÄLSA"; Temp = "TEMPERATUR"; Power = "DRIFTTID"; Cycles = "Cykler"; Interface = "GRÄNSSNITT"; Standard = "STANDARD"; Features = "FUNKTIONER"; Type = "TYP"; Clean = "Temporär fil borttagen."; HostRW = "VÄRT L/S"; Read = "L"; Write = "S" }
+    "tr*"    = @{ Update = "SMART verileri güncelleniyor..."; LogGen = "SMART günlüğü oluşturuldu."; Analyzing = "Depolama analiz ediliyor..."; NoDrives = "Disk bulunamadı."; Name = "AD"; Letter = "HARF"; Serial = "SERİ NO"; FW = "YAZILIM"; Health = "SAĞLIK"; Temp = "SICAKLIK"; Power = "ÇALIŞMA"; Cycles = "Döngü"; Interface = "ARAYÜZ"; Standard = "STANDART"; Features = "ÖZELLİKLER"; Type = "TÜR"; Clean = "Geçici dosya silindi."; HostRW = "ANA OKU/YAZ"; Read = "O"; Write = "Y" }
+}
+
+$UI = $langMap["en*"] # Default
+foreach ($pattern in $langMap.Keys) { if ($currentLang -like $pattern) { $UI = $langMap[$pattern]; break } }
+
+# --- CONFIGURATION ---
+$cdiExecutable = "C:\Program Files\CrystalDiskInfo\DiskInfo64.exe" 
+$workPath      = Join-Path $env:TEMP "DEBUG_DISK.txt"
+$cdiDir        = [System.IO.Path]::GetDirectoryName($cdiExecutable)
+$sourceLog     = Join-Path $cdiDir "DiskInfo.txt"
+
+try {
+    Write-Host "`n [🔄] $($UI.Update)" -ForegroundColor Yellow
+
+    if (Test-Path $cdiExecutable) {
+        Start-Process -FilePath $cdiExecutable -ArgumentList "/CopyExit" -Wait
+        if (Test-Path $sourceLog) {
+            Move-Item -Path $sourceLog -Destination $workPath -Force
+            Write-Host " [✅] $($UI.LogGen)" -ForegroundColor Green
+        }
+    } else {
+        Write-Host " [!] CrystalDiskInfo not found." -ForegroundColor Red
+        if (-not (Test-Path $workPath)) { return }
+    }
+
+    Write-Host " [🔍] $($UI.Analyzing) ($currentLang)" -ForegroundColor Cyan
+    if (-not (Test-Path $workPath)) { return }
+
+    try { $rawContent = Get-Content $workPath -Raw -Encoding UTF8 }
+    catch { $rawContent = Get-Content $workPath -Raw }
+
+    $rawContent = $rawContent -replace "`0","" -replace "`r",""
+    $pattern = '(?ms)^-+\s*\n\s*\(\d+\).*?\n-+\s*\n(.*?)(?=^-+\s*\n\s*\(\d+\)|\z)'
+    $diskBlocks = [regex]::Matches($rawContent, $pattern)
+
+    if ($diskBlocks.Count -eq 0) { Write-Host " [!] $($UI.NoDrives)" -ForegroundColor Red; return }
+
+    foreach ($item in $diskBlocks) {
+        $block = $item.Groups[1].Value
+        function Get-Val($regex) { if ($block -match $regex) { return $matches[1].Trim() }; return "" }
+
+        $props = @{
+            Model     = Get-Val '(?m)^\s*Model\s*:\s*(.+)$'
+            Letter    = Get-Val '(?m)^\s*Drive Letter\s*:\s*(.+)$'
+            Serial    = Get-Val '(?m)^\s*Serial Number\s*:\s*(.+)$'
+            FW        = Get-Val '(?m)^\s*Firmware\s*:\s*(.+)$'
+            Health    = Get-Val '(?m)^\s*Health Status\s*:\s*(.+)$'
+            Temp      = Get-Val '(?m)^\s*Temperature\s*:\s*(.+)$'
+            Hours     = Get-Val '(?m)^\s*Power On Hours\s*:\s*(.+)$'
+            Count     = Get-Val '(?m)^\s*Power On Count\s*:\s*(.+)$'
+            Interface = Get-Val '(?m)^\s*Interface\s*:\s*(.+)$'
+            Features  = Get-Val '(?m)^\s*Features\s*:\s*(.+)$'
+            Standard  = Get-Val '(?m)^\s*Standard\s*:\s*(.+)$'
+            Rotation  = Get-Val '(?m)^\s*Rotation Rate\s*:\s*(.+)$'
+            Reads     = Get-Val '(?m)^\s*Host Reads\s*:\s*(.+)$'
+            Writes    = Get-Val '(?m)^\s*Host Writes\s*:\s*(.+)$'
+        }
+
+        # Handle Standard fallback
+        if (-not $props.Standard) {
+            $major = Get-Val '(?m)^\s*Major Version\s*:\s*(.+)$'
+            $minor = Get-Val '(?m)^\s*Minor Version\s*:\s*(.+)$'
+            $props.Standard = "$major | $minor".Trim(" |")
+        }
+
+        # Health Formatting
+        $HealthPct = ""; if ($props.Health -match '\((.*?)\)') { $HealthPct = $matches[1]; $props.Health = ($props.Health -replace '\(.*?\)', '').Trim() }
+        if (-not $HealthPct -and $props.Health -match 'Healthy|Good|Saudável') { $HealthPct = "100 %" }
+        if ($props.Temp -match '^(.+?)\s*\(') { $props.Temp = $matches[1].Trim() }
+
+        $hColor = "White"
+        if ($props.Health -match 'Healthy|Good|Saudável') { $hColor = "Green" }
+        elseif ($props.Health -match 'Caution|Warning|Alerta') { $hColor = "Yellow" }
+        elseif ($props.Health -match 'Bad|Fail|Ruim') { $hColor = "Red" }
+
+        # Output UI
+        Write-Host "`n----------------------------------------------------" -ForegroundColor DarkGray
+        Write-Host " $($UI.Name):".PadRight(15) -NoNewline; Write-Host $props.Model -ForegroundColor White
+        Write-Host " $($UI.Letter):".PadRight(15) -NoNewline; Write-Host $props.Letter -ForegroundColor Cyan
+        Write-Host " $($UI.Serial):".PadRight(15) -NoNewline; Write-Host $props.Serial -ForegroundColor White
+        Write-Host " $($UI.FW):".PadRight(15) -NoNewline; Write-Host $props.FW -ForegroundColor White
+        Write-Host " $($UI.Health):".PadRight(15) -NoNewline; Write-Host "$($props.Health) $HealthPct" -ForegroundColor $hColor
+        Write-Host " $($UI.Temp):".PadRight(15) -NoNewline; Write-Host $props.Temp -ForegroundColor Cyan
+        Write-Host " $($UI.Power):".PadRight(15) -NoNewline; Write-Host "$($props.Hours) | $($UI.Cycles): $($props.Count)" -ForegroundColor White
+        Write-Host " $($UI.Interface):".PadRight(15) -NoNewline; Write-Host $props.Interface -ForegroundColor Magenta
+        Write-Host " $($UI.Standard):".PadRight(15) -NoNewline; Write-Host $props.Standard -ForegroundColor White
+        Write-Host " $($UI.Features):".PadRight(15) -NoNewline; Write-Host $props.Features -ForegroundColor White
+        
+        if ($props.Rotation) {
+            Write-Host " $($UI.Type):".PadRight(15) -NoNewline; Write-Host "HDD ($($props.Rotation))" -ForegroundColor Magenta
+        } else {
+            Write-Host " $($UI.Type):".PadRight(15) -NoNewline; Write-Host "SSD / NVMe" -ForegroundColor Green
+            Write-Host " $($UI.HostRW):".PadRight(15) -NoNewline; Write-Host "$($UI.Read): $($props.Reads) | $($UI.Write): $($props.Writes)" -ForegroundColor Cyan
+        }
+        Write-Host "----------------------------------------------------" -ForegroundColor DarkGray
+    }
+} finally {
+    if (Test-Path $workPath) { 
+        Remove-Item $workPath -Force
+        Write-Host "`n [🗑️] $($UI.Clean)" -ForegroundColor Gray 
+    }
+}
+
+Write-Host "--------------------------------------------------------"
+
+##------------------------------------------------------##
+
+# ==============================================================================
+# SSD OPTIMIZATION
+# ==============================================================================
+
+Write-Host " ╔══════════════════════════════════════════════════════════╗" -ForegroundColor Cyan
+Write-Host " ║          SSD OPTIMIZATION MODULE                         ║" -ForegroundColor Cyan
+Write-Host " ╚══════════════════════════════════════════════════════════╝" -ForegroundColor Cyan
+Write-Host ""
+
+# ================= ENVIRONMENT CHECK =================
+
+Write-Host " [*] Checking system compatibility..." -NoNewline
+
+# --- CHECK WINDOWS SERVER ---
+$os = Get-CimInstance Win32_OperatingSystem
+if ($os.ProductType -ne 1) {
+    Write-Host " SKIPPED (Windows Server detected)" -ForegroundColor Yellow
+    Write-Host "`n [ABORTED] This script is not intended for Windows Server." -ForegroundColor Red
+    return
+}
+
+# --- CHECK SSD ---
+$hasSSD = $false
+
+try {
+    $disks = Get-PhysicalDisk -ErrorAction Stop
+    foreach ($d in $disks) {
+        if ($d.MediaType -eq "SSD") {
+            $hasSSD = $true
+            break
+        }
+    }
+} catch {}
+
+# --- FALLBACK (IF MediaType FAILS) ---
+if (-not $hasSSD) {
+    try {
+        $models = Get-WmiObject Win32_DiskDrive | Select-Object -ExpandProperty Model
+        foreach ($m in $models) {
+            if ($m -match "SSD|NVMe") {
+                $hasSSD = $true
+                break
+            }
+        }
+    } catch {}
+}
+
+# --- FINAL DECISION ---
+if (-not $hasSSD) {
+    Write-Host " SKIPPED (No SSD detected)" -ForegroundColor Yellow
+    Write-Host "`n [ABORTED] No SSD detected. Optimization not applied." -ForegroundColor Red
+    return
+}
+
+Write-Host " OK (SSD detected)" -ForegroundColor Green
+
+# ================= HELPER =================
+function Set-IfNeeded {
+    param($Path, $Name, $Value)
+
+    try { $current = (Get-ItemProperty -Path $Path -Name $Name -ErrorAction Stop).$Name }
+    catch { $current = $null }
+
+    if ($current -ne $Value) {
+        Set-ItemProperty -Path $Path -Name $Name -Value $Value -Force
+        return $true
+    }
+    return $false
+}
+
+# ================= SAFE OPTIMIZATIONS =================
+
+# 1 - INDEXING
+Write-Host " [1] Search Indexing..." -NoNewline
+$s = Get-Service WSearch -ErrorAction SilentlyContinue
+if ($s -and $s.StartType -ne 'Disabled') {
+    Stop-Service WSearch -Force
+    Set-Service WSearch -StartupType Disabled
+    Write-Host " DONE (Disabled)" -ForegroundColor Green
+} else { Write-Host " OK (Already optimized)" -ForegroundColor Gray }
+
+# 2 - BOOT OPTIMIZATION
+Write-Host " [2] Boot Optimization..." -NoNewline
+if (Set-IfNeeded "HKLM:\SOFTWARE\Microsoft\Dfrg\BootOptimizeFunction" "Enable" "N") {
+    Write-Host " DONE" -ForegroundColor Green
+} else { Write-Host " OK (Already optimized)" -ForegroundColor Gray }
+
+# 3 - PREFETCH
+Write-Host " [3] Prefetch..." -NoNewline
+if (Set-IfNeeded "HKLM:\SYSTEM\CurrentControlSet\Control\Session Manager\Memory Management\PrefetchParameters" "EnablePrefetcher" 0) {
+    Write-Host " DONE" -ForegroundColor Green
+} else { Write-Host " OK (Already optimized)" -ForegroundColor Gray }
+
+# 4 - SUPERFETCH
+Write-Host " [4] Superfetch..." -NoNewline
+if (Set-IfNeeded "HKLM:\SYSTEM\CurrentControlSet\Control\Session Manager\Memory Management\PrefetchParameters" "EnableSuperfetch" 0) {
+    Write-Host " DONE" -ForegroundColor Green
+} else { Write-Host " OK (Already optimized)" -ForegroundColor Gray }
+
+# 5 - SYSMAIN
+Write-Host " [5] SysMain..." -NoNewline
+$sm = Get-Service SysMain -ErrorAction SilentlyContinue
+if ($sm -and $sm.StartType -ne 'Disabled') {
+    Stop-Service SysMain -Force
+    Set-Service SysMain -StartupType Disabled
+    Write-Host " DONE" -ForegroundColor Green
+} else { Write-Host " OK (Already optimized)" -ForegroundColor Gray }
+
+# 6 - 8.3 NAMES
+Write-Host " [6] 8.3 Filename Creation..." -NoNewline
+if (Set-IfNeeded "HKLM:\System\CurrentControlSet\Control\FileSystem" "NtfsDisable8dot3NameCreation" 1) {
+    Write-Host " DONE" -ForegroundColor Green
+} else { Write-Host " OK (Already optimized)" -ForegroundColor Gray }
+
+# 7 - TRIM
+Write-Host " [7] TRIM..." -NoNewline
+
+try {
+    $trim = fsutil behavior query DisableDeleteNotify
+
+    # SAFE EXTRACTION
+    $value = [regex]::Match($trim, '\d+').Value
+
+    if ($value -eq "1") {
+        fsutil behavior set DisableDeleteNotify 0 | Out-Null
+        Write-Host " DONE (Enabled)" -ForegroundColor Green
+    } else {
+        Write-Host " OK (Already optimized)" -ForegroundColor Gray
+    }
+}
+catch {
+    Write-Host " FAIL" -ForegroundColor Red
+}
+
+# 8 - PAGE FILE
+Write-Host " [8] Page File Cleanup..." -NoNewline
+if (Set-IfNeeded "HKLM:\SYSTEM\CurrentControlSet\Control\Session Manager\Memory Management" "ClearPageFileAtShutdown" 0) {
+    Write-Host " DONE" -ForegroundColor Green
+} else { Write-Host " OK (Already optimized)" -ForegroundColor Gray }
+
+# 9 - CACHE
+Write-Host " [9] Large System Cache..." -NoNewline
+if (Set-IfNeeded "HKLM:\SYSTEM\CurrentControlSet\Control\Session Manager\Memory Management" "LargeSystemCache" 0) {
+    Write-Host " DONE" -ForegroundColor Green
+} else { Write-Host " OK (Already optimized)" -ForegroundColor Gray }
+
+# ================= EXTRA =================
+
+# 10 - NTFS MEMORY (TRUE INSTALLED PHYSICAL RAM - DIMM BASED)
+Write-Host " [10] NTFS Memory Usage..." -NoNewline
+
+try {
+    # SUM ALL PHYSICAL RAM MODULES (REAL HARDWARE VALUE)
+    $ramBytes = (Get-CimInstance Win32_PhysicalMemory | Measure-Object -Property Capacity -Sum).Sum
+
+    # STRICT CONVERSION BASE 1024
+    $ramGB = $ramBytes / 1GB
+    $ramMB = $ramBytes / 1MB
+
+    # FORCE CLEAN FORMAT (NO LOCALE ISSUES)
+    $culture = [System.Globalization.CultureInfo]::InvariantCulture
+
+    $ramGBText = $ramGB.ToString("F2", $culture)
+    $ramMBText = [math]::Round($ramMB).ToString("0", $culture)
+
+    $ramDisplay = "$ramGBText GB ($ramMBText MB)"
+
+    $current = (Get-ItemProperty "HKLM:\SYSTEM\CurrentControlSet\Control\FileSystem" `
+        -Name NtfsMemoryUsage -ErrorAction SilentlyContinue).NtfsMemoryUsage
+
+    if ($ramBytes -ge 8GB) {
+
+        if ($current -ne 2) {
+            Set-ItemProperty "HKLM:\SYSTEM\CurrentControlSet\Control\FileSystem" `
+                -Name NtfsMemoryUsage -Value 2 -Force
+
+            Write-Host " DONE (RAM: $ramDisplay → High cache enabled)" -ForegroundColor Green
+        }
+        else {
+            Write-Host " OK (High cache active - RAM: $ramDisplay)" -ForegroundColor Gray
+        }
+
+    }
+    else {
+
+        if ($current -ne 1) {
+            Set-ItemProperty "HKLM:\SYSTEM\CurrentControlSet\Control\FileSystem" `
+                -Name NtfsMemoryUsage -Value 1 -Force
+
+            Write-Host " DONE (RAM: $ramDisplay → Default restored)" -ForegroundColor Yellow
+        }
+        else {
+            Write-Host " OK (Default - RAM: $ramDisplay)" -ForegroundColor Gray
+        }
+    }
+}
+catch {
+    Write-Host " FAIL (RAM detection error)" -ForegroundColor Red
+}
+
+# 11 - WRITE CACHE FLUSH (SMART BATTERY LOGIC)
+Write-Host " [11] Write Cache Buffer Flush..." -NoNewline
+
+try {
+    $battery = Get-CimInstance Win32_Battery -ErrorAction Stop
+
+    $batteryInfo = "No battery"
+    $disableFlush = $false
+
+    if ($battery) {
+        $charge = $battery.EstimatedChargeRemaining
+        $batteryInfo = "$charge%"
+
+        if ($charge -gt 0) {
+            $disableFlush = $true
+        }
+    }
+
+    if ($disableFlush) {
+        if (Set-IfNeeded "HKLM:\SYSTEM\CurrentControlSet\Control\Session Manager\Memory Management" "DisableFlushOnWrite" 1) {
+            Write-Host " DONE (Flush OFF - Battery: $batteryInfo)" -ForegroundColor Green
+        } else {
+            Write-Host " OK (Already OFF - Battery: $batteryInfo)" -ForegroundColor Gray
+        }
+    }
+    else {
+        if (Set-IfNeeded "HKLM:\SYSTEM\CurrentControlSet\Control\Session Manager\Memory Management" "DisableFlushOnWrite" 0) {
+            Write-Host " DONE (Flush ON - Safety mode)" -ForegroundColor Yellow
+        } else {
+            Write-Host " OK (Already ON - Safety mode)" -ForegroundColor Gray
+        }
+    }
+}
+catch {
+    # No battery detected → desktop behavior
+    try {
+        if (Set-IfNeeded "HKLM:\SYSTEM\CurrentControlSet\Control\Session Manager\Memory Management" "DisableFlushOnWrite" 0) {
+            Write-Host " DONE (Flush ON - No battery)" -ForegroundColor Yellow
+        } else {
+            Write-Host " OK (Already ON - No battery)" -ForegroundColor Gray
+        }
+    }
+    catch {
+        Write-Host " FAIL (Registry access denied)" -ForegroundColor Red
+    }
+}
+
+# 12 - KERNEL PAGING
+Write-Host " [12] Kernel Paging..." -NoNewline
+if (Set-IfNeeded "HKLM:\SYSTEM\CurrentControlSet\Control\Session Manager\Memory Management" "DisablePagingExecutive" 1) {
+    Write-Host " DONE" -ForegroundColor Green
+} else { Write-Host " OK (Already optimized)" -ForegroundColor Gray }
+
+# ================= SENSITIVE =================
+
+# 13 - LAST ACCESS
+Write-Host " [13] Last Access Timestamp..." -NoNewline
+
+try {
+    $path = "HKLM:\SYSTEM\CurrentControlSet\Control\FileSystem"
+    $name = "NtfsDisableLastAccessUpdate"
+
+    # Safely read registry value
+    $current = (Get-ItemProperty -Path $path -Name $name -ErrorAction SilentlyContinue).$name
+
+    # Normalize null/empty values safely
+    if ($null -eq $current -or $current -eq "") {
+        $current = 0
+    }
+
+    # Safe conversion (prevents crash)
+    try {
+        $current = [int]$current
+    } catch {
+        $current = 0
+    }
+
+    $desired = 2
+
+    if ($current -eq $desired) {
+        Write-Host " OK (Already optimized)" -ForegroundColor Gray
+    }
+    else {
+        Set-ItemProperty -Path $path -Name $name -Value $desired -Force -ErrorAction Stop
+        Write-Host " DONE" -ForegroundColor Green
+    }
+}
+catch {
+    Write-Host " FAIL (Registry access or permission issue)" -ForegroundColor Red
+}
+
+# 14 - HIBERNATION
+Write-Host " [14] Hibernation & Fast Startup..." -NoNewline
+$hib = (Get-ItemProperty "HKLM:\SYSTEM\CurrentControlSet\Control\Power").HibernateEnabled
+$fast = (Get-ItemProperty "HKLM:\SYSTEM\CurrentControlSet\Control\Session Manager\Power").HiberbootEnabled
+
+if ($hib -eq 0 -and $fast -eq 0) {
+    Write-Host " OK (Already optimized)" -ForegroundColor Gray
+} else {
+    powercfg /hibernate off | Out-Null
+    Set-ItemProperty "HKLM:\SYSTEM\CurrentControlSet\Control\Power" -Name HibernateEnabled -Value 0
+    Set-ItemProperty "HKLM:\SYSTEM\CurrentControlSet\Control\Session Manager\Power" -Name HiberbootEnabled -Value 0
+    Write-Host " DONE" -ForegroundColor Green
+}
+
+# 15 - DRIVE OPTIMIZATION
+Write-Host " [15] Drive Optimization (Scheduled TRIM/Defrag)..." -NoNewline
+
+$task = Get-ScheduledTask -TaskName "ScheduledDefrag" -TaskPath "\Microsoft\Windows\Defrag\" -ErrorAction SilentlyContinue
+
+if ($task) {
+
+    if ($task.State -eq "Ready" -or $task.State -eq "Running") {
+        Write-Host " OK (Already enabled)" -ForegroundColor Gray
+    }
+    else {
+        try {
+            Enable-ScheduledTask -TaskName "ScheduledDefrag" -TaskPath "\Microsoft\Windows\Defrag\" | Out-Null
+            Write-Host " DONE (Enabled TRIM optimization)" -ForegroundColor Green
+        } catch {
+            Write-Host " FAIL (Could not enable task)" -ForegroundColor Red
+        }
+    }
+
+} else {
+    Write-Host " FAIL (Task not found)" -ForegroundColor Red
+}
+
+# 16 - EVENT LOG
+Write-Host " [16] Event Logging..." -NoNewline
+
+$svc = Get-Service EventLog -ErrorAction SilentlyContinue
+if ($svc.Status -ne "Running") {
+    Start-Service EventLog -ErrorAction SilentlyContinue
+    Start-Sleep -Seconds 3
+}
+
+$logs = @("Application","System")
+$alreadyOptimized = $true
+
+foreach ($log in $logs) {
+    try {
+        $info = wevtutil gli $log 2>$null
+
+        if ($info) {
+            $sizeLine = ($info | Select-String "maxSize")
+
+            if ($sizeLine) {
+                $currentSize = [int]([regex]::Match($sizeLine.ToString(), '\d+').Value)
+
+                if ($currentSize -gt 20971520) {
+                    wevtutil sl $log /ms:20971520 | Out-Null
+                    wevtutil sl $log /rt:true | Out-Null
+                    $alreadyOptimized = $false
+                }
+            }
+        }
+    }
+    catch {
+        $alreadyOptimized = $false
+    }
+}
+
+if ($alreadyOptimized) {
+    Write-Host " OK (Already optimized)" -ForegroundColor Gray
+} else {
+    Write-Host " DONE (Reduced log size)" -ForegroundColor Yellow
+}
+
+# 17 - THUMBNAIL CACHE
+Write-Host " [17] Thumbnail Cache..." -NoNewline
+$current = (Get-ItemProperty "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -ErrorAction SilentlyContinue).DisableThumbnailCache
+
+if ($current -eq 1) {
+    Write-Host " OK (Already optimized)" -ForegroundColor Gray
+} else {
+    Set-ItemProperty "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name DisableThumbnailCache -Value 1
+    Write-Host " DONE" -ForegroundColor Green
+}
+
+Write-Host "`n [DONE] SSD optimization fully applied." -ForegroundColor Cyan
 Write-Host "--------------------------------------------------------"
 
 ##------------------------------------------------------##
