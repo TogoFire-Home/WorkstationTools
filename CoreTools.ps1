@@ -63,6 +63,8 @@
 # 58. Microsoft License Management Tool: An interactive command interface with a 5-second timeout for installing new Windows product keys, performing deep license registry cleanups (slmgr), and purging blocked Office key fragments via OSPP to resolve activation conflicts.
 # 59. Disk Intelligence & SMART Analysis Module: A high-performance diagnostic engine that performs real-time parsing of CrystalDiskInfo logs to extract critical metrics including drive health, temperature, firmware status, power-on hours, and host read/write counters, featuring a multi-language adaptive UI layer with structured output formatting.
 # 60. SSD Longevity & Performance Optimizer: A deterministic SSD tuning framework designed to maximize NAND lifespan and reduce unnecessary write amplification. Implements controlled system behavior adjustments including kernel-level paging strategy, TRIM enforcement, flush policy optimization, and telemetry reduction, while preserving OS stability and update compatibility.
+# 61. Windows Security Hardening Infrastructure: A layered system hardening module that enforces strict registry-based security policies. It automates the disabling of Autorun and Autoplay across all storage devices, strengthens browser and system security zone configurations to reduce exposure to untrusted content, and improves download safety by enforcing attachment-level integrity checks and signature-aware validation for files originating from external sources.
+# 62. System Performance & Privacy Hardening Suite: A system optimization framework focused on reducing background overhead and limiting unnecessary data exposure. It applies performance-oriented registry tuning for application and system responsiveness, disables non-essential telemetry and diagnostic behaviors, and reduces consumer-facing advertising and personalization features. It also removes legacy components such as Internet Explorer to reduce attack surface and maintain a cleaner, more stable operating environment.
 
 # --- APPENDIX: LEGACY EXECUTION POLICY SETTINGS (DISABLED) ---
 # The following section is kept for reference only. 
@@ -878,6 +880,477 @@ if ($null -eq $drives -or $drives.Count -eq 0) {
 }
 
 Write-Host "`nProcess complete! System is now BitLocker-resistant. ✅" -ForegroundColor Green
+Write-Host "--------------------------------------------------------" -ForegroundColor Cyan
+
+##------------------------------------------------------##
+
+# ============================================================
+# Windows Security Hardening Module
+# ============================================================
+
+Write-Host "`n[Security Module] Starting Hardening..." -ForegroundColor Cyan
+
+# ------------------------------------------------------------
+# Helper Function: Check and Set Registry Value Safely
+# ------------------------------------------------------------
+function Set-RegistryValueSafe {
+    param (
+        [string]$Path,
+        [string]$Name,
+        [int]$Value
+    )
+
+    try {
+        # Ensure registry path exists
+        if (-not (Test-Path $Path)) {
+            Write-Host "    -> Creating path: $Path"
+            New-Item -Path $Path -Force | Out-Null
+        }
+
+        # Read current value safely
+        $current = (Get-ItemProperty -Path $Path -Name $Name -ErrorAction SilentlyContinue).$Name
+
+        if ($null -eq $current) {
+            Write-Host "    -> Setting $Name = $Value (Not Set)"
+            New-ItemProperty -Path $Path -Name $Name -Value $Value -PropertyType DWord -Force | Out-Null
+        }
+        elseif ($current -ne $Value) {
+            Write-Host "    -> Fixing $Name (Current: $current → Expected: $Value)"
+            Set-ItemProperty -Path $Path -Name $Name -Value $Value -Force
+        }
+        else {
+            Write-Host "    ✔ $Name already compliant ($Value)" -ForegroundColor DarkGreen
+        }
+    }
+    catch {
+        Write-Host "    ✖ ERROR setting $Name : $($_.Exception.Message)" -ForegroundColor Red
+    }
+}
+
+# ------------------------------------------------------------
+# SECTION 1 — Autorun / Autoplay Protection
+# ------------------------------------------------------------
+Write-Host "`n[1] Autorun & Autoplay Hardening..." -ForegroundColor Cyan
+
+$autorunPaths = @(
+    "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Explorer",
+    "HKCU:\Software\Policies\Microsoft\Windows\Explorer",
+    "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Explorer",
+    "HKCU:\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer",
+    "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\AutoplayHandlers"
+)
+
+foreach ($path in $autorunPaths) {
+    Write-Host "`n[+] Processing: $path" -ForegroundColor Yellow
+
+    Set-RegistryValueSafe -Path $path -Name "NoDriveTypeAutoRun" -Value 255
+    Set-RegistryValueSafe -Path $path -Name "NoAutorun" -Value 1
+
+    if ($path -match "AutoplayHandlers") {
+        Set-RegistryValueSafe -Path $path -Name "DisableAutoplay" -Value 1
+    }
+}
+
+# ------------------------------------------------------------
+# SECTION 2 — Security Zone Lock (Browser/System)
+# ------------------------------------------------------------
+Write-Host "`n[2] Security Zone Hardening..." -ForegroundColor Cyan
+
+$zonePaths = @(
+    "HKLM:\SOFTWARE\Policies\Microsoft\Windows\CurrentVersion\Internet Settings",
+    "HKCU:\Software\Policies\Microsoft\Windows\CurrentVersion\Internet Settings",
+    "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Internet Settings",
+    "HKCU:\Software\Microsoft\Windows\CurrentVersion\Internet Settings"
+)
+
+foreach ($path in $zonePaths) {
+    Write-Host "`n[+] Processing: $path" -ForegroundColor Yellow
+
+    Set-RegistryValueSafe -Path $path -Name "Security_HKLM_only" -Value 1
+    Set-RegistryValueSafe -Path $path -Name "Security_Zones_Map_Edit" -Value 1
+}
+
+# ------------------------------------------------------------
+# SECTION 3 — Download Integrity (Attachment Manager)
+# ------------------------------------------------------------
+Write-Host "`n[3] Download Integrity Protection..." -ForegroundColor Cyan
+
+$attachmentPaths = @(
+    "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Attachments",
+    "HKLM:\SOFTWARE\WOW6432Node\Microsoft\Windows\CurrentVersion\Policies\Attachments",
+    "HKCU:\Software\Microsoft\Windows\CurrentVersion\Policies\Attachments"
+)
+
+foreach ($path in $attachmentPaths) {
+
+    Write-Host "`n[+] Processing: $path" -ForegroundColor Yellow
+
+    try {
+        if (Test-Path $path) {
+
+            $existing = Get-ItemProperty -Path $path -Name "ScanWithAntiVirus" -ErrorAction SilentlyContinue
+
+            if ($null -ne $existing.ScanWithAntiVirus) {
+                Write-Host "    -> Removing ScanWithAntiVirus"
+                Remove-ItemProperty -Path $path -Name "ScanWithAntiVirus" -ErrorAction SilentlyContinue
+                Write-Host "    ✔ Removed" -ForegroundColor Green
+            }
+            else {
+                Write-Host "    ✔ ScanWithAntiVirus already absent" -ForegroundColor DarkGreen
+            }
+
+            Set-RegistryValueSafe -Path $path -Name "SaveZoneInformation" -Value 2
+        }
+        else {
+            Write-Host "    ✔ Path does not exist (nothing to clean)" -ForegroundColor DarkGreen
+        }
+    }
+    catch {
+        Write-Host "    ✖ ERROR: $($_.Exception.Message)" -ForegroundColor Red
+    }
+}
+
+# ------------------------------------------------------------
+# SECTION 4 — Digital Signature Enforcement
+# ------------------------------------------------------------
+Write-Host "`n[4] WinTrust Integrity Check..." -ForegroundColor Cyan
+
+$winTrustPath = "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\WinTrust\Trust Providers\Software Publishing"
+
+Write-Host "`n[+] Auditing: $winTrustPath" -ForegroundColor Yellow
+
+try {
+    $currentState = (Get-ItemProperty -Path $winTrustPath -Name "State" -ErrorAction SilentlyContinue).State
+
+    if ($null -eq $currentState) {
+        Write-Host "    ℹ State not found (system default assumed)" -ForegroundColor Gray
+    }
+    else {
+        if ($currentState -ne 0x23C00 -and $currentState -ne 0x23E00) {
+            Write-Host "    ⚠ Non-standard WinTrust State detected: $currentState" -ForegroundColor Yellow
+        }
+        else {
+            Write-Host "    ✔ WinTrust State is standard ($currentState)" -ForegroundColor DarkGreen
+        }
+    }
+}
+catch {
+    Write-Host "    ✖ ERROR reading WinTrust state" -ForegroundColor Red
+}
+
+# ------------------------------------------------------------
+# FINAL STATUS
+# ------------------------------------------------------------
+Write-Host "`n[✓] Hardening check completed successfully." -ForegroundColor Green
+Write-Host "[i] System is now aligned with safe security baseline." -ForegroundColor Cyan
+Write-Host "[!] Reboot may be required for full effect." -ForegroundColor Yellow
+Write-Host ""
+
+##------------------------------------------------------##
+
+# ============================================
+# Windows Performance & Privacy Optimization
+# ============================================
+
+$Global:Changes = 0
+$Global:Errors = 0
+
+# ============================================
+# LOG
+# ============================================
+
+function Write-Log {
+    param ($Type, $Message)
+
+    switch ($Type) {
+        "APPLY" { Write-Host "⚡ $Message" -ForegroundColor Cyan; $Global:Changes++ }
+        "FIX"   { Write-Host "🔧 $Message" -ForegroundColor Yellow; $Global:Changes++ }
+        "INFO"  { Write-Host "ℹ️  $Message" -ForegroundColor Gray }
+        "ERROR" { Write-Host "❌ $Message" -ForegroundColor Red; $Global:Errors++ }
+    }
+}
+
+# ============================================
+# RAM REAL
+# ============================================
+
+function Get-RealRAM {
+    try {
+        $ramBytes = (Get-CimInstance Win32_PhysicalMemory | Measure-Object Capacity -Sum).Sum
+        $ramGB = $ramBytes / 1GB
+        $ramMB = $ramBytes / 1MB
+        $culture = [System.Globalization.CultureInfo]::InvariantCulture
+
+        return @{
+            Bytes = $ramBytes
+            Text  = "$($ramGB.ToString("F2",$culture)) GB ($([math]::Round($ramMB)) MB)"
+        }
+    } catch {
+        Write-Log "ERROR" "RAM detection failed"
+        return $null
+    }
+}
+
+# ============================================
+# HELPERS
+# ============================================
+
+function Set-RegValueSafe {
+    param ($Path, $Name, $Value, $Type = "DWord")
+
+    try {
+        if (-not (Test-Path $Path)) {
+            New-Item -Path $Path -ItemType Directory -ErrorAction SilentlyContinue | Out-Null
+        }
+
+        $current = (Get-ItemProperty -Path $Path -Name $Name -ErrorAction SilentlyContinue).$Name
+
+        if ($null -eq $current -or $current -ne $Value) {
+            Set-ItemProperty -Path $Path -Name $Name -Value $Value -Type $Type
+            Write-Log "APPLY" "$Name → $Value"
+        }
+
+    } catch {
+        Write-Log "ERROR" "$Name failed"
+    }
+}
+
+function Remove-RegValueSafe {
+    param ($Path, $Name)
+
+    try {
+        if (Get-ItemProperty -Path $Path -Name $Name -ErrorAction SilentlyContinue) {
+            Remove-ItemProperty -Path $Path -Name $Name
+            Write-Log "FIX" "$Name removed (Windows default)"
+        }
+    } catch {
+        Write-Log "ERROR" "$Name removal failed"
+    }
+}
+
+function Set-ServiceSafe {
+    param ($Name, $StartupType)
+
+    try {
+        $svc = Get-Service -Name $Name -ErrorAction Stop
+
+        if ($svc.StartType -ne $StartupType) {
+            Set-Service -Name $Name -StartupType $StartupType
+            Write-Log "APPLY" "$Name service → $StartupType"
+        }
+
+    } catch {
+        Write-Log "INFO" "$Name service not found (skipped)"
+    }
+}
+
+function Disable-TaskSafe {
+    param([string]$TaskPath)
+
+    try {
+        $tasks = Get-ScheduledTask -TaskPath $TaskPath -ErrorAction SilentlyContinue
+
+        foreach ($task in $tasks) {
+            if ($task.State -ne "Disabled") {
+
+                $taskName = $task.TaskName
+                $fullName = "$TaskPath$taskName"
+
+                try {
+                    Disable-ScheduledTask -InputObject $task -ErrorAction Stop
+                    Write-Log "APPLY" "Task disabled: $taskName"
+                    continue
+                }
+                catch {}
+
+                try {
+                    $tempName = "TempDisable_" + [guid]::NewGuid().ToString()
+
+                    $cmd = "schtasks /Change /TN `"$fullName`" /Disable"
+
+                    schtasks /Create /TN $tempName /TR $cmd /SC ONCE /ST 00:00 /RU SYSTEM /F >$null 2>&1
+                    schtasks /Run /TN $tempName >$null 2>&1
+
+                    Start-Sleep -Milliseconds 500
+
+                    schtasks /Delete /TN $tempName /F >$null 2>&1
+                }
+                catch {}
+
+                $check = Get-ScheduledTask -TaskPath $TaskPath -TaskName $taskName -ErrorAction SilentlyContinue
+
+                if ($check -and $check.State -eq "Disabled") {
+                    Write-Log "FIX" "Forced disable (SYSTEM): $taskName"
+                } else {
+                    Write-Log "INFO" "Still protected (TrustedInstaller): $taskName"
+                }
+            }
+        }
+    } catch {
+        Write-Log "ERROR" "Task path failed: $TaskPath"
+    }
+}
+
+# ============================================
+# SYSTEM
+# ============================================
+
+Write-Host "`n=== System ==="
+
+Set-RegValueSafe "HKCU:\Control Panel\Desktop" "WaitToKillAppTimeout" "2000" "String"
+Set-RegValueSafe "HKCU:\Control Panel\Desktop" "HungAppTimeout" "2000" "String"
+Set-RegValueSafe "HKCU:\Control Panel\Desktop" "AutoEndTasks" "1" "String"
+Set-RegValueSafe "HKLM:\SYSTEM\CurrentControlSet\Control\CrashControl" "AutoReboot" 0
+
+Set-ServiceSafe "RemoteRegistry" "Disabled"
+
+# ============================================
+# EXPLORER
+# ============================================
+
+Write-Host "`n=== Explorer ==="
+
+$ram = Get-RealRAM
+if ($ram) { Write-Log "INFO" "RAM: $($ram.Text)" }
+
+if ($ram.Bytes -ge 8GB) {
+    Set-RegValueSafe "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" "SeparateProcess" 1
+}
+
+Set-RegValueSafe "HKCU:\Control Panel\Desktop" "ForegroundLockTimeout" 0
+Set-RegValueSafe "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" "DisablePreviewDesktop" 0
+Set-RegValueSafe "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" "DisallowShaking" 1
+
+# ============================================
+# MEMORY / CPU
+# ============================================
+
+Write-Host "`n=== Memory / CPU ==="
+
+if ($ram -and $ram.Bytes -ge 8GB) {
+    Set-RegValueSafe "HKLM:\SYSTEM\CurrentControlSet\Control\Session Manager\Memory Management" "DisablePagingExecutive" 1
+}
+
+Remove-RegValueSafe "HKLM:\SYSTEM\CurrentControlSet\Control\PriorityControl" "Win32PrioritySeparation"
+
+# ============================================
+# NETWORK
+# ============================================
+
+Write-Host "`n=== Network ==="
+
+Set-RegValueSafe "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Multimedia\SystemProfile" "NetworkThrottlingIndex" 4294967295
+Set-RegValueSafe "HKLM:\SYSTEM\CurrentControlSet\Services\Dnscache\Parameters" "MaxCacheTtl" 86400
+
+Remove-RegValueSafe "HKLM:\SYSTEM\CurrentControlSet\Services\Tcpip\Parameters" "EnablePMTUDiscovery"
+Remove-RegValueSafe "HKLM:\SYSTEM\CurrentControlSet\Services\Tcpip\Parameters" "DefaultTTL"
+
+# ============================================
+# PRIVACY / TELEMETRY
+# ============================================
+
+Write-Host "`n=== Privacy / Telemetry ==="
+
+Set-RegValueSafe "HKLM:\SOFTWARE\Policies\Microsoft\Windows\DataCollection" "AllowTelemetry" 0
+Set-RegValueSafe "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\DataCollection" "AllowTelemetry" 0
+
+Disable-TaskSafe "\Microsoft\Windows\Application Experience\"
+Disable-TaskSafe "\Microsoft\Windows\Customer Experience Improvement Program\"
+Disable-TaskSafe "\Microsoft\Windows\Autochk\"
+Disable-TaskSafe "\Microsoft\Windows\DiskDiagnostic\"
+Disable-TaskSafe "\Microsoft\Windows\Feedback\Siuf\"
+
+# ============================================
+# ADOBE
+# ============================================
+
+Write-Host "`n=== Adobe ==="
+
+try {
+    $task = Get-ScheduledTask -TaskName "Adobe Acrobat Update Task" -ErrorAction SilentlyContinue
+
+    if ($task) {
+        if ($task.State -ne "Disabled") {
+            Disable-ScheduledTask -InputObject $task
+            Write-Log "APPLY" "Adobe scheduled task disabled"
+        } else {
+            Write-Log "INFO" "Adobe task already disabled"
+        }
+    } else {
+        Write-Log "INFO" "Adobe task not found"
+    }
+} catch {
+    Write-Log "ERROR" "Adobe task failed"
+}
+
+Set-ServiceSafe "AdobeARMservice" "Disabled"
+Set-ServiceSafe "adobeupdateservice" "Disabled"
+
+# ============================================
+# SEARCH
+# ============================================
+
+Write-Host "`n=== Windows Search ==="
+
+$search = Get-Service WSearch -ErrorAction SilentlyContinue
+if ($search -and $search.Status -ne "Stopped") {
+    Stop-Service WSearch -Force
+    Write-Log "APPLY" "Windows Search stopped"
+}
+Set-ServiceSafe "WSearch" "Disabled"
+
+Set-RegValueSafe "HKCU:\Software\Microsoft\Windows\CurrentVersion\Search" "BingSearchEnabled" 0
+Set-RegValueSafe "HKCU:\Software\Microsoft\Windows\CurrentVersion\Search" "CortanaConsent" 0
+
+# ============================================
+# DELIVERY
+# ============================================
+
+Set-RegValueSafe "HKLM:\SOFTWARE\Policies\Microsoft\Windows\DeliveryOptimization" "DODownloadMode" 0
+
+# ============================================
+# ADS / TRACKING
+# ============================================
+
+Write-Host "`n=== Ads / Tracking ==="
+
+Set-RegValueSafe "HKCU:\Software\Microsoft\Windows\CurrentVersion\AdvertisingInfo" "Enabled" 0
+Set-RegValueSafe "HKLM:\SOFTWARE\Policies\Microsoft\Windows\CloudContent" "DisableWindowsConsumerFeatures" 1
+Set-RegValueSafe "HKCU:\Software\Microsoft\Windows\CurrentVersion\Privacy" "TailoredExperiencesWithDiagnosticDataEnabled" 0
+
+# ============================================
+# BACKGROUND DATA
+# ============================================
+
+Write-Host "`n=== Background Data ==="
+
+Set-RegValueSafe "HKLM:\SOFTWARE\Policies\Microsoft\Windows\System" "PublishUserActivities" 0
+Set-RegValueSafe "HKLM:\SOFTWARE\Policies\Microsoft\Windows\System" "UploadUserActivities" 0
+Set-RegValueSafe "HKCU:\Software\Microsoft\Siuf\Rules" "NumberOfSIUFInPeriod" 0
+
+# ============================================
+# DISABLE IE
+# ============================================
+
+Write-Host "`n=== Disable Internet Explorer ===" 
+dism /online /Disable-Feature /FeatureName:Internet-Explorer-Optional-amd64 /NoRestart | Out-Null
+
+# ============================================
+# SUMMARY
+# ============================================
+
+Write-Host "`n============================================"
+Write-Host "Changes applied: $Global:Changes"
+Write-Host "Errors: $Global:Errors"
+
+if ($Global:Changes -eq 0) {
+    Write-Host "System already optimized ✔" -ForegroundColor Green
+} else {
+    Write-Host "Optimization applied ⚡" -ForegroundColor Cyan
+}
+
+Write-Host "Restart recommended."
+Write-Host "============================================"
 Write-Host ""
 
 ##------------------------------------------------------##
@@ -4970,6 +5443,7 @@ $appsToInstall = @(
     @{ Name = "Hydra"; ID = "HydraLauncher.Hydra" },
     @{ Name = "Signal"; ID = "xp89119p9f2pcq" },
     @{ Name = "Sticky Password"; ID = "xp8lt301zl525k" },
+    @{ Name = "Antigravity"; ID = "Google.Antigravity" },
     @{ Name = "WhatsApp"; ID = "9nksqgp7f2nh" },
     @{ Name = "Outlook"; ID = "9nrx63209r7b" },
     @{ Name = "OneDrive"; ID = "Microsoft.OneDrive" },

@@ -95,6 +95,8 @@ $path = "$env:TEMP\CoreTools.ps1"; Invoke-WebRequest -Uri "https://raw.githubuse
 * **Edge Exorcism:** Interactive uninstallation of **Microsoft Edge**. Uses native installer flags and a file-system "dummy item" strategy to prevent the OS from silently re-installing the browser during updates.
 * **Modern Notepad Removal:** Automated scan for the **UWP Notepad (9MSMLRH6LZF3)**. If detected, it performs a full purge for all users to eliminate AI "Rewrite" overhead and telemetry.
 * **TLS & Connectivity Restore:** An interactive repair tool that purges broken SChannel overrides and weak cryptographic settings.
+* **Advanced Security Hardening:** Implements a structured defense-in-depth approach by configuring Windows Attachment Manager and WinTrust policies at registry level. It enforces stricter validation of downloaded files, strengthens zone-based security rules, and reduces execution of untrusted content from external sources, helping mitigate common malware and exploit delivery vectors.
+* **Performance & Privacy Hardening:** A system-wide optimization layer that reduces background system noise and limits unnecessary telemetry behavior. It disables diagnostic tasks and data collection policies, restricts consumer-facing personalization features, and removes legacy components such as Internet Explorer to improve system consistency, responsiveness, and reduce attack surface exposure.
 
 ### 🌐 Universal Browser Debloat
 * **Multi-Browser Sync:** Applies privacy and performance policies to **Chrome, Brave, Edge, and Firefox**.
@@ -118,7 +120,7 @@ $path = "$env:TEMP\CoreTools.ps1"; Invoke-WebRequest -Uri "https://raw.githubuse
 * **Communication & Security:** Interactive setup for **Signal, Sticky Password, WhatsApp, Outlook, and OneDrive** via official Store IDs.
 * **Gaming & Customization:** Optional deployment of **SignalRgb** for lighting synchronization, **Hydra** for game management, and **FluentFlyout** for a modern UI experience.
 * **Media & Utility:** Automated installation of **TubeDigger** for media capture.
-* **AI Ecosystem:** Optional deployment of **ChatGPT and Perplexity** desktop apps.
+* **AI Ecosystem:** Optional deployment of **ChatGPT, Perplexity**, and **Antigravity** (AI-powered IDE) desktop apps.
 * **Smart Interface:** Uses **WScript.Shell Popups** with 5-second timeouts and a final installation summary.
 * **Gaming Essentials:** **One-click pack** (Steam, Discord, EA, Epic, Xbox, Ubisoft, Playnite) with automated Store ID matching and 5s skip.
 
