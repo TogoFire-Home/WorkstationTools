@@ -65,6 +65,9 @@
 # 60. SSD Longevity & Performance Optimizer: A deterministic SSD tuning framework designed to maximize NAND lifespan and reduce unnecessary write amplification. Implements controlled system behavior adjustments including kernel-level paging strategy, TRIM enforcement, flush policy optimization, and telemetry reduction, while preserving OS stability and update compatibility.
 # 61. Windows Security Hardening Infrastructure: A layered system hardening module that enforces strict registry-based security policies. It automates the disabling of Autorun and Autoplay across all storage devices, strengthens browser and system security zone configurations to reduce exposure to untrusted content, and improves download safety by enforcing attachment-level integrity checks and signature-aware validation for files originating from external sources.
 # 62. System Performance & Privacy Hardening Suite: A system optimization framework focused on reducing background overhead and limiting unnecessary data exposure. It applies performance-oriented registry tuning for application and system responsiveness, disables non-essential telemetry and diagnostic behaviors, and reduces consumer-facing advertising and personalization features. It also removes legacy components such as Internet Explorer to reduce attack surface and maintain a cleaner, more stable operating environment.
+# 63. Windows Terminal & PowerShell 7 Hybridization: A configuration engine that detects PowerShell 7 (pwsh.exe) and injects it as the default profile in Windows Terminal's settings.json. It enforces a modern UI by enabling Acrylic transparency and setting background opacity to 80, while simultaneously applying system-wide console host preferences via the HKCU:\Console registry hive.
+# 64. Adobe Acrobat Reader Nuclear Purge: A multi-stage uninstallation module that terminates related processes (AcroRd32, AdobeARM, Acrobat) and executes a sequential cleanup using Winget, Appx package removal, and MSI GUID-based uninstallation. It includes registry-based detection to ensure all residues from both 32-bit and 64-bit versions are fully wiped.
+# 65. Wallpaper Style & Rendering Engine: A deterministic framework that sets the desktop wallpaper rendering mode to "Fill" (Style 10) within the Windows registry. It implements a custom C# Win32 API wrapper to call SystemParametersInfo, forcing an immediate desktop refresh and re-applying the current wallpaper path to prevent black-screen artifacts without requiring a system restart.
 
 # --- APPENDIX: LEGACY EXECUTION POLICY SETTINGS (DISABLED) ---
 # The following section is kept for reference only. 
@@ -1355,6 +1358,112 @@ Write-Host ""
 
 ##------------------------------------------------------##
 
+# ============================================================
+# Set Desktop Wallpaper Style and Rendering Behavior
+# ============================================================
+
+Write-Host "[⚙] Setting wallpaper style to Fill..." -NoNewline
+
+try {
+
+    # ------------------------------------------------------------
+    # Registry path for current user desktop wallpaper settings
+    # This controls how Windows renders the wallpaper image
+    # ------------------------------------------------------------
+    $path = "HKCU:\Control Panel\Desktop"
+
+    # Validate registry path exists (prevents silent failures)
+    if (-not (Test-Path $path)) {
+        throw "Desktop registry path not found."
+    }
+
+    # ------------------------------------------------------------
+    # Retrieve current wallpaper path
+    # This is required to reapply wallpaper after style change
+    # (prevents black screen or blank desktop issues)
+    # ------------------------------------------------------------
+    $currentWallpaper = (Get-ItemProperty -Path $path -Name "Wallpaper" -ErrorAction Stop).Wallpaper
+
+    # Ensure wallpaper path is valid before continuing
+    if ([string]::IsNullOrWhiteSpace($currentWallpaper)) {
+        throw "Wallpaper path not found. Cannot safely apply settings."
+    }
+
+    # ------------------------------------------------------------
+    # Wallpaper rendering configuration
+    # These values control how the image is displayed on screen
+    # ------------------------------------------------------------
+
+    # WallpaperStyle values:
+    # 0  = Center (image stays centered at original size)
+    # 2  = Stretch (forces image to fill screen, may distort)
+    # 6  = Fit (scales image to fit screen while preserving ratio)
+    # 10 = Fill (scales image to fully cover screen, may crop edges)
+    #
+    # TileWallpaper values:
+    # 0 = Disabled (image is not repeated)
+    # 1 = Enabled (image is tiled across the screen)
+    # ------------------------------------------------------------
+
+    Set-ItemProperty -Path $path -Name "WallpaperStyle" -Value "10" -Force
+    Set-ItemProperty -Path $path -Name "TileWallpaper" -Value "0" -Force
+
+    # ------------------------------------------------------------
+    # Load Win32 API for instant wallpaper refresh
+    # SystemParametersInfo forces Windows to apply changes immediately
+    # without requiring logoff or restart
+    # ------------------------------------------------------------
+    if (-not ("WallpaperAPI" -as [type])) {
+        Add-Type -TypeDefinition @"
+using System;
+using System.Runtime.InteropServices;
+
+public class WallpaperAPI {
+    [DllImport("user32.dll", CharSet = CharSet.Auto)]
+    public static extern int SystemParametersInfo(
+        int uAction,
+        int uParam,
+        string lpvParam,
+        int fuWinIni
+    );
+}
+"@
+    }
+
+    # ------------------------------------------------------------
+    # WinAPI constants used to update desktop settings
+    # ------------------------------------------------------------
+    $SPI_SETDESKWALLPAPER = 0x0014
+    $SPIF_UPDATEINIFILE   = 0x01
+    $SPIF_SENDCHANGE      = 0x02
+
+    # ------------------------------------------------------------
+    # Apply wallpaper immediately using current image path
+    # This refreshes the desktop with new rendering mode
+    # ------------------------------------------------------------
+    [WallpaperAPI]::SystemParametersInfo(
+        $SPI_SETDESKWALLPAPER,
+        0,
+        $currentWallpaper,
+        $SPIF_UPDATEINIFILE -bor $SPIF_SENDCHANGE
+    ) | Out-Null
+
+    Write-Host " OK (Fill mode applied)" -ForegroundColor Green
+}
+catch {
+
+    # ------------------------------------------------------------
+    # Error handling
+    # Displays only the root exception message for clarity
+    # ------------------------------------------------------------
+    Write-Host " ERROR" -ForegroundColor Red
+    Write-Host $_.Exception.Message -ForegroundColor DarkRed
+}
+
+Write-Host ""
+
+##------------------------------------------------------##
+
 # --- OneDrive Deep Uninstallation with Timeout ---
 Write-Host "--------------------------------------------------------" -ForegroundColor Cyan
 Write-Host "Checking for OneDrive removal..." -ForegroundColor Cyan
@@ -2339,7 +2448,7 @@ Write-Host "`nProcess finished." -ForegroundColor Gray
             Write-Host "User opted to disable features. Reverting..." -ForegroundColor Red
             & dism.exe /online /disable-feature /featurename:VirtualMachinePlatform /norestart
             & bcdedit.exe /set hypervisorlaunchtype off
-            Set-ItemProperty -Path $hvciPath -Name "Enabled" -Value 0
+            Set-ItemProperty -Path $hvciPath -Name "Enabled" -Value 0 -ErrorAction SilentlyContinue
             Write-Host "SUCCESS: Protection Disabled. PLEASE REBOOT." -ForegroundColor Cyan
         }
     }
@@ -4529,6 +4638,121 @@ Write-Host "" # Add a blank line for readability
 
 ##------------------------------------------------------##
 
+# ============================================================
+# Hybrid PowerShell + Windows Terminal Configuration
+# ============================================================
+
+Write-Host "`n[INFO] Starting system configuration..." -ForegroundColor Cyan
+
+# ------------------------------------------------------------
+# Step 1: Ensure PowerShell 7 exists
+# ------------------------------------------------------------
+$pwsh = Get-Command pwsh -ErrorAction SilentlyContinue
+
+if (-not $pwsh) {
+    Write-Host "[ERROR] PowerShell 7 not found." -ForegroundColor Red
+    exit 1
+}
+
+$pwshPath = $pwsh.Source
+Write-Host "[OK] PowerShell 7: $pwshPath" -ForegroundColor Green
+
+# ------------------------------------------------------------
+# Step 2: Detect Windows Terminal
+# ------------------------------------------------------------
+Write-Host "`n[INFO] Checking Windows Terminal..." -ForegroundColor Cyan
+
+$wtPath = "$env:LOCALAPPDATA\Packages\Microsoft.WindowsTerminal_8wekyb3d8bbwe\LocalState\settings.json"
+
+$hasWT = Test-Path $wtPath
+
+if ($hasWT) {
+    Write-Host "[OK] Windows Terminal detected." -ForegroundColor Green
+
+    # --------------------------------------------------------
+    # Terminal configuration
+    # --------------------------------------------------------
+    try {
+        Copy-Item $wtPath "$wtPath.bak" -Force
+
+        $json = Get-Content $wtPath -Raw | ConvertFrom-Json
+
+        # find or create pwsh profile
+        $profile = $json.profiles.list | Where-Object { $_.commandline -match "pwsh" } | Select-Object -First 1
+
+        if (-not $profile) {
+            $profile = @{
+                guid        = "{$(New-Guid)}"
+                name        = "PowerShell 7"
+                commandline = $pwshPath
+                hidden      = $false
+            }
+
+            $json.profiles.list += $profile
+        }
+
+        # set default
+        $json.defaultProfile = $profile.guid
+
+        # Appearance
+        if (-not $json.profiles.defaults) {
+            $json.profiles | Add-Member -MemberType NoteProperty -Name "defaults" -Value @{} -Force
+        }
+
+        $json.profiles.defaults.useAcrylic = $true
+        $json.profiles.defaults.opacity = 80
+
+        $json | ConvertTo-Json -Depth 100 | Set-Content $wtPath -Encoding UTF8
+
+        Write-Host "[OK] Windows Terminal configured." -ForegroundColor Green
+    }
+    catch {
+        Write-Host "[WARN] Windows Terminal config failed but system will continue." -ForegroundColor Yellow
+    }
+}
+else {
+    Write-Host "[WARN] Windows Terminal NOT installed." -ForegroundColor Yellow
+    Write-Host "[INFO] Skipping terminal configuration." -ForegroundColor DarkGray
+}
+
+# ------------------------------------------------------------
+# Step 3: SYSTEM-LEVEL PowerShell 7 default behavior
+# (Works even without Windows Terminal)
+# ------------------------------------------------------------
+
+Write-Host "`n[INFO] Applying system shell preferences..." -ForegroundColor Cyan
+
+try {
+
+    # Console host fallback behavior
+    $consoleKey = "HKCU:\Console"
+
+    if (-not (Test-Path $consoleKey)) {
+        New-Item $consoleKey -Force | Out-Null
+    }
+
+    # Improve console behavior (pwsh friendly)
+    Set-ItemProperty -Path $consoleKey -Name "ForceV2" -Value 1 -ErrorAction SilentlyContinue
+
+    # Set default command line (where applicable)
+    Set-ItemProperty -Path $consoleKey -Name "CurrentUser" -Value $pwshPath -ErrorAction SilentlyContinue
+
+    Write-Host "[OK] System console preferences applied." -ForegroundColor Green
+}
+catch {
+    Write-Host "[WARN] System registry tweak skipped (not critical)." -ForegroundColor Yellow
+}
+
+# ------------------------------------------------------------
+# DONE
+# ------------------------------------------------------------
+Write-Host "`n[SUCCESS] System configured (hybrid mode)!" -ForegroundColor Green
+Write-Host " - PowerShell 7 ready" -ForegroundColor Gray
+Write-Host " - Windows Terminal applied if available" -ForegroundColor Gray
+Write-Host ""
+
+##------------------------------------------------------##
+
 # --- 4 Optional Category with 5-second Timeout ---
     $optionalPackages = @("fxsound", "github-desktop", "forkgram", "qbittorrent-enhanced", "veracrypt", "element-desktop")
     $shell = New-Object -ComObject WScript.Shell
@@ -4858,16 +5082,155 @@ Write-Host "--------------------------------------------------------"
 
 ##------------------------------------------------------##
 
+# ============================================================
+# UNINSTALL ADOBE ACROBAT READER
+# ============================================================
+
+$ErrorActionPreference = "SilentlyContinue"
+
+Write-Host "`n[🚀] Scanning system for Adobe Acrobat Reader..." -ForegroundColor Cyan
+
+$foundAny = $false
+
+# ------------------------------------------------------------
+# 1. STOP PROCESSES
+# ------------------------------------------------------------
+Get-Process | Where-Object {
+    $_.Name -match "AcroRd32|AdobeARM|Acrobat"
+} | Stop-Process -Force
+
+# ------------------------------------------------------------
+# 2. WINGET UNINSTALL
+# ------------------------------------------------------------
+if (Get-Command winget -ErrorAction SilentlyContinue) {
+
+    Write-Host "[⚙] Checking Winget packages..." -ForegroundColor Yellow
+
+    $wingetPackages = @(
+        "Adobe.Acrobat.Reader.32-bit",
+        "Adobe.Acrobat.Reader.64-bit",
+        "XPDP273C0XHQH2"
+    )
+
+    foreach ($pkg in $wingetPackages) {
+
+        $result = winget uninstall --id $pkg -e --silent 2>&1
+
+        if ($LASTEXITCODE -eq 0 -and $result -notmatch "not found") {
+            Write-Host "[✔] Winget removed: $pkg" -ForegroundColor Green
+            $foundAny = $true
+        }
+    }
+}
+
+# ------------------------------------------------------------
+# 3. APPX / MODERN PACKAGE CHECK
+# ------------------------------------------------------------
+$appx = Get-AppxPackage -AllUsers "*Acrobat*"
+
+if ($appx) {
+    $appx | Remove-AppxPackage -AllUsers
+    Write-Host "[✔] Removed Appx Acrobat package(s)" -ForegroundColor Green
+    $foundAny = $true
+}
+
+Get-AppxProvisionedPackage -Online | Where-Object {
+    $_.DisplayName -like "*Acrobat*"
+} | Remove-AppxProvisionedPackage -Online
+
+# ------------------------------------------------------------
+# 4. MSI + ADOBE REGISTRY UNINSTALL
+# ------------------------------------------------------------
+$registryPaths = @(
+    "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\*",
+    "HKLM:\SOFTWARE\WOW6432Node\Microsoft\Windows\CurrentVersion\Uninstall\*"
+)
+
+$apps = Get-ItemProperty $registryPaths | Where-Object {
+    $_.DisplayName -match "Adobe Acrobat Reader|Acrobat Reader DC"
+}
+
+foreach ($app in $apps) {
+
+    $foundAny = $true
+
+    Write-Host "[✔] Found: $($app.DisplayName)" -ForegroundColor Yellow
+
+    $uninstall = $app.UninstallString
+
+    if (-not $uninstall) { continue }
+
+    Write-Host "[⚙] Executing uninstall..." -ForegroundColor Green
+
+    if ($uninstall -match "msiexec") {
+
+        $guid = ([regex]"\{.*?\}").Matches($uninstall).Value
+
+        if ($guid) {
+            Start-Process "msiexec.exe" -ArgumentList "/x $guid /qn /norestart" -Wait -WindowStyle Hidden
+        }
+
+    } else {
+
+        Start-Process "cmd.exe" -ArgumentList "/c `"$uninstall`" /sAll /rs /rps /msi EULA_ACCEPT=YES" -Wait -WindowStyle Hidden
+    }
+}
+
+# ------------------------------------------------------------
+# 5. PATH DETECTION
+# ------------------------------------------------------------
+$paths = @(
+    "C:\Program Files\Adobe\Acrobat DC",
+    "C:\Program Files (x86)\Adobe\Acrobat DC"
+)
+
+foreach ($p in $paths) {
+    if (Test-Path $p) {
+        Write-Host "[ℹ] Installation folder detected: $p" -ForegroundColor DarkYellow
+        $foundAny = $true
+    }
+}
+
+# ------------------------------------------------------------
+# 6. FINAL CHECK
+# ------------------------------------------------------------
+$check = Get-ItemProperty $registryPaths | Where-Object {
+    $_.DisplayName -match "Adobe Acrobat Reader"
+}
+
+Write-Host "`n--------------------------------------------------------" -ForegroundColor DarkGray
+
+if ($check) {
+
+    Write-Host "[!] Adobe Reader is STILL PRESENT" -ForegroundColor Red
+    Write-Host "[→] Manual uninstall may be required (corrupted installer or locked service)" -ForegroundColor Yellow
+
+} elseif ($foundAny) {
+
+    Write-Host "[✅] Adobe Reader has been successfully removed." -ForegroundColor Green
+
+} else {
+
+    Write-Host "[✔] AdobeReader was not detected on this system." -ForegroundColor Green
+    Write-Host "[ℹ] No action was required." -ForegroundColor DarkGray
+}
+
+Write-Host "--------------------------------------------------------`n" -ForegroundColor DarkGray
+
+##------------------------------------------------------##
+
 # --- AUTOMATIC APP INSTALLATION (UNATTENDED) ---
 Write-Host "`n[MODULE] Deploying Essential Applications..." -ForegroundColor Cyan
 
 $appsToInstall = @(
     @{ Name = "UpNote"; ID = "9mv7690m8f5n" },
-    @{ Name = "Notepads"; ID = "9nhl4nsc67wm" },
     @{ Name = "LibreWolf"; ID = "9nvn9sz8kfd7" },
     @{ Name = "ShareX"; ID = "ShareX.ShareX" },
     @{ Name = "CrystalDiskInfo"; ID = "CrystalDewWorld.CrystalDiskInfo" },
-    @{ Name = "SSD Booster"; ID = "9nvmxq4ps0lb" }
+    @{ Name = "SSD Booster"; ID = "9nvmxq4ps0lb" },
+    @{ Name = "PDFgear"; ID = "PDFgear.PDFgear" },
+    @{ Name = "Calibre"; ID = "Calibre.calibre" },
+    @{ Name = "Simple Radio Online"; ID = "9n4hx2x3f88h" }
 )
 
 $installedCount = 0
@@ -4889,7 +5252,7 @@ foreach ($app in $appsToInstall) {
         Write-Host "[$foundName] -> [SUCCESSFULLY INSTALLED]" -ForegroundColor Green
         $installedCount++
     } 
-    elseif ($exitCode -in @(-1978335135, -1978335189, -1978335191, -1978335221)) {
+    elseif ($exitCode -in @(-1978335135, -1978335189, -1978335191, -1978335221, -1978335212)) {
         Write-Host "[$foundName] -> [ALREADY INSTALLED - SKIPPING]" -ForegroundColor Gray
         $installedCount++
     } 
@@ -5524,6 +5887,7 @@ $packagesToInstall = @(
     "openssh"
     "vscodium"
     "notepadplusplus"
+    "imageglass"
     "git"
     "nano"
     "gh"
@@ -5533,6 +5897,7 @@ $packagesToInstall = @(
     "portx"
     "tabby"
     "vlc"
+    "vlc-skins"
     "paint.net"
     "fastfetch"
     "qalculate"

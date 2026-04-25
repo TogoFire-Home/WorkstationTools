@@ -97,6 +97,7 @@ $path = "$env:TEMP\CoreTools.ps1"; Invoke-WebRequest -Uri "https://raw.githubuse
 * **TLS & Connectivity Restore:** An interactive repair tool that purges broken SChannel overrides and weak cryptographic settings.
 * **Advanced Security Hardening:** Implements a structured defense-in-depth approach by configuring Windows Attachment Manager and WinTrust policies at registry level. It enforces stricter validation of downloaded files, strengthens zone-based security rules, and reduces execution of untrusted content from external sources, helping mitigate common malware and exploit delivery vectors.
 * **Performance & Privacy Hardening:** A system-wide optimization layer that reduces background system noise and limits unnecessary telemetry behavior. It disables diagnostic tasks and data collection policies, restricts consumer-facing personalization features, and removes legacy components such as Internet Explorer to improve system consistency, responsiveness, and reduce attack surface exposure.
+* **Adobe Acrobat Reader Nuclear Purge:** A comprehensive scanning and removal module for **Adobe Acrobat Reader DC**. It kills active processes, triggers **Winget uninstalls**, removes **Appx packages**, and parses **MSI GUIDs** to execute silent uninstalls, ensuring the software is completely removed from the registry and file system.
 
 ### 🌐 Universal Browser Debloat
 * **Multi-Browser Sync:** Applies privacy and performance policies to **Chrome, Brave, Edge, and Firefox**.
@@ -141,6 +142,8 @@ $path = "$env:TEMP\CoreTools.ps1"; Invoke-WebRequest -Uri "https://raw.githubuse
 * **Visuals:** Restores "New Text Document", pins Recycle Bin to sidebar, and fixes wallpaper quality (100%).
 * **Performance Visuals:** Enforces **"Show thumbnails instead of icons"** and enables **"Drop shadows for icon labels"** on the desktop via Registry to optimize the UI appearance.
 * **Defaults:** Enables NumLock on login, disables mouse acceleration, and sets **Alt+Tab to show up to 20 browser tabs**.
+* **Windows Terminal & PowerShell 7 Hybridization:** Automatically detects **PowerShell 7 (pwsh)** and sets it as the **default profile** in Windows Terminal. It configures the `settings.json` to enable **Acrylic transparency** and sets the **background opacity to 80**, while also applying system-level console preferences to the registry.
+* **Wallpaper Style & Rendering Engine:** Enforces the **"Fill" wallpaper style** via registry and utilizes a custom **Win32 API wrapper (SystemParametersInfo)** to refresh the desktop instantly, ensuring the rendering mode is applied without a logoff or black-screen issues.
 
 ### 🧩 Optional Scripts (5s Skip Prompt)
 * **System Digital Entitlement:** Automated check and configuration of system features.
