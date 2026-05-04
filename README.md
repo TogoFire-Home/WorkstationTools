@@ -23,8 +23,10 @@ The main script in this repository aims to:
 ## 🤖 How to Use
 
 ### Prerequisites
-* **[Windows PowerShell](https://github.com/PowerShell/PowerShell/releases/latest) 5.1+**
-* **Administrator Privileges** (Mandatory)
+- **Modern Windows operating system**
+- **Administrator privileges** when required.
+
+**Note:** [PowerShell 7+](https://github.com/PowerShell/PowerShell/releases/latest) is automatically detected and installed if missing.
 
 ### 🚀 Quick Execution (One-Liner)
 Run the following command to execute the script directly in memory:
@@ -62,7 +64,7 @@ $path = "$env:TEMP\CoreTools.ps1"; Invoke-WebRequest -Uri "https://raw.githubuse
 * **DNS Optimization:** Enhances **DNS Cache TTL** and table size for **faster domain resolution**.
 * **Debloat:** Kills background apps, telemetry (Office/PS), and gaming overlays (Game Bar).
 * **Startup Management:** Force-disables common social, gaming, and utility apps from Task Manager using binary status codes (**03**) in the Registry.
-* **User Security:** Force-sets **"Password Never Expires"** for the **Admin** account to prevent unexpected lockouts.
+* **User Security:** Force-sets **"Password Never Expires"** for the **current user** account to prevent unexpected lockouts.
 * **Login & Security:** Disables **CTRL+ALT+DEL** requirement by force-syncing the **Registry (`DisableCAD=1`)** with the **Local Security Policy (SecPol.msc)** database, ensuring the UI correctly shows "Enabled" (Do not require).
 * **Crash Analysis:** Enables **Detailed BSOD (DisplayParameters)** to show technical information during system crashes.
 * **Crash Dump Suppression:** Hard-disables the creation of system memory dumps (None) and crash event logging. This prevents the OS from wasting disk space with large `.dmp` files and reduces diagnostic overhead during system failures.
@@ -73,6 +75,7 @@ $path = "$env:TEMP\CoreTools.ps1"; Invoke-WebRequest -Uri "https://raw.githubuse
 * **BitLocker Privacy & Performance Hardening:** A data sovereignty module that blocks forced automatic encryption to stop the silent upload of recovery keys to Microsoft servers—preventing third-party or government access. It disables untrustworthy hardware-based encryption to eliminate vendor backdoors and "nukes" active encryption on all volumes to restore up to **45%** of SSD performance, ensuring your data remains private, local, and fast.
 * **Microsoft Activation Status Professional Audit:** Implements an automated scan via CIM/WMI that detects and categorizes the licensing status of the Microsoft ecosystem. It distinguishes between permanent "Digital Licenses" and temporary "KMS" activations, calculates remaining grace periods, and identifies the distribution channel (Volume, Retail, or OEM). The module utilizes a dynamic padding buffer to ensure a clean, professional visual interface within the PowerShell console.
 * **Microsoft License Management Tool:** A versatile utility featuring an interactive menu with a 5-second "Auto-Skip" safety. It provides a streamlined workflow to **inject and install new Windows Product Keys** followed by immediate system activation. Additionally, it enables deep-cleaning of the Windows license state (resetting the registry and system licensing files) and automated removal of Office, Visio, and Project key fragments to clear "Blocked Key" or "Unlicensed Product" errors.
+* **Power Plans & Manager Deployment:** Automatically resolves the latest Simple Power Plan Manager release from GitHub, verifies the installed version, downloads and deploys updates when required, and creates a Start Menu shortcut. Synchronizes custom `.pow` power plan files from the repository, imports plans individually, tracks imported plan GUIDs, and skips plans detected as already installed to reduce duplicate imports.
 
 ### 🗄️ Storage & SSD Optimization
 * **Disk Intelligence (S.M.A.R.T.):** Advanced hardware diagnostics engine powered by CrystalDiskInfo log parsing. Extracts real-time SSD/HDD health metrics including temperature, firmware, interface type, power-on hours, and host read/write statistics, with full multi-language UI support and structured reporting output.
@@ -87,27 +90,36 @@ $path = "$env:TEMP\CoreTools.ps1"; Invoke-WebRequest -Uri "https://raw.githubuse
 
 ### 🛡️ Security & Junkware Purge
 * **Digital Parasite Removal:** Interactive 5-second prompt to optionally download and execute official vendor removal tools (MCPR, kavremvr, Norton Remover, AVG Clear, and ART) for cleaning **McAfee, Norton, AVG, Kaspersky**, and residual antivirus traces, with an additional advanced option for Defender removal.
-* **Defender Lobotomy:** Complete disabling of **Windows Defender** via Registry and Policies.
-    * **Tamper Protection & PPL:** Force-disables protection layers that usually prevent registry edits.
-    * **Kernel Mitigations:** Disables specific kernel security checks to reduce CPU overhead.
-    * **Security Center & Notifications:** Silences all security center warnings and hides the Defender page from Windows Settings.
+* **Interactive Defender Lobotomy:** Smart, interactive deployment to completely disable **Windows Defender** and its core security stack.
+    * **User Auto-Approval & Interactive Guard:** Automatically runs on standard administrative profiles (`Admin`, `User`, `Administrator`) or prompts for manual confirmation with a 5-second countdown safety buffer.
+    * **Dynamic Elevation Engine (TrustedInstaller):** Dynamically fetches and deploys `MinSudo` (via NanaRun release scraping with fallback mechanisms) to execute registry modifications under **TrustedInstaller** privileges.
+    * **Tamper Protection & PPL Override:** Force-disables Tamper Protection, RunAsPPL, LSA configuration flags, and vulnerable driver blocklists.
+    * **Kernel & Svchost Mitigations:** Disables kernel mitigation options, SEHOP, and svchost policies to minimize CPU overhead and latency.
+    * **Core Services & Task Neutralization:** Sets startup types to disabled (`0x04`) for `WinDefend`, `WdFilter`, `MsMpSvc`, `Sense`, `MDCoreSvc`, `wscsvc`, and systematically disables scheduled Defender maintenance tasks.
+    * **Security Center & UI Suppression:** Mutes all notification toasts, suppresses Security Center alerts, and hides the Defender page from Windows Settings.
 * **SmartScreen Professional Audit:** A high-level bypass of Microsoft’s reputation-based filtering system that disables the "Check apps and files" gatekeeper to prevent the flagging of safe open-source tools and custom scripts, while implementing privacy hardening by blocking the OS from sending executable metadata to Microsoft servers. This module further removes blocking for "Potentially Unwanted Apps" (PUA), disables content evaluation for Microsoft Store apps, and injects the `PreventOverride` registry fix to ensure "Run Anyway" prompts never lock the user out, ultimately facilitating performance recovery by eliminating the overhead caused by constant real-time database checks that lag file operations and increase system latency.
 * **Windows AI Purge (Safe Mode):** High-level "lobotomy" of system AI.
 * **Edge Exorcism:** Interactive uninstallation of **Microsoft Edge**. Uses native installer flags and a file-system "dummy item" strategy to prevent the OS from silently re-installing the browser during updates.
 * **Modern Notepad Removal:** Automated scan for the **UWP Notepad (9MSMLRH6LZF3)**. If detected, it performs a full purge for all users to eliminate AI "Rewrite" overhead and telemetry.
+* **Advanced Windows Security Hardening Suite:** Comprehensive enterprise security baseline configuration. Enforces LSA Protection (RunAsPPL) for LSASS memory security, disables legacy WDigest credential caching, restricts authentication strictly to NTLMv2, blocks insecure SMB guest authentication, and disables LLMNR to prevent local network poisoning. Includes configurable toggles for mandatory SMB signing, NetBIOS deactivation, WPAD proxy isolation, and secure WinRM HTTPS listener provisioning.
 * **TLS & Connectivity Restore:** An interactive repair tool that purges broken SChannel overrides and weak cryptographic settings.
 * **Advanced Security Hardening:** Implements a structured defense-in-depth approach by configuring Windows Attachment Manager and WinTrust policies at registry level. It enforces stricter validation of downloaded files, strengthens zone-based security rules, and reduces execution of untrusted content from external sources, helping mitigate common malware and exploit delivery vectors.
 * **Performance & Privacy Hardening:** A system-wide optimization layer that reduces background system noise and limits unnecessary telemetry behavior. It disables diagnostic tasks and data collection policies, restricts consumer-facing personalization features, and removes legacy components such as Internet Explorer to improve system consistency, responsiveness, and reduce attack surface exposure.
 * **Adobe Acrobat Reader Nuclear Purge:** A comprehensive scanning and removal module for **Adobe Acrobat Reader DC**. It kills active processes, triggers **Winget uninstalls**, removes **Appx packages**, and parses **MSI GUIDs** to execute silent uninstalls, ensuring the software is completely removed from the registry and file system.
 * **Intelligent AppX Debloat:** A surgical removal module for pre-installed bloatware that distinguishes between consumer and server environments. It purges high-telemetry Microsoft apps (News, Weather, Feedback Hub) and third-party sponsored junk (Spotify, Candy Crush, Netflix) for all user profiles, while automatically bypassing execution on Windows Server to preserve system integrity.
+* **WPBT Execution Disabling:** Disables the Windows Platform Binary Table execution (`DisableWpbtExecution=1`) in the registry to prevent OEM rootkits or pre-installed motherboard drivers from injecting files at boot.
+* **Widgets Policy Restoration:** Safely removes the enterprise group policy restricting Windows Widgets (`AllowNewsAndInterests`), restoring default taskbar feature access.
+* **IObit Unlocker Automated Deployment:** An intelligent installer engine that checks current local versions against official builds, validates digital signatures (Authenticode), terminates active application hooks, and performs a silent Inno/Custom setup (`/VERYSILENT`) with full post-install cleanup.
+* **PdfCraft Desktop Deployment Engine:** An automated enterprise installer for PdfCraft featuring architecture intelligence (auto-detecting x64, x86, or ARM64) and OS type filtering to block execution on Windows Server environments. It queries the GitHub Releases API for the latest matching MSI asset, validates local version markers to skip redundant updates, executes a silent unattended install (`/qn /norestart`), and cleans up temporary installer packages.
 
 ### 🌐 Universal Browser Debloat
-* **Multi-Browser Sync:** Applies privacy and performance policies to **Chrome, Brave, Edge, and Firefox**.
+* **Multi-Browser Sync:** Applies privacy and performance policies to **Chrome, Supermium, Brave, Edge, and Firefox**.
 * **Anti-Bloat:** Disables **Copilot / AI features (Edge), Chrome/Edge GenAI local foundational models, Leo AI (Brave), Pocket (Firefox)**, and built-in VPNs, Wallets, and promotional features across browsers.
 * **Privacy & Speed:** Blocks telemetry, background modes, hardware acceleration, and auto-updates.
 * **Pass Management:** Ensures "Offer to save passwords" remains enabled across all engines.
 
-### ☁️ OneDrive Deep Clean
+### ☁️ OneDrive Management & Deep Clean
+* **OneDrive Policy Enforcer:** Ensures OneDrive synchronization is enabled by forcing `DisableFileSyncNGSC=0` in the registry to help resolve launch and force-close issues.
 * **Safe Migration:** Automatically moves user data from OneDrive back to local folders before removal.
 * **Full Purge:** Uninstalls the client and wipes registry/leftover folders (includes a 5s safety prompt).
 
@@ -117,17 +129,20 @@ $path = "$env:TEMP\CoreTools.ps1"; Invoke-WebRequest -Uri "https://raw.githubuse
 * **Software:** Deploys 7zip, Git, VS Codium, VLC, Python 3+, HF-CLI, and more via Choco/Winget.
 * **Runtimes:** Installs **AutoHotkey v2+** and **Dart SDK** with automatic System PATH integration.
 
-### 📦 Interactive App Deployment (Winget)
+### 📦 Interactive App Deployment
 * **Media Extensions & Codecs:** Automated deployment and version-aware updates for **HEVC (Free-Codecs)** and **8 critical Codec extensions** (AV1, VP9, JXL, RAW, etc.) via Winget Store IDs.
-* **Communication & Security:** Interactive setup for **Signal, WhatsApp, Outlook, Microsoft Teams, OneDrive, and Sticky Password** via official Store IDs.
-* **Browsers & Web:** Optional deployment of privacy-focused and modern browsers including **Brave, Zen Browser, and Perplexity Comet**.
+* **Communication & Security:** Interactive setup for **Signal, WhatsApp, Outlook, Microsoft Teams, OneDrive, WireSockVPN, and Sticky Password** via official Store IDs.
+* **Browsers & Web:** Optional deployment of privacy-focused and modern browsers including **Brave, Zen Browser, Firefox, and Perplexity Comet**.
 * **Gaming & Customization:** Optional deployment of **SignalRgb** for lighting synchronization, **Hydra** for game management, and **FluentFlyout** for an enhanced modern UI experience.
 * **Media & Utility:** Automated installation of **TubeDigger** for professional media capture.
 * **AI Ecosystem:** Optional deployment of **ChatGPT, Perplexity, and Antigravity** (AI-powered IDE) desktop applications.
 * **Smart Interface:** Uses **WScript.Shell Popups** with 5-second timeouts and a final installation summary.
 * **Gaming Essentials:** **One-click pack** (Steam, Discord, EA, Epic, Xbox, Ubisoft, Playnite) with automated Store ID matching and 5s skip.
 * **AyuGram Desktop Deployment:** An advanced automation engine for the **AyuGram Telegram client** featuring **OS Intelligence** that automatically bypasses installation on Windows Server environments. It employs **dynamic GitHub resolution** to fetch the latest releases and implements a dual-layer version check (EXE metadata + version marker) to prevent redundant updates. The module handles high-speed extraction to `C:\Program Files`, automates **Start Menu shortcut integration** via COM objects, and ensures a zero-residue cleanup of temporary assets.
+* **Blockify Desktop Deployment:** An advanced automation engine for the **Blockify Desktop** Spotify ad-blocker featuring **OS Intelligence** that automatically blocks installation on Windows Server environments. It employs **dynamic web parsing** of the official site with a **GitHub Releases fallback** to resolve the latest version and direct download links. The module implements a **dual-layer version check** against a local marker, handles high-speed extraction, executes a **silent NSIS installation (`/S`)**, and ensures zero-residue cleanup of temporary assets.
+* **Pawzy Desktop Deployment Engine:** An advanced automated installer for Pawzy featuring OS Intelligence to block installation on Windows Server environments. It resolves the latest version directly via the GitHub Releases API, implements local version-marker tracking to prevent redundant updates, handles secure temporary downloading, executes a silent NSIS setup (`/S`), and ensures clean post-installation residue removal.
 * **Unattended Essential App Deployment:** A fully automated deployment layer for critical tools (LibreWolf, ShareX, PDFgear, etc.). It features an **OS Intelligence Check** that dynamically blocks consumer apps from installing on **Windows Server** instances. The engine handles all background logistics, including **silent agreement bypass**, Store ID mapping, and a final **Deployment Summary** that validates installation success or identifies existing versions through precise exit-code parsing.
+* **Runtime Installer & .NET Cleanup Engine:** An automated management framework powered by **Winget** that ensures essential system runtimes (Visual C++ 2005–2015+, DirectX, WebView2, Java, PhysX, OpenAL) are fully updated or installed silently while handling error-code filtering. It features an intelligent **.NET Cleanup module** that parses installed SDKs and Desktop Runtimes, safeguards protected versions (retaining core majors like 6, 8, and the three latest modern major versions), and safely uninstalls outdated or redundant .NET versions to reclaim disk space.
 
 ### ⚙️ Shell & UI Tweaks
 * **Explorer UI Opt (Win 11+):** Automatic detection of Windows 11 to enable **Snap Layouts** and force-disable automatic frequent folders. Includes an **interactive 5s prompt** to reset Quick Access cache only when needed, preserving your manual pins by default.
@@ -136,12 +151,13 @@ $path = "$env:TEMP\CoreTools.ps1"; Invoke-WebRequest -Uri "https://raw.githubuse
 * **grepWin Shell Purge:** Uses native `reg.exe` for high-speed **removal of all grepWin context menu entries**, bypassing PowerShell's registry provider overhead for a cleaner system shell.
 * **Start Menu Refactor:** Automated renaming of specific system tool folders for better aesthetics, including a recursive cleanup of redundant shortcuts and orphaned `.lnk` files.
 * **Volume Identity:** Force-sets the System Drive (C:) label to a standardized name and purges localized desktop clutter for a cleaner initial experience.
-* **Multi-Language Support:** All custom menus now **detect the system language** (22+ languages supported) for labels and legal notices.
+* **Multi-Language Support:** All custom menus now **detect the system language** (23+ languages supported) for labels and legal notices.
 * **Advanced Desktop Tools:** Adds a categorized menu for **Control Panel**, **Safe Mode** (4 options), **Task Killer**, and **Explorer Restart**.
 * **Spooler Repair Tool:** Adds a localized context menu entry that triggers a silent, elevated repair script in `C:\Windows`. **Note:** Automatically detects **Windows Server** environments to disable the service instead of adding the menu, ensuring server-side security.
 * **Print Spooler ACL:** Grants **Full Control** permissions to the **"Everyone"** group using a Universal SID (`S-1-1-0`) to resolve persistent access-related print errors.
 * **Advanced Thumbnailing:** Integrated **Icaros Thumbnailer** deployment via GitHub API, ensuring high-quality previews for specialized video and image formats.
 * **Context Menus:** Adds "Open CMD/PS here" (Shift+Right-click) with **UNC/Network path support** and moves Git Bash/GUI to Shift+Right-click only.
+* **Shutdown Context Menu:** Adds a desktop right-click cascading menu with automatic language detection for instant power management (immediate shutdown, scheduled shutdowns from 20 minutes to 4 hours, forced restart, and cancellation).
 * **Context Limit:** Increases right-click limit to **128 items** (allows many files selected at once).
 * **Explorer Navigation:** Sets startup location to **This PC** and forces **User Folders (Downloads, etc.)** under This PC.
 * **Visuals:** Restores "New Text Document", pins Recycle Bin to sidebar, and fixes wallpaper quality (100%).
@@ -150,6 +166,17 @@ $path = "$env:TEMP\CoreTools.ps1"; Invoke-WebRequest -Uri "https://raw.githubuse
 * **Windows Terminal & PowerShell 7 Hybridization:** Automatically detects **PowerShell 7 (pwsh)** and sets it as the **default profile** in Windows Terminal. It configures the `settings.json` to enable **Acrylic transparency** and sets the **background opacity to 80**, while also applying system-level console preferences to the registry.
 * **Wallpaper Style & Rendering Engine:** Enforces the **"Fill" wallpaper style** via registry and utilizes a custom **Win32 API wrapper (SystemParametersInfo)** to refresh the desktop instantly, ensuring the rendering mode is applied without a logoff or black-screen issues.
 * **Classic Photo Viewer Restoration:** Re-enables the legacy Windows Photo Viewer via Registry class injection. It restores high-performance image viewing by mapping associations for all major formats (JPEG, PNG, BMP, TIFF, JFIF) through native `rundll32.exe` integration, bypassing the heavier UWP Photos app.
+* **Hardware Clock to UTC:** Forces the system hardware clock (RTC) to operate in UTC (`RealTimeIsUniversal=1`), preventing time synchronization drift when dual-booting with Unix/Linux-based operating systems.
+* **DefaultUser0 Purge:** Automatically detects and removes the residual `defaultuser0` user account left behind by Windows installations or updates, cleaning up the user list and improving security.
+* **Windows.old Cleanup:** Safely purges the leftover `C:\Windows.old` directory generated after major OS upgrades. It handles forced recursive deletion with robust error-catching and fallback handling to reclaim significant disk space without interrupting system integrity.
+* **PC Health Check Purge & Reinstall Block:** Silent removal of Microsoft PC Health Check via `msiexec` and registry audit. Injects the `PreviousUninstall` registry flag (`HKLM\SOFTWARE\Microsoft\PCHC`) to prevent Windows Update from silently reinstalling the app in future feature updates.
+* **Dynamic Windows Update Assistant Removal:** Performs a dynamic registry audit to locate, quietly uninstall, and purge all versions of Windows Installation, Update, and Upgrade Assistants. Automatically cleans up orphan deployment directories (`Windows10Upgrade`, `Windows11InstallationAssistant`, `UpdateAssistant`) from system drives.
+* **Lock Screen Camera Disable:** Disables camera access on the lock screen via group policy (`NoLockScreenCamera`), preventing capture features from being accessed prior to user authentication.
+* **Windows Defender CPU Throttling:** Caps Windows Defender CPU usage during scans to a configured maximum threshold (defaulting to 25%), reducing background performance impact (`AvgCPULoadFactor`).
+* **Global Dark Mode Enforcement:** Force-enables Dark Mode globally for both system applications (`AppsUseLightTheme=0`) and the shell (`SystemUsesLightTheme=0`).
+* **Classic Printers Sidebar Pinning:** Advanced registration and pinning of the classic Printers shortcut (`prnfldr.dll`) to the File Explorer Navigation Pane (sidebar) utilizing the full COM server registration and Desktop namespace keys.
+* **Dynamic OneDrive Namespace Concealment:** Executes a dynamic runtime scan to identify corporate or personal OneDrive namespace CLSID entries in the registry, applying desktop hide policies without deleting physical files or breaking synchronization.
+* **Conditional Hardware Transparency Tweak:** Performs a runtime audit of physical RAM and logical CPU cores. Automatically disables visual transparency effects (`EnableTransparency=0`) **only** if the system is classified as low-spec hardware (less than 8 GB of RAM or 4 or fewer logical processor cores), preserving aesthetics on high-performance rigs.
 
 ### 🧩 Optional Scripts (5s Skip Prompt)
 * **System Digital Entitlement:** Automated check and configuration of system features.
@@ -170,6 +197,7 @@ This project is licensed under the [MIT License](https://opensource.org/licenses
 -----
 
 ## ✨ Related Projects
-* [StartAllBack Update Blocker](https://github.com/TogoFire-Home/WorkstationTools/blob/main/StartAllBack-Update-Blocker/README.md)
+* [StartAllBack Update Blocker](https://github.com/TogoFire-Home/WorkstationTools/blob/main/Tools/Security/StartAllBack-Update-Blocker/README.md)
+* [PowerPlans](https://github.com/TogoFire-Home/WorkstationTools/blob/main/Tools/System/PowerPlans/README.md)
 
 -----

@@ -17,7 +17,7 @@
 # 12. App Management: Disables Background Apps globally to save CPU/RAM.
 # 13. Strategic Update Freeze: Hard-pauses Windows Updates until the year 3000 by manipulating the UX Settings registry hive. It extends 'FlightSettingsMaxPauseDays' to unlock long-term pause capabilities and forces PauseUpdatesExpiryTime into the distant future, effectively neutralizing automatic updates while keeping the service operational for manual intervention.
 # 14. Version-Specific: Adds 'Check Ownership' menu (for Windows 26H1+ / non-25H2).
-# 15. Universal Take Ownership: Deploys a 22-language "Take Ownership" menu using a high-compatibility .reg import method with orange checkmark icons.
+# 15. Universal Take Ownership: Deploys a 23-language "Take Ownership" menu using a high-compatibility .reg import method with orange checkmark icons.
 # 16. Power Management: Disables network connectivity during Modern Standby (AC) to prevent "Sleep-to-Wake" drain.
 # 17. Telemetry & Gaming: Disables Mouse acceleration, Office/PS telemetry, and Game Bar.
 # 18. OneDrive removal: Deep uninstallation with data migration and 5s timeout.
@@ -35,10 +35,10 @@
 # 30. Gaming Essentials: One-click pack (Steam, Discord, EA, Epic, Xbox) with automated Store ID matching.
 # 31. GitHub Env: Sets NTFS protection to false and enables Case Sensitivity on specialized development folders.
 # 32. Git Optimization: Migrates Git Bash and Git GUI context menu items to 'Shift + Right Click' to reduce clutter.
-# 33. User Security: Force-sets 'Password Never Expires' for the Admin account.
+# 33. User Security: Force-sets 'Password Never Expires' for the current user account.
 # 34. Crash Analysis: Enables Detailed BSOD (DisplayParameters) for technical info.
 # 35. Print Spooler ACL: Universal SID (S-1-1-0) Full Control grant for 'Everyone'.
-# 36. Spooler Context Menu: 22-language repair tool deployed to C:\Windows.
+# 36. Spooler Context Menu: 23-language repair tool deployed to C:\Windows.
 # 37. Visual Effects: Enforced "Show thumbnails" and "Desktop icon shadows".
 # 38. Media Extensions: Auto-update for HEVC (Free-Codecs) and 8 Codecs extensions.
 # 39. Advanced Thumbnailing: Automated GitHub deployment for Icaros Thumbnailer.
@@ -73,6 +73,26 @@
 # 68. Crash Analysis & Debug Suppression: A system stability module that configures the 'CrashControl' registry hive to disable system crash dumps and event logging. It utilizes a proactive verification logic to compare current registry values against desired states (CrashDumpEnabled=0), ensuring the system remains lean by preventing the generation of large memory dump files and reducing disk I/O overhead during critical errors.
 # 69. Classic Photo Viewer Restoration: Re-activates the legacy Windows Photo Viewer engine by injecting specialized registry classes and file association capabilities. It bypasses modern UWP overhead by linking standard image extensions (JPG, PNG, etc.) directly to the native System32 PhotoViewer.dll.
 # 70. Intelligent AppX Debloat: A multi-pattern cleaning engine that targets third-party junkware and non-essential Microsoft UWP packages. Features an integrated Win32_OperatingSystem check to safeguard Server environments and utilizes 'Remove-AppxPackage -AllUsers' for a comprehensive system-wide purge of telemetry-heavy applications.
+# 71. Blockify Desktop Deployment Engine: An advanced automation module for Blockify Desktop featuring OS Intelligence to block installation on Windows Server environments. It employs dynamic web parsing of the official site with a GitHub Releases fallback to resolve the latest version and download links, executes a dual-layer version check against a local marker, handles high-speed extraction, runs a silent NSIS installation (/S), and ensures zero-residue cleanup of temporary artifacts.
+# 72. Runtime Installer & .NET Cleanup Module: An automated management system leveraging Winget to ensure essential runtime dependencies (Visual C++ redistributables from 2005 to 2015+, DirectX, WebView2, Java, OpenAL) are fully updated or installed silently with error-code mitigation. Includes an intelligent .NET cleanup mechanism that inventories installed SDKs and Desktop Runtimes, preserves critical protected versions (such as v6, v8, and the latest three modern major releases), and automatically purges outdated packages to optimize disk space and environment hygiene.
+# 73. Hardware Clock to UTC: Forces the system hardware clock to operate in UTC (RealTimeIsUniversal=1), preventing time synchronization drift when dual-booting with Unix/Linux environments.
+# 74. DefaultUser0 Purge: Automatically detects and removes residual defaultuser0 user accounts left behind by Windows installations or updates to improve system security.
+# 75. Windows.old Cleanup: Safely purges leftover C:\Windows.old directories generated after major OS upgrades via forced recursive deletion to reclaim significant disk space.
+# 76. Lock Screen Camera Disable: Enforces group policy restrictions (NoLockScreenCamera) to block camera access on the lock screen prior to user authentication.
+# 77. Windows Defender CPU Throttling: Configures scan CPU load factor limits (AvgCPULoadFactor) to restrict Windows Defender resource consumption during background checks.
+# 78. Global Dark Mode Enforcement: Force-enables system and application dark themes by modifying App and System Use Light Theme registry hives.
+# 79. Classic Printers Sidebar Pinning: Registers and pins the classic Printers folder (prnfldr.dll) to the File Explorer Navigation Pane using full COM server and namespace architecture.
+# 80. Dynamic OneDrive Namespace Concealment: Scans and identifies corporate or personal OneDrive CLSID namespace entries at runtime, applying desktop hide policies without deleting files or breaking sync state.
+# 81. Conditional Hardware Transparency Tweak: Audits physical RAM and logical CPU cores at runtime, automatically disabling visual transparency effects only on low-spec hardware configurations.
+# 82. PC Health Check Purge & Reinstall Block: Silently uninstalls Microsoft PC Health Check via msiexec and injects the PreviousUninstall registry flag to prevent automatic re-deployment during future updates.
+# 83. Dynamic Windows Update Assistant Removal: Scans registry uninstallation keys to locate, quietly remove, and purge residual installation directories associated with Windows Update and Upgrade Assistants.
+# 84. Advanced Windows Security Hardening: Implements enterprise-grade security policies including LSA protection (RunAsPPL), WDigest credential caching block, NTLMv2 enforcement, LLMNR deactivation, insecure SMB guest authentication block, optional SMB signing, and secure WinRM/WPAD hardening configurations.
+# 85. Power Plans & Manager Deployment: Automatically synchronizes custom `.pow` files from GitHub, detects existing power plans to reduce duplicate imports, tracks imported plan GUIDs, and deploys the Simple Power Plan Manager with automatic latest-version detection, update verification, and Start Menu shortcut creation.
+# 86. OneDrive Policy Enforcement: Enables OneDrive synchronization by configuring the DisableFileSyncNGSC registry policy to fix launch and force-close issues.
+# 87. Pawzy Desktop Deployment Engine: An automated deployment module for Pawzy featuring OS Intelligence to block installation on Windows Server. It dynamically resolves the latest release via GitHub API, tracks local versions using a version marker to prevent duplicate updates, executes a silent NSIS installation (/S), and performs complete temporary file cleanup.
+# 88. Shutdown Context Menu: Deploys a cascading desktop context menu with automatic language localization for quick power management, including immediate shutdown, flexible scheduled timers, forced restarts, and cancellation actions.
+# 89. WPBT, Widgets & IObit Unlocker Suite: Disables Windows Platform Binary Table execution to block boot-level OEM insertions, restores default Windows Widgets policy configurations, and deploys an automated, version-aware, signature-verified silent installer for IObit Unlocker.
+# 90. PdfCraft Desktop Deployment Engine: An automated deployment module for PdfCraft featuring architecture detection (x64, x86, ARM64) and Windows Server blocking. It resolves releases dynamically via GitHub API, checks local version markers, executes silent MSI installations (/qn /norestart) with shortcut suppression, and performs safe temporary file cleanup.
 
 # --- APPENDIX: LEGACY EXECUTION POLICY SETTINGS (DISABLED) ---
 # The following section is kept for reference only. 
@@ -108,6 +128,208 @@ try {
 # Gets the directory where this script (.ps1) is being executed.
 # $PSScriptRoot is an automatic PowerShell variable that holds the full path of the current script's directory.
 $scriptDir = $PSScriptRoot
+
+##------------------------------------------------------##
+
+# ============================================================
+# POWERSHELL 7 BOOTSTRAPPER
+# Windows PowerShell 5.1 / PowerShell 7 Compatible
+# ============================================================
+
+Write-Host "[MODULE] PowerShell 7 Bootstrapper..." -ForegroundColor Cyan
+
+$ProgressPreference = 'SilentlyContinue'
+
+# ------------------------------------------------------------
+# 1. CHECK CURRENT POWERSHELL VERSION
+# ------------------------------------------------------------
+
+if ($PSVersionTable.PSVersion.Major -ge 7) {
+    Write-Host ">> [OK] Running PowerShell $($PSVersionTable.PSVersion)." -ForegroundColor Green
+    Write-Host ">> Continuing with the remaining modules..." -ForegroundColor Cyan
+    Write-Host ''
+}
+else {
+    Write-Host ">> Windows PowerShell $($PSVersionTable.PSVersion) detected." -ForegroundColor Yellow
+    Write-Host ">> Checking PowerShell 7 installation..." -ForegroundColor Yellow
+
+    # --------------------------------------------------------
+    # 2. FIND POWERSHELL 7
+    # --------------------------------------------------------
+
+    $pwshPath = $null
+    $pwshCommand = Get-Command "pwsh.exe" -ErrorAction SilentlyContinue
+
+    if ($pwshCommand) {
+        $pwshPath = $pwshCommand.Source
+    }
+
+    if (-not $pwshPath) {
+        $candidatePaths = @(
+            "$env:ProgramFiles\PowerShell\7\pwsh.exe",
+            "${env:ProgramFiles(x86)}\PowerShell\7\pwsh.exe",
+            "$env:LOCALAPPDATA\Programs\PowerShell\7\pwsh.exe"
+        )
+
+        foreach ($candidate in $candidatePaths) {
+            if (Test-Path $candidate) {
+                $pwshPath = $candidate
+                break
+            }
+        }
+    }
+
+    # --------------------------------------------------------
+    # 3. INSTALL POWERSHELL 7 IF MISSING
+    # --------------------------------------------------------
+
+    if (-not $pwshPath) {
+        [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
+
+        $tempMsi = Join-Path $env:TEMP "PowerShell_Install.msi"
+        $installSucceeded = $false
+
+        try {
+            Write-Host ">> Downloading latest stable PowerShell 7..." -ForegroundColor Yellow
+
+            $headers = @{ "User-Agent" = "Mozilla/5.0" }
+
+            $release = Invoke-RestMethod `
+                -Uri "https://api.github.com/repos/PowerShell/PowerShell/releases/latest" `
+                -Headers $headers `
+                -ErrorAction Stop
+
+            $arch = if (
+                $env:PROCESSOR_ARCHITECTURE -eq "ARM64" -or
+                $env:PROCESSOR_ARCHITEW6432 -eq "ARM64"
+            ) {
+                "arm64"
+            }
+            elseif ([Environment]::Is64BitOperatingSystem) {
+                "x64"
+            }
+            else {
+                "x86"
+            }
+
+            $asset = $release.assets |
+                Where-Object { $_.name -match "win-$arch\.msi$" } |
+                Select-Object -First 1
+
+            if (-not $asset) {
+                throw "No PowerShell MSI found for architecture $arch."
+            }
+
+            Write-Host ">> Architecture: $arch" -ForegroundColor Gray
+            Write-Host ">> Package: $($asset.name)" -ForegroundColor Gray
+
+            Invoke-WebRequest `
+                -Uri $asset.browser_download_url `
+                -OutFile $tempMsi `
+                -UseBasicParsing `
+                -ErrorAction Stop
+
+            if (-not (Test-Path $tempMsi) -or (Get-Item $tempMsi).Length -eq 0) {
+                throw "The downloaded MSI is missing or empty."
+            }
+
+            # ------------------------------------------------
+            # 4. INSTALL MSI WITH EXPLORER CONTEXT MENU OPTIONS
+            # ------------------------------------------------
+
+            Write-Host ">> Installing PowerShell 7 with Explorer context menus..." -ForegroundColor Yellow
+
+            $msiArgs = @(
+                "/i"
+                "`"$tempMsi`""
+                "/quiet"
+                "/norestart"
+                "ADD_PATH=1"
+                "REGISTER_MANIFEST=1"
+                "DISABLE_TELEMETRY=1"
+                "ADD_EXPLORER_CONTEXT_MENU_OPENPOWERSHELL=1"
+                "ADD_FILE_CONTEXT_MENU_RUNPOWERSHELL=1"
+            )
+
+            $process = Start-Process `
+                -FilePath "msiexec.exe" `
+                -ArgumentList $msiArgs `
+                -Wait `
+                -PassThru
+
+            if ($process.ExitCode -ne 0 -and $process.ExitCode -ne 3010) {
+                throw "PowerShell MSI installation failed. Exit code: $($process.ExitCode)"
+            }
+
+            $installSucceeded = $true
+
+            if ($process.ExitCode -eq 3010) {
+                Write-Host ">> [INFO] Installation succeeded; a restart may be required." -ForegroundColor Yellow
+            }
+            else {
+                Write-Host ">> [OK] PowerShell 7 installation completed." -ForegroundColor Green
+            }
+        }
+        catch {
+            Write-Host "[ERROR] $($_.Exception.Message)" -ForegroundColor Red
+        }
+        finally {
+            if (Test-Path $tempMsi) {
+                Remove-Item $tempMsi -Force -ErrorAction SilentlyContinue
+            }
+        }
+
+        # ----------------------------------------------------
+        # 5. LOCATE INSTALLED POWERSHELL 7
+        # ----------------------------------------------------
+
+        $pwshCommand = Get-Command "pwsh.exe" -ErrorAction SilentlyContinue
+
+        if ($pwshCommand) {
+            $pwshPath = $pwshCommand.Source
+        }
+
+        if (-not $pwshPath) {
+            $candidatePaths = @(
+                "$env:ProgramFiles\PowerShell\7\pwsh.exe",
+                "${env:ProgramFiles(x86)}\PowerShell\7\pwsh.exe",
+                "$env:LOCALAPPDATA\Programs\PowerShell\7\pwsh.exe"
+            )
+
+            foreach ($candidate in $candidatePaths) {
+                if (Test-Path $candidate) {
+                    $pwshPath = $candidate
+                    break
+                }
+            }
+        }
+
+        if ($installSucceeded -and $pwshPath) {
+            Write-Host ">> [OK] PowerShell 7 detected at: $pwshPath" -ForegroundColor Green
+        }
+    }
+
+    # --------------------------------------------------------
+    # 6. RESTART SCRIPT IN POWERSHELL 7 WHEN POSSIBLE
+    # --------------------------------------------------------
+
+    if ($pwshPath) {
+        if ($PSCommandPath -and (Test-Path $PSCommandPath)) {
+            Write-Host ">> Relaunching script in PowerShell 7..." -ForegroundColor Cyan
+
+            & $pwshPath -NoProfile -ExecutionPolicy Bypass -File $PSCommandPath
+        }
+        else {
+            Write-Host "[WARNING] The script was invoked in memory and cannot be relaunched automatically." -ForegroundColor Yellow
+            Write-Host ">> Run CoreTools directly in PowerShell 7:" -ForegroundColor Yellow
+            Write-Host 'pwsh -NoProfile -Command "iex (Invoke-RestMethod -Uri ''https://raw.githubusercontent.com/TogoFire-Home/WorkstationTools/main/CoreTools.ps1'')"' -ForegroundColor Gray
+        }
+    }
+    else {
+        Write-Host "[ERROR] PowerShell 7 is unavailable. Remaining modules cannot safely continue in PowerShell 5.1." -ForegroundColor Red
+        Write-Host ''
+    }
+}
 
 ##------------------------------------------------------##
 
@@ -314,92 +536,437 @@ Write-Host "--------------------------------------------------------" -Foregroun
 
 ##------------------------------------------------------##
 
-# ============================================
-# BATTERY HEALTH CHECK
-# ============================================
+# ============================================================
+# UNIVERSAL BATTERY HEALTH
+# Windows PowerShell 5.1+
+# Dynamic detection, estimated health, cycles and colored UI.
+# Does not terminate the PowerShell session or parent script.
+# ============================================================
 
-$battery = Get-CimInstance Win32_Battery -ErrorAction SilentlyContinue
+function Get-BatteryProperty {
+    param(
+        [Parameter(Mandatory)]
+        [string]$ClassName
+    )
 
-if (-not $battery) {
-
-    Write-Host ""
-    Write-Host "╔══════════════════════════════════════════════╗" -ForegroundColor DarkGray
-    Write-Host "║         NO BATTERY DETECTED - SKIP           ║" -ForegroundColor DarkGray
-    Write-Host "╚══════════════════════════════════════════════╝" -ForegroundColor DarkGray
-    Write-Host ""
-
+    try {
+        @(Get-CimInstance -Namespace 'root\wmi' -ClassName $ClassName -ErrorAction Stop)
+    }
+    catch {
+        @()
+    }
 }
-else {
 
-    # Generate battery report silently
-    powercfg /batteryreport /output "$env:TEMP\battery.html" > $null 2>&1
+function Get-FirstValidNumber {
+    param([object[]]$Values)
 
-    # Read HTML report
-    $html = Get-Content "$env:TEMP\battery.html" -Raw
+    foreach ($value in $Values) {
+        if ($null -eq $value) {
+            continue
+        }
 
-    # Extract capacities
-    $design = [regex]::Match(
-        $html,
-        'DESIGN CAPACITY.*?([\d\.]+)\s*mWh',
-        'Singleline'
-    ).Groups[1].Value.Replace('.','')
+        try {
+            $number = [double]$value
 
-    $full = [regex]::Match(
-        $html,
-        'FULL CHARGE CAPACITY.*?([\d\.]+)\s*mWh',
-        'Singleline'
-    ).Groups[1].Value.Replace('.','')
+            if ($number -gt 0 -and $number -lt 1.0E+12) {
+                return $number
+            }
+        }
+        catch {}
+    }
 
-    # Validate values
-    if ([string]::IsNullOrWhiteSpace($design) -or
-        [string]::IsNullOrWhiteSpace($full)) {
+    return $null
+}
 
-        Write-Host ""
-        Write-Host "╔══════════════════════════════════════════════╗" -ForegroundColor Yellow
-        Write-Host "║      UNABLE TO READ BATTERY STATISTICS       ║" -ForegroundColor Yellow
-        Write-Host "╚══════════════════════════════════════════════╝" -ForegroundColor Yellow
-        Write-Host ""
+function Format-BatteryCapacity {
+    param($Value)
+
+    if ($null -eq $Value -or $Value -le 0) {
+        return 'Unavailable'
+    }
+
+    return ('{0:N0} mWh ({1:N2} Wh)' -f $Value, ($Value / 1000))
+}
+
+function Get-BatteryHealthStatus {
+    param([double]$Percentage)
+
+    if ($Percentage -ge 80) { return 'GOOD' }
+    if ($Percentage -ge 60) { return 'FAIR' }
+    if ($Percentage -ge 40) { return 'WEAK' }
+
+    return 'POOR'
+}
+
+function Get-EstimatedBatteryCapacity {
+    param(
+        [string]$BatteryName,
+        [string]$ComputerModel,
+        [string]$Manufacturer
+    )
+
+    # Nominal capacities in mWh.
+    # Add only models whose nominal capacity has been verified.
+    $knownCapacities = @(
+        [PSCustomObject]@{
+            BatteryPattern = 'L16M2PB1'
+            ComputerModel  = '81V8'
+            Manufacturer   = 'LENOVO'
+            Capacity       = 30000
+        }
+    )
+
+    foreach ($entry in $knownCapacities) {
+
+        $batteryMatch = (
+            $BatteryName -match [regex]::Escape($entry.BatteryPattern)
+        )
+
+        $computerMatch = (
+            $ComputerModel -match [regex]::Escape($entry.ComputerModel) -and
+            $Manufacturer -match [regex]::Escape($entry.Manufacturer)
+        )
+
+        if ($batteryMatch -or $computerMatch) {
+            return [PSCustomObject]@{
+                Capacity = [double]$entry.Capacity
+                Source   = 'Estimated (nominal capacity reference)'
+            }
+        }
+    }
+
+    return $null
+}
+
+function Get-BatteryHealthData {
+
+    $batteries  = @(Get-CimInstance -ClassName Win32_Battery)
+    $portable   = @(Get-CimInstance -ClassName Win32_PortableBattery)
+    $staticData = @(Get-BatteryProperty -ClassName 'BatteryStaticData')
+    $fullData   = @(Get-BatteryProperty -ClassName 'BatteryFullChargedCapacity')
+    $cycleData  = @(Get-BatteryProperty -ClassName 'BatteryCycleCount')
+
+    $computer = Get-CimInstance -ClassName Win32_ComputerSystem
+
+    $manufacturer = if ($computer.Manufacturer) {
+        [string]$computer.Manufacturer
+    } else {
+        'Unavailable'
+    }
+
+    $computerModel = if ($computer.Model) {
+        [string]$computer.Model
+    } else {
+        'Unavailable'
+    }
+
+    $maxCount = @(
+        $batteries.Count
+        $portable.Count
+        $staticData.Count
+        $fullData.Count
+        $cycleData.Count
+    ) | Measure-Object -Maximum
+
+    $total = [Math]::Max(1, [int]$maxCount.Maximum)
+    $results = @()
+
+    for ($i = 0; $i -lt $total; $i++) {
+
+        $battery = if ($i -lt $batteries.Count) {
+            $batteries[$i]
+        } else {
+            $null
+        }
+
+        $portableBattery = if ($i -lt $portable.Count) {
+            $portable[$i]
+        } else {
+            $null
+        }
+
+        $static = if ($i -lt $staticData.Count) {
+            $staticData[$i]
+        } else {
+            $null
+        }
+
+        $full = if ($i -lt $fullData.Count) {
+            $fullData[$i]
+        } else {
+            $null
+        }
+
+        $cycles = if ($i -lt $cycleData.Count) {
+            $cycleData[$i]
+        } else {
+            $null
+        }
+
+        # Prefer a battery model/name over a generic device identifier.
+        $name = $null
+
+        foreach ($candidate in @(
+            $portableBattery.Name
+            $static.InstanceName
+            $battery.Name
+            $battery.DeviceID
+        )) {
+            if (-not [string]::IsNullOrWhiteSpace([string]$candidate)) {
+                $name = [string]$candidate
+                break
+            }
+        }
+
+        if (-not $name) {
+            $name = "Battery $($i + 1)"
+        }
+
+        $charge = $null
+
+        if ($null -ne $battery.EstimatedChargeRemaining) {
+            $charge = [int]$battery.EstimatedChargeRemaining
+        }
+
+        # Capacity values are normally reported in mWh.
+        $fullCapacity = Get-FirstValidNumber @(
+            $full.FullChargedCapacity
+            $portableBattery.FullChargeCapacity
+        )
+
+        $designCapacity = Get-FirstValidNumber @(
+            $static.DesignedCapacity
+            $portableBattery.DesignCapacity
+        )
+
+        $health = $null
+        $healthStatus = 'UNKNOWN'
+        $healthSource = 'Unavailable'
+
+        # First choice: measured health from Windows-reported capacities.
+        if ($null -ne $designCapacity -and
+            $null -ne $fullCapacity -and
+            $designCapacity -gt 0) {
+
+            $health = [Math]::Round(
+                ($fullCapacity / $designCapacity) * 100,
+                2
+            )
+
+            $healthStatus = Get-BatteryHealthStatus -Percentage $health
+            $healthSource = 'Reported capacities'
+        }
+        # Fallback: estimate from a known nominal capacity.
+        elseif ($null -ne $fullCapacity) {
+
+            $estimate = Get-EstimatedBatteryCapacity `
+                -BatteryName $name `
+                -ComputerModel $computerModel `
+                -Manufacturer $manufacturer
+
+            if ($null -ne $estimate -and $estimate.Capacity -gt 0) {
+
+                $designCapacity = $estimate.Capacity
+
+                $health = [Math]::Round(
+                    ($fullCapacity / $designCapacity) * 100,
+                    2
+                )
+
+                $healthStatus = Get-BatteryHealthStatus -Percentage $health
+                $healthSource = $estimate.Source
+            }
+        }
+
+        # Cycle count is optional and driver-dependent.
+        $cycleCount = $null
+
+        if ($null -ne $cycles.CycleCount) {
+            try {
+                $cycleCount = [int]$cycles.CycleCount
+            }
+            catch {}
+        }
+
+        if ($null -eq $cycleCount -and $null -ne $static.CycleCount) {
+            try {
+                $cycleCount = [int]$static.CycleCount
+            }
+            catch {}
+        }
+
+        $batteryStatus = if ($battery.Status) {
+            [string]$battery.Status
+        } else {
+            'Unknown'
+        }
+
+        $results += [PSCustomObject]@{
+            Battery        = $name
+            CurrentCharge  = $charge
+            DesignCapacity = $designCapacity
+            FullCapacity   = $fullCapacity
+            Health         = $health
+            HealthStatus   = $healthStatus
+            HealthSource   = $healthSource
+            CycleCount     = $cycleCount
+            BatteryStatus  = $batteryStatus
+            Manufacturer   = $manufacturer
+            ComputerModel  = $computerModel
+        }
+    }
+
+    $results
+}
+
+function Show-BatteryHealth {
+    param(
+        [Parameter(Mandatory)]
+        [PSCustomObject]$Result
+    )
+
+    $width = 52
+    $innerWidth = $width - 4
+
+    function Write-BatteryBoxLine {
+        param(
+            [string]$Text = '',
+            [ConsoleColor]$Color = [ConsoleColor]::Gray
+        )
+
+        if ($Text.Length -gt $innerWidth) {
+            $Text = $Text.Substring(0, $innerWidth)
+        }
+
+        $Text = $Text.PadRight($innerWidth)
+
+        Write-Host '║ ' -NoNewline -ForegroundColor Cyan
+        Write-Host $Text -NoNewline -ForegroundColor $Color
+        Write-Host ' ║' -ForegroundColor Cyan
+    }
+
+    function Get-BatteryHealthBar {
+        param($Percentage)
+
+        if ($null -eq $Percentage) {
+            return '[ UNKNOWN  ]'
+        }
+
+        $filled = [Math]::Max(
+            0,
+            [Math]::Min(10, [int][Math]::Round($Percentage / 10))
+        )
+
+        return '[' + ('+' * $filled) + (' ' * (10 - $filled)) + ']'
+    }
+
+    $healthColor = switch ($Result.HealthStatus) {
+        'GOOD'      { 'Green' }
+        'FAIR'      { 'Yellow' }
+        'WEAK'      { 'DarkYellow' }
+        'POOR'      { 'Red' }
+        default     { 'Gray' }
+    }
+
+    $chargeText = if ($null -ne $Result.CurrentCharge) {
+        "$($Result.CurrentCharge)%"
+    } else {
+        'Unavailable'
+    }
+
+    $healthText = if ($null -ne $Result.Health) {
+        if ($Result.HealthSource -like 'Estimated*') {
+            '{0:N2}% (estimated)' -f $Result.Health
+        } else {
+            '{0:N2}%' -f $Result.Health
+        }
+    } else {
+        'Unavailable'
+    }
+
+    $statusText = if ($null -ne $Result.Health) {
+        '{0} {1}' -f $Result.HealthStatus, (Get-BatteryHealthBar $Result.Health)
+    } else {
+        'UNKNOWN [ UNKNOWN  ]'
+    }
+
+    $cyclesText = if ($null -ne $Result.CycleCount) {
+        [string]$Result.CycleCount
+    } else {
+        'Unavailable'
+    }
+
+    $designText = if ($Result.HealthSource -like 'Estimated*') {
+        '{0:N0} mWh (nominal)' -f $Result.DesignCapacity
+    } else {
+        Format-BatteryCapacity $Result.DesignCapacity
+    }
+
+    $fullText = if ($null -ne $Result.FullCapacity) {
+        '{0:N0} mWh' -f $Result.FullCapacity
+    } else {
+        'Unavailable'
+    }
+
+    $title = 'BATTERY HEALTH'
+    $leftPadding = [Math]::Floor(($innerWidth - $title.Length) / 2)
+    $rightPadding = $innerWidth - $title.Length - $leftPadding
+
+    Write-Host ''
+    Write-Host ('╔' + ('═' * ($width - 2)) + '╗') -ForegroundColor Cyan
+
+    Write-Host '║ ' -NoNewline -ForegroundColor Cyan
+    Write-Host ((' ' * $leftPadding) + $title + (' ' * $rightPadding)) -NoNewline -ForegroundColor White
+    Write-Host ' ║' -ForegroundColor Cyan
+
+    Write-Host ('╠' + ('═' * ($width - 2)) + '╣') -ForegroundColor Cyan
+
+    Write-BatteryBoxLine ('Battery         : ' + $Result.Battery)
+    Write-BatteryBoxLine ('Current Charge  : ' + $chargeText)
+    Write-BatteryBoxLine ('Design Capacity : ' + $designText)
+    Write-BatteryBoxLine ('Full Capacity   : ' + $fullText)
+    Write-BatteryBoxLine ('Battery Health  : ' + $healthText) $healthColor
+    Write-BatteryBoxLine ('Status          : ' + $statusText) $healthColor
+    Write-BatteryBoxLine ('Charge Cycles   : ' + $cyclesText)
+
+    Write-Host ('╚' + ('═' * ($width - 2)) + '╝') -ForegroundColor Cyan
+
+    Write-Host ''
+    Write-Host 'NOTE:' -ForegroundColor Yellow
+
+    if ($Result.HealthSource -like 'Estimated*') {
+        Write-Host 'Health is ESTIMATED using a nominal capacity reference.' -ForegroundColor Yellow
+        Write-Host 'The nominal capacity may not match your exact battery variant.' -ForegroundColor Yellow
+        Write-Host 'The result may differ from the manufacturer-reported health.' -ForegroundColor Yellow
+    }
+    elseif ($null -eq $Result.Health) {
+        Write-Host 'Health unavailable: no reliable design capacity was found.' -ForegroundColor Yellow
+        Write-Host 'No capacity was guessed from the brand or model.' -ForegroundColor Yellow
     }
     else {
+        Write-Host 'Health is calculated from capacities reported by the battery driver.' -ForegroundColor Gray
+        Write-Host 'Results may differ from the manufacturer diagnostic.' -ForegroundColor Gray
+    }
 
-        $health = [math]::Round(($full / $design) * 100, 2)
+    Write-Host ''
+}
 
-        # Health classification
-        if ($health -ge 95) {
-            $status = "EXCELLENT"
-            $color  = "Green"
-            $icon   = "[+++++]"
-        }
-        elseif ($health -ge 80) {
-            $status = "GOOD"
-            $color  = "Cyan"
-            $icon   = "[++++ ]"
-        }
-        elseif ($health -ge 65) {
-            $status = "OK"
-            $color  = "Yellow"
-            $icon   = "[+++  ]"
-        }
-        else {
-            $status = "BAD"
-            $color  = "Red"
-            $icon   = "[+    ]"
-        }
+# ============================================================
+# EXECUTION
+# ============================================================
 
-        Write-Host ""
-        Write-Host "╔══════════════════════════════════════════════╗" -ForegroundColor Cyan
-        Write-Host "║                BATTERY HEALTH                ║" -ForegroundColor Cyan
-        Write-Host "╠══════════════════════════════════════════════╣" -ForegroundColor DarkGray
+$batteryResults = @(Get-BatteryHealthData)
 
-        Write-Host ("║ Design Capacity : {0,-24}   ║" -f "$design mWh") -ForegroundColor Gray
-        Write-Host ("║ Full Capacity   : {0,-24}   ║" -f "$full mWh") -ForegroundColor Gray
-        Write-Host ("║ Battery Health  : {0,-24}   ║" -f "$health%") -ForegroundColor $color
-        Write-Host ("║ Status          : {0,-24}   ║" -f "$status $icon") -ForegroundColor $color
-
-        Write-Host "╚══════════════════════════════════════════════╝" -ForegroundColor Cyan
-        Write-Host ""
+if ($batteryResults.Count -gt 0) {
+    foreach ($batteryResult in $batteryResults) {
+        Show-BatteryHealth -Result $batteryResult
     }
 }
+else {
+    Write-Host 'No battery data was exposed by Windows.' -ForegroundColor Yellow
+}
+
+Write-Host "--------------------------------------------------------" -ForegroundColor Gray
 
 ##------------------------------------------------------##
 
@@ -829,6 +1396,17 @@ else {
 }
 
 Write-Host "--------------------------------------------------------" -ForegroundColor Gray
+Write-Host ""
+
+##------------------------------------------------------##
+
+# --- Setting Hardware Clock to UTC ---
+Write-Host "-- Setting Hardware Clock to UTC..." -ForegroundColor Gray
+reg add "HKLM\SYSTEM\CurrentControlSet\Control\TimeZoneInformation" /v RealTimeIsUniversal /t REG_DWORD /d 1 /f | Out-Null
+
+Write-Host ""
+Write-Host "Hardware clock set to UTC successfully! ✅" -ForegroundColor Green
+Write-Host "--------------------------------------------------------"
 Write-Host ""
 
 ##------------------------------------------------------##
@@ -1980,22 +2558,47 @@ Write-Host ""
 ##------------------------------------------------------##
 
 # --- INTERACTIVE ONEDRIVE UNINSTALLATION ---
-Write-Host "Do you want to COMPLETELY uninstall OneDrive? [Y/N] (Default: Y in 5s): " -NoNewline -ForegroundColor Yellow
 
-$counterOD = 5
-while ($counterOD -gt 0 -and (-not [console]::KeyAvailable)) {
-    Write-Host "..$counterOD " -NoNewline -ForegroundColor Gray
-    Start-Sleep -Seconds 1
-    $counterOD--
-}
+# Detect current Windows user
+$currentUserOD = [System.Security.Principal.WindowsIdentity]::GetCurrent().Name
+$currentUserNameOD = ($currentUserOD -split '\\')[-1]
 
-# Capture user input or timeout
-if ([console]::KeyAvailable) {
-    $choiceOD = [console]::ReadKey($true).KeyChar
-    Write-Host ""
+# Users that automatically approve OneDrive removal
+$autoApproveUsersOD = @(
+    "Admin",
+    "Adm",
+    "User",
+    "Administrator"
+)
+
+if ($currentUserNameOD -in $autoApproveUsersOD) {
+
+    Write-Host "Current user: $currentUserNameOD" -ForegroundColor Cyan
+    Write-Host "Automatic approval: OneDrive will be uninstalled." -ForegroundColor Green
+
+    $choiceOD = "Y"
+
 } else {
-    Write-Host "`nTimeout reached. Continuing with OneDrive removal..." -ForegroundColor Gray
-    $choiceOD = "n"
+
+    Write-Host "Current user: $currentUserNameOD" -ForegroundColor Cyan
+    Write-Host "Do you want to COMPLETELY uninstall OneDrive? [Y/N] (Default: N in 5s): " -NoNewline -ForegroundColor Yellow
+
+    $counterOD = 5
+
+    while ($counterOD -gt 0 -and -not [console]::KeyAvailable) {
+        Write-Host "..$counterOD " -NoNewline -ForegroundColor Gray
+        Start-Sleep -Seconds 1
+        $counterOD--
+    }
+
+    # Capture user input or timeout
+    if ([console]::KeyAvailable) {
+        $choiceOD = [console]::ReadKey($true).KeyChar
+        Write-Host ""
+    } else {
+        Write-Host "`nTimeout reached. Skipping OneDrive removal..." -ForegroundColor Gray
+        $choiceOD = "N"
+    }
 }
 
 if ($choiceOD -eq 'y' -or $choiceOD -eq 'Y') {
@@ -2030,9 +2633,9 @@ if ($choiceOD -eq 'y' -or $choiceOD -eq 'Y') {
     if (Test-Path "$env:USERPROFILE\OneDrive") {
 
         robocopy `
-        "$env:USERPROFILE\OneDrive" `
-        "$env:USERPROFILE" `
-        /mov /e /xj /ndl /nfl /njh /njs /nc /ns /np | Out-Null
+            "$env:USERPROFILE\OneDrive" `
+            "$env:USERPROFILE" `
+            /mov /e /xj /ndl /nfl /njh /njs /nc /ns /np | Out-Null
     }
 
     # Registry cleanup
@@ -2064,19 +2667,19 @@ if ($choiceOD -eq 'y' -or $choiceOD -eq 'Y') {
     Write-Host "-- Removing shortcuts and startup entries..." -ForegroundColor Gray
 
     Remove-Item `
-    "$env:APPDATA\Microsoft\Windows\Start Menu\Programs\OneDrive.lnk" `
-    -Force -ErrorAction SilentlyContinue
+        "$env:APPDATA\Microsoft\Windows\Start Menu\Programs\OneDrive.lnk" `
+        -Force -ErrorAction SilentlyContinue
 
     reg delete `
-    "HKCU\Software\Microsoft\Windows\CurrentVersion\Run" `
-    /v "OneDriveSetup" /f 2>$null
+        "HKCU\Software\Microsoft\Windows\CurrentVersion\Run" `
+        /v "OneDriveSetup" /f 2>$null
 
     Get-ScheduledTask `
-    -TaskName 'OneDrive*' `
-    -ErrorAction SilentlyContinue |
-    Unregister-ScheduledTask `
-    -Confirm:$false `
-    -ErrorAction SilentlyContinue
+        -TaskName 'OneDrive*' `
+        -ErrorAction SilentlyContinue |
+        Unregister-ScheduledTask `
+            -Confirm:$false `
+            -ErrorAction SilentlyContinue
 
     # Remove leftovers
     Write-Host "-- Removing leftover folders..." -ForegroundColor Gray
@@ -2094,10 +2697,10 @@ if ($choiceOD -eq 'y' -or $choiceOD -eq 'Y') {
         if (Test-Path $folder) {
 
             Remove-Item `
-            $folder `
-            -Recurse `
-            -Force `
-            -ErrorAction SilentlyContinue
+                $folder `
+                -Recurse `
+                -Force `
+                -ErrorAction SilentlyContinue
         }
     }
 
@@ -2114,6 +2717,24 @@ Write-Host "--------------------------------------------------------"
 while ([console]::KeyAvailable) {
     [console]::ReadKey($true) | Out-Null
 }
+
+##------------------------------------------------------##
+
+# Fix OneDrive launch / force-close issue
+$regPath = "HKLM:\SOFTWARE\Policies\Microsoft\Windows\OneDrive"
+
+if (!(Test-Path $regPath)) {
+    New-Item -Path $regPath -Force | Out-Null
+}
+
+New-ItemProperty `
+    -Path $regPath `
+    -Name "DisableFileSyncNGSC" `
+    -Value 0 `
+    -PropertyType DWord `
+    -Force | Out-Null
+
+Write-Host "OneDrive policy updated successfully." -ForegroundColor Green
 
 ##------------------------------------------------------##
 
@@ -2153,7 +2774,7 @@ if ($ans -eq 'y') {
     
     try {
         # Download and execute the script directly from GitHub
-        iex (Invoke-RestMethod -Uri "https://raw.githubusercontent.com/TogoFire-Home/WorkstationTools/main/StartAllBack-Update-Blocker/Block-StartAllBack.ps1")
+        iex (Invoke-RestMethod -Uri "https://raw.githubusercontent.com/TogoFire-Home/WorkstationTools/main/Tools/Security/StartAllBack-Update-Blocker/Block-StartAllBack.ps1")
     } catch {
         # Error handling in case the URL is down or there is no internet connection
         Write-Host "Failed to execute script from GitHub. Please check your connection." -ForegroundColor Red
@@ -2219,7 +2840,7 @@ else {
         "Microsoft.ZuneMusic","Microsoft.Whiteboard","Microsoft.Office.Lens","Microsoft.News",
         "Microsoft.GetHelp","Microsoft.BingTravel","Microsoft.BingHealthAndFitness",
         "Microsoft.BingFoodAndDrink","Microsoft.BingTranslator","Microsoft.AppConnector",
-        "MicrosoftCorporationII.MicrosoftFamily","*QuickAssist*","Microsoft.OutlookForWindows",
+        "MicrosoftCorporationII.MicrosoftFamily","*QuickAssist*",
         "Clipchamp.Clipchamp","Microsoft.3DBuilder","Microsoft.Microsoft3DViewer",
         "Microsoft.BingWeather","Microsoft.BingSports","Microsoft.BingFinance",
         "Microsoft.MicrosoftOfficeHub","Microsoft.BingNews","Microsoft.Office.OneNote",
@@ -2231,7 +2852,7 @@ else {
         "Microsoft.Wallet","Microsoft.Print3D","Microsoft.OneConnect",
         "Microsoft.MicrosoftSolitaireCollection","Microsoft.MicrosoftStickyNotes",
         "microsoft.windowscommunicationsapps","Microsoft.SkypeApp","Microsoft.GroupMe10",
-        "MSTeams","Microsoft.Todos","Microsoft.WindowsTerminal"
+        "Microsoft.Todos","Microsoft.WindowsTerminal"
     )
 
     foreach ($app in $msApps) {
@@ -2254,158 +2875,344 @@ Write-Host ""
 
 ##------------------------------------------------------##
 
-# --- REMOVE WINDOWS AI: FEATURE BREAKDOWN ---
-# [DisableRegKeys]          -> Turns off Copilot, Recall logging, and typing data harvesting.
-# [DisableCopilotPolicies]  -> Hard-disables AI features via Group Policy (SecPol).
-# [RemoveAppxPackages]      -> Uninstalls Modern AI apps (UWP) and AI Fabric services.
-# [RemoveRecallFeature]     -> Disables the Windows "Recall" screenshot-based timeline.
-# [HideAIComponents]        -> Hides the "AI Components" page from Windows Settings.
-# [DisableRewrite]          -> Disables the "AI Rewrite" feature in Notepad.
-# [RemoveRecallTasks]       -> Forcibly deletes scheduled tasks used by the Recall engine.
-
-Write-Host "--------------------------------------------------------" -ForegroundColor DarkGray
-Write-Host "Launch RemoveWindowsAI (Safe Mode)? This will lobotomize system AI. [Y/N] (Auto-YES in 5s): " -NoNewline -ForegroundColor Red
-
 # ------------------------------------------------
-# AUTO CONFIRM TIMER
+# REMOVE WINDOWS AI - EXECUTION CONTROL
+# ISOLATED MODULE - DOES NOT STOP THE MAIN SCRIPT
 # ------------------------------------------------
-$counterAI = 5
 
-while ($counterAI -gt 0 -and (-not [console]::KeyAvailable)) {
-    Write-Host "..$counterAI " -NoNewline -ForegroundColor Gray
-    Start-Sleep -Seconds 1
-    $counterAI--
-}
+& {
 
-if ([console]::KeyAvailable) {
-    $choiceAI = [console]::ReadKey($true).KeyChar
-    Write-Host ""
-} else {
-    Write-Host "`nAuto-confirm enabled." -ForegroundColor DarkGray
-    $choiceAI = "y"
-}
+    $stateDirectory = Join-Path $env:ProgramData "RemoveWindowsAI"
+    $stateFile = Join-Path $stateDirectory "execution.txt"
 
-# ------------------------------------------------
-# EXECUTE REMOVE WINDOWS AI
-# ------------------------------------------------
-if ($choiceAI -eq 'y' -or $choiceAI -eq 'Y') {
+    # ------------------------------------------------
+    # CHECK PREVIOUS EXECUTION
+    # ------------------------------------------------
 
-    Write-Host "[🚀] Downloading RemoveWindowsAI..." -ForegroundColor Cyan
+    if (Test-Path $stateFile) {
+        Write-Host "[!] RemoveWindowsAI has already been executed successfully." -ForegroundColor Yellow
+        Write-Host "[INFO] Execution record: $stateFile" -ForegroundColor Gray
+        Write-Host "[INFO] Skipping execution." -ForegroundColor Cyan
+        return
+    }
 
-    $aiScript = "$env:TEMP\RemoveWindowsAI.ps1"
+    # ------------------------------------------------
+    # TIMED YES/NO CONFIRMATION
+    # Default after timeout: YES
+    # ------------------------------------------------
 
-    irm "https://raw.githubusercontent.com/zoicware/RemoveWindowsAI/main/RemoveWindowsAi.ps1" |
-        Set-Content $aiScript
+    function Read-TimedConfirmation {
+        param(
+            [Parameter(Mandatory = $true)]
+            [string]$Prompt,
+
+            [int]$TimeoutSeconds = 5
+        )
+
+        Write-Host ""
+        Write-Host $Prompt -ForegroundColor Cyan
+        Write-Host "Press Y to confirm or N to cancel." -ForegroundColor Gray
+        Write-Host "Default: YES | Timeout: $TimeoutSeconds seconds" -ForegroundColor Yellow
+
+        for ($remaining = $TimeoutSeconds; $remaining -ge 1; $remaining--) {
+            Write-Host "`rTime remaining: $remaining... " -NoNewline -ForegroundColor Yellow
+
+            $intervalEnd = [DateTime]::UtcNow.AddSeconds(1)
+
+            try {
+                while ([DateTime]::UtcNow -lt $intervalEnd) {
+                    if ([Console]::KeyAvailable) {
+                        $key = [Console]::ReadKey($true).KeyChar.ToString().ToLowerInvariant()
+
+                        if ($key -eq 'y') {
+                            Write-Host "`rYES selected.             " -ForegroundColor Green
+                            return $true
+                        }
+
+                        if ($key -eq 'n') {
+                            Write-Host "`rNO selected.              " -ForegroundColor Yellow
+                            return $false
+                        }
+                    }
+
+                    Start-Sleep -Milliseconds 50
+                }
+            }
+            catch {
+                Write-Host "`rConsole input unavailable. Defaulting to YES." -ForegroundColor Yellow
+                return $true
+            }
+        }
+
+        Write-Host "`rTIMEOUT - Defaulting to YES.       " -ForegroundColor Green
+        return $true
+    }
+
+    # ------------------------------------------------
+    # FIRST CONFIRMATION
+    # ------------------------------------------------
+
+    if (-not (Read-TimedConfirmation -Prompt "Do you want to remove Windows AI features?")) {
+        Write-Host "`n[!] Operation cancelled by the user." -ForegroundColor Yellow
+        Write-Host "[INFO] Skipping RemoveWindowsAI module." -ForegroundColor Gray
+        Write-Host "--------------------------------------------------------" -ForegroundColor DarkGray
+        return
+    }
+
+    # ------------------------------------------------
+    # CHECK ADMINISTRATOR PRIVILEGES
+    # ------------------------------------------------
+
+    $currentIdentity = [Security.Principal.WindowsIdentity]::GetCurrent()
+    $principal = New-Object Security.Principal.WindowsPrincipal($currentIdentity)
+
+    if (-not $principal.IsInRole(
+        [Security.Principal.WindowsBuiltInRole]::Administrator
+    )) {
+        Write-Host "[X] Please run this module as Administrator." -ForegroundColor Red
+        Write-Host "[INFO] Skipping RemoveWindowsAI module." -ForegroundColor Gray
+        return
+    }
+
+    # ------------------------------------------------
+    # DOWNLOAD OFFICIAL REMOVE WINDOWS AI SCRIPT
+    # ------------------------------------------------
+
+    Write-Host "`n[🚀] Downloading RemoveWindowsAI..." -ForegroundColor Cyan
+
+    $aiScript = Join-Path $env:TEMP "RemoveWindowsAi.ps1"
+    $aiUrl = "https://raw.githubusercontent.com/zoicware/RemoveWindowsAI/main/RemoveWindowsAi.ps1"
+
+    try {
+        Invoke-WebRequest -Uri $aiUrl -OutFile $aiScript -ErrorAction Stop
+
+        if (!(Test-Path $aiScript) -or
+            (Get-Item $aiScript).Length -lt 1000) {
+            throw "The downloaded script is missing or appears invalid."
+        }
+    }
+    catch {
+        Write-Host "[X] Download failed: $_" -ForegroundColor Red
+        Write-Host "[INFO] Skipping RemoveWindowsAI module." -ForegroundColor Gray
+        return
+    }
 
     # ------------------------------------------------
     # REMOVE ESET / AV WARNING + READKEY PAUSE
     # ------------------------------------------------
-    (Get-Content $aiScript) |
-    Where-Object {
-        $_ -notmatch "Press Any Key to Continue" -and
-        $_ -notmatch "ReadKey" -and
-        $_ -notmatch "third-party anti-virus" -and
-        $_ -notmatch "may falsely block/break this script"
-    } |
-    Set-Content $aiScript
 
     Write-Host "[⚡] Preparing AI cleanup..." -ForegroundColor Green
 
-    # ------------------------------------------------
-    # PARAMETER PARSING + NONINTERACTIVE
-    # ------------------------------------------------
-    $aiCommand = @'
-& "$env:TEMP\RemoveWindowsAI.ps1" `
--NonInteractive `
--Options DisableRegKeys,DisableCopilotPolicies,RemoveAppxPackages,RemoveRecallFeature,HideAIComponents,DisableRewrite,RemoveRecallTasks
-'@
+    try {
+        $scriptContent = Get-Content -LiteralPath $aiScript -ErrorAction Stop
+
+        $scriptContent |
+            Where-Object {
+                $_ -notmatch "Press Any Key to Continue" -and
+                $_ -notmatch "ReadKey" -and
+                $_ -notmatch "third-party anti-virus" -and
+                $_ -notmatch "may falsely block/break this script"
+            } |
+            Set-Content -LiteralPath $aiScript -Encoding UTF8 -ErrorAction Stop
+    }
+    catch {
+        Write-Host "[X] Failed to prepare the downloaded script: $_" -ForegroundColor Red
+        Write-Host "[INFO] Skipping RemoveWindowsAI module." -ForegroundColor Gray
+        return
+    }
 
     # ------------------------------------------------
-    # POWERSHELL VERSION DETECTION
+    # SELECTED OPTIONS
+    # Excludes the three options marked with warning icons
     # ------------------------------------------------
-    if ($PSVersionTable.PSVersion.Major -ge 7) {
 
-        Write-Host "[!] PowerShell 7 detected. Relaunching in Windows PowerShell 5.1..." -ForegroundColor Yellow
+    $aiOptions = @(
+        "DisableRegKeys"
+        "DisableCopilotPolicies"
+        "RemoveAppxPackages"
+        "RemoveRecallFeature"
+        "HideAIComponents"
+        "DisableRewrite"
+    )
 
-        Start-Process powershell.exe `
+    Write-Host "`n[INFO] Selected options:" -ForegroundColor Cyan
+
+    foreach ($option in $aiOptions) {
+        Write-Host "  - $option" -ForegroundColor Gray
+    }
+
+    # ------------------------------------------------
+    # SECOND CONFIRMATION
+    # Default after timeout: YES
+    # ------------------------------------------------
+
+    if (-not (Read-TimedConfirmation -Prompt "Proceed with the selected changes?")) {
+        Write-Host "`n[!] Operation cancelled by the user." -ForegroundColor Yellow
+        Write-Host "[INFO] Skipping RemoveWindowsAI module." -ForegroundColor Gray
+        Write-Host "--------------------------------------------------------" -ForegroundColor DarkGray
+        return
+    }
+
+    # ------------------------------------------------
+    # RUN USING WINDOWS POWERSHELL 5.1
+    # ------------------------------------------------
+
+    Write-Host "`n[⚡] Launching Windows PowerShell 5.1..." -ForegroundColor Cyan
+
+    $optionString = $aiOptions -join ","
+    $escapedScript = $aiScript.Replace("'", "''")
+
+    $aiCommand = @"
+& '$escapedScript' -NonInteractive -Options $optionString
+if (`$LASTEXITCODE -ne `$null) { exit `$LASTEXITCODE }
+if (`$?) { exit 0 } else { exit 1 }
+"@
+
+    try {
+        $process = Start-Process `
+            -FilePath "$env:SystemRoot\System32\WindowsPowerShell\v1.0\powershell.exe" `
             -ArgumentList @(
                 "-NoProfile",
                 "-ExecutionPolicy", "Bypass",
                 "-Command", $aiCommand
             ) `
-            -Wait
+            -Wait `
+            -PassThru
 
-    } else {
+        if ($process.ExitCode -eq 0) {
+            try {
+                if (!(Test-Path $stateDirectory)) {
+                    New-Item -Path $stateDirectory -ItemType Directory -Force -ErrorAction Stop |
+                        Out-Null
+                }
 
-        Write-Host "[🚀] Executing RemoveWindowsAI under PowerShell 5.1..." -ForegroundColor Cyan
+                @"
+Status=Success
+Date=$(Get-Date -Format "yyyy-MM-dd HH:mm:ss")
+Options=$optionString
+"@ | Set-Content -LiteralPath $stateFile -Encoding UTF8 -ErrorAction Stop
 
-        powershell.exe `
-            -NoProfile `
-            -ExecutionPolicy Bypass `
-            -Command $aiCommand
+                Write-Host "`n[OK] Process completed with exit code 0." -ForegroundColor Green
+                Write-Host "[OK] Execution record saved to: $stateFile" -ForegroundColor Green
+            }
+            catch {
+                Write-Host "[!] Process completed, but the execution record could not be saved: $_" -ForegroundColor Yellow
+            }
+        }
+        else {
+            Write-Host "`n[!] RemoveWindowsAI exited with code $($process.ExitCode)." -ForegroundColor Yellow
+            Write-Host "[INFO] No success record was created. You can retry." -ForegroundColor Gray
+        }
+    }
+    catch {
+        Write-Host "[X] Failed to launch RemoveWindowsAI: $_" -ForegroundColor Red
     }
 
-    Write-Host "`n[✅] AI cleanup process completed successfully." -ForegroundColor Green
+    # ------------------------------------------------
+    # CLEAR KEYBOARD BUFFER
+    # ------------------------------------------------
 
-} else {
+    try {
+        while ([Console]::KeyAvailable) {
+            [Console]::ReadKey($true) | Out-Null
+        }
+    }
+    catch {
+        # Ignore hosts that do not support keyboard input.
+    }
 
-    Write-Host "-- Windows AI settings remained unchanged." -ForegroundColor Yellow
-}
+    Write-Host "`n[INFO] Review the output above to verify the applied changes." -ForegroundColor Cyan
+    Write-Host "--------------------------------------------------------" -ForegroundColor DarkGray
 
-# ------------------------------------------------
-# CLEAR KEYBOARD BUFFER
-# ------------------------------------------------
-while ([console]::KeyAvailable) {
-    [console]::ReadKey($true) | Out-Null
-}
+} # END OF ISOLATED REMOVE WINDOWS AI MODULE
 
-Write-Host "--------------------------------------------------------" -ForegroundColor DarkGray
+Write-Host "`n[INFO] RemoveWindowsAI module finished. Continuing with the next script..." -ForegroundColor Cyan
 
 ##------------------------------------------------------##
 
 # --- INTERACTIVE MICROSOFT EDGE UNINSTALLATION ---
-# Displays a yellow warning and waits for user confirmation (5-second timeout)
-Write-Host "Do you want to UNINSTALL Microsoft Edge? [Y/N] (Default: N in 5s): " -NoNewline -ForegroundColor Yellow
 
-$counterEdge = 5
-while ($counterEdge -gt 0 -and (-not [console]::KeyAvailable)) {
-    Write-Host "..$counterEdge " -NoNewline -ForegroundColor Gray
-    Start-Sleep -Seconds 1
-    $counterEdge--
-}
+# Detect current Windows user
+$currentUserEdge = [System.Security.Principal.WindowsIdentity]::GetCurrent().Name
+$currentUserNameEdge = ($currentUserEdge -split '\\')[-1]
 
-# Capture user input or handle timeout
-if ([console]::KeyAvailable) {
-    $choiceEdge = [console]::ReadKey($true).KeyChar
-    Write-Host ""
+# Users that automatically approve Edge removal
+$autoApproveUsersEdge = @(
+    "Admin",
+    "Adm",
+    "User",
+    "Administrator"
+)
+
+if ($currentUserNameEdge -in $autoApproveUsersEdge) {
+
+    Write-Host "Current user: $currentUserNameEdge" -ForegroundColor Cyan
+    Write-Host "Automatic approval: Microsoft Edge will be uninstalled." -ForegroundColor Green
+
+    $choiceEdge = "Y"
+
 } else {
-    Write-Host "`nTimeout reached. Skipping Edge uninstallation..." -ForegroundColor Gray
-    $choiceEdge = "n"
+
+    Write-Host "Current user: $currentUserNameEdge" -ForegroundColor Cyan
+
+    Write-Host "Do you want to UNINSTALL Microsoft Edge? [Y/N] (Default: N in 5s): " -NoNewline -ForegroundColor Yellow
+
+    $counterEdge = 5
+
+    while ($counterEdge -gt 0 -and (-not [console]::KeyAvailable)) {
+        Write-Host "..$counterEdge " -NoNewline -ForegroundColor Gray
+        Start-Sleep -Seconds 1
+        $counterEdge--
+    }
+
+    # Capture user input or handle timeout
+    if ([console]::KeyAvailable) {
+        $choiceEdge = [console]::ReadKey($true).KeyChar
+        Write-Host ""
+    } else {
+        Write-Host "`nTimeout reached. Skipping Edge uninstallation..." -ForegroundColor Gray
+        $choiceEdge = "N"
+    }
 }
 
 if ($choiceEdge -eq 'y' -or $choiceEdge -eq 'Y') {
+
     Write-Host "-- Initializing Edge uninstallation..." -ForegroundColor Green
 
     # 1. Enable uninstallation flag in Registry to bypass system restrictions
     $regPath = "HKLM:\SOFTWARE\WOW6432Node\Microsoft\EdgeUpdateDev"
-    if (-not (Test-Path $regPath)) { 
-        New-Item -Path $regPath -Force | Out-Null 
+
+    if (-not (Test-Path $regPath)) {
+        New-Item -Path $regPath -Force | Out-Null
     }
-    Set-ItemProperty -Path $regPath -Name "AllowUninstall" -Value 1 -Type DWord -ErrorAction SilentlyContinue
+
+    Set-ItemProperty `
+        -Path $regPath `
+        -Name "AllowUninstall" `
+        -Value 1 `
+        -Type DWord `
+        -ErrorAction SilentlyContinue
 
     # 2. Locate the official Microsoft Edge setup installer
-    $edgeApps = Get-ChildItem "C:\Program Files (x86)\Microsoft\Edge\Application\*\Installer\setup.exe" -ErrorAction SilentlyContinue
-    
+    $edgeApps = Get-ChildItem `
+        "C:\Program Files (x86)\Microsoft\Edge\Application\*\Installer\setup.exe" `
+        -ErrorAction SilentlyContinue
+
     if ($edgeApps) {
+
         $installerPath = $edgeApps[0].FullName
-        
+
         # Create a placeholder file to prevent Windows Update from re-registering the legacy Edge app
         $legacyAppPath = "C:\Windows\SystemApps\Microsoft.MicrosoftEdge_8wekyb3d8bbwe\MicrosoftEdge.exe"
+
         New-Item $legacyAppPath -Force -ErrorAction SilentlyContinue | Out-Null
-        
+
         # Execute the uninstaller with force and profile deletion arguments
-        Start-Process $installerPath -ArgumentList '--uninstall --system-level --force-uninstall --delete-profile' -Wait
-        
+        Start-Process `
+            $installerPath `
+            -ArgumentList '--uninstall --system-level --force-uninstall --delete-profile' `
+            -Wait
+
         # 3. Cleanup residual shortcuts from common system locations
         $shortcutPaths = @(
             "$env:Public\Desktop\Microsoft Edge.lnk",
@@ -2413,24 +3220,36 @@ if ($choiceEdge -eq 'y' -or $choiceEdge -eq 'Y') {
             "$env:AppData\Microsoft\Internet Explorer\Quick Launch\User Pinned\TaskBar\Microsoft Edge.lnk",
             "$env:UserProfile\Desktop\Microsoft Edge.lnk"
         )
-        
+
         foreach ($lnk in $shortcutPaths) {
-            if (Test-Path $lnk) { 
-                Remove-Item $lnk -Force -ErrorAction SilentlyContinue 
+            if (Test-Path $lnk) {
+                Remove-Item $lnk -Force -ErrorAction SilentlyContinue
             }
         }
-        
+
         Write-Host "Success: Microsoft Edge has been removed and shortcuts cleaned." -ForegroundColor Cyan
+
     } else {
+
         Write-Host "Error: Edge setup.exe not found. Skipping." -ForegroundColor Red
     }
+
+} else {
+
+    Write-Host "Skipping Microsoft Edge uninstallation..." -ForegroundColor Yellow
 }
 
 Write-Host "--------------------------------------------------------"
 Write-Host ""
 
-# Clear buffer
-while ([console]::KeyAvailable) { [console]::ReadKey($true) | Out-Null }
+# Clear keyboard buffer
+try {
+    while ([console]::KeyAvailable) {
+        [console]::ReadKey($true) | Out-Null
+    }
+} catch {
+    # Ignore hosts that do not support keyboard input.
+}
 
 ##------------------------------------------------------##
 
@@ -2790,21 +3609,49 @@ Write-Host "REBOOT RECOMMENDED to clear active shell/browser hooks." -Foreground
 # --- Interactive Windows Defender Purge ---
 [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
 
-Write-Host "Nuke Windows Defender? (WARNING: Flying solo after this) [Y/N] (Auto-Skip in 5s): " -NoNewline -ForegroundColor Red
+# Detect current Windows user
+$currentUser = [System.Security.Principal.WindowsIdentity]::GetCurrent().Name
+$currentUserName = ($currentUser -split '\\')[-1]
 
-$counter = 5
-while ($counter -gt 0 -and (-not [console]::KeyAvailable)) {
-    Write-Host "..$counter " -NoNewline -ForegroundColor Gray
-    Start-Sleep -Seconds 1
-    $counter--
+Write-Host "Current Windows user: $currentUserName" -ForegroundColor Cyan
+
+$autoApproveUsersDefender = @(
+    "Admin",
+    "Adm",
+    "User",
+    "Administrator"
+)
+
+# Check if user is in auto-approve list; otherwise prompt manually
+if ($currentUserName -in $autoApproveUsersDefender) {
+    Write-Host "User $currentUserName is auto-approved." -ForegroundColor Green
+    $choice = "Y"
+} else {
+    Write-Host "User $currentUserName requires manual confirmation." -ForegroundColor Yellow
+    Write-Host "Nuke Windows Defender? (WARNING: Flying solo after this) [Y/N]"
+    Write-Host "Default: N | Waiting 7 seconds..." -ForegroundColor DarkGray
+
+    $choice = "N"
+
+    for ($i = 7; $i -ge 1; $i--) {
+        Write-Host -NoNewline "$i.. "
+        Start-Sleep -Seconds 1
+    }
+
+    Write-Host ""
+
+    if ([Console]::KeyAvailable) {
+        $key = [Console]::ReadKey($true)
+        if ($key.KeyChar -eq 'Y' -or $key.KeyChar -eq 'y') {
+            $choice = "Y"
+        }
+    }
 }
 
-if ([console]::KeyAvailable) {
-    $choice = [console]::ReadKey($true).KeyChar
-    Write-Host ""
+if ($choice -eq 'Y') {
+    Write-Host "Execution confirmed." -ForegroundColor Green
 } else {
-    Write-Host "`nDefender lives to nag another day." -ForegroundColor DarkGray
-    $choice = "n"
+    Write-Host "Execution aborted." -ForegroundColor Red
 }
 
 if ($choice -eq 'y' -or $choice -eq 'Y') {
@@ -2918,7 +3765,8 @@ if ($choice -eq 'y' -or $choice -eq 'Y') {
             } else { throw "MinSudo x64 binary not found in the archive." }
 
             # Temporary file cleanup
-            Remove-Item $tempZip, $extractDir -Recurse -Force -ErrorAction SilentlyContinue
+            Remove-Item -Path $tempZip -Force -ErrorAction SilentlyContinue
+            Remove-Item -Path $extractDir -Recurse -Force -ErrorAction SilentlyContinue
         } catch {
             Write-Host "[ERROR] Deployment failed: $($_.Exception.Message)" -ForegroundColor Red
             return
@@ -2949,7 +3797,7 @@ Windows Registry Editor Version 5.00
 "MpPlatformKillbitsFromEngine"=hex:00,00,00,00,00,00,00,00
 "TamperProtectionSource"=dword:00000000
 "MpCapability"=hex:00,00,00,00,00,00,00,00
-"TamperProtection"=dword:00000000
+"TamperProtection"=dword:00000004
 
 [HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\System]
 "RunAsPPL"=dword:00000000
@@ -2961,6 +3809,40 @@ Windows Registry Editor Version 5.00
 
 [HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\CI\Config]
 "VulnerableDriverBlocklistEnable"=dword:00000000
+
+; --- Disable Core Defender Services ---
+[HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\WinDefend]
+"Start"=dword:00000004
+
+[HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\WdFilter]
+"Start"=dword:00000004
+
+[HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\WdBoot]
+"Start"=dword:00000004
+
+[HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\MsMpSvc]
+"Start"=dword:00000004
+
+[HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\WdNisSvc]
+"Start"=dword:00000004
+
+[HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\WdNisDrv]
+"Start"=dword:00000004
+
+[HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\SecurityHealthService]
+"Start"=dword:00000004
+
+[HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\wscsvc]
+"Start"=dword:00000004
+
+[HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\Sense]
+"Start"=dword:00000004
+
+[HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\MDCoreSvc]
+"Start"=dword:00000004
+
+[HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\MsSecCore]
+"Start"=dword:00000004
 
 ; --- Disable Antivirus & Real-Time Protection ---
 [HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows Defender]
@@ -2984,6 +3866,33 @@ Windows Registry Editor Version 5.00
 ; --- Disable Security Center & Notifications ---
 [HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\PolicyManager\default\WindowsDefenderSecurityCenter\DisableNotifications]
 "value"=dword:00000001
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows Defender Security Center\Notifications]
+"DisableNotifications"=dword:00000001
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows Defender\Reporting]
+"DisableEnhancedNotifications"=dword:00000001
+
+[HKEY_CURRENT_USER\SOFTWARE\Policies\Microsoft\Windows\CurrentVersion\PushNotifications]
+"NoToastApplicationNotification"=dword:00000001
+"NoToastApplicationNotificationOnLockScreen"=dword:00000001
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows Defender\UX Configuration]
+"Notification_Suppress"=dword:00000001
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows Defender\Spynet]
+"LocalSettingOverrideSpynetReporting"=dword:00000000
+"SpynetReporting"=dword:00000000
+"SubmitSamplesConsent"=dword:00000002
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows Defender\Threats]
+"Threats_ThreatSeverityDefaultAction"=dword:00000001
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows Defender\Threats\ThreatSeverityDefaultAction]
+"1"="6"
+"2"="6"
+"4"="6"
+"5"="6"
 
 [-HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Security Center]
 
@@ -3015,12 +3924,19 @@ Windows Registry Editor Version 5.00
         }
 
         # --- 4. Post-Deployment Clean Sweep ---
-        Remove-Item $tempReg -Force -ErrorAction SilentlyContinue
+        Remove-Item -Path $tempReg -Force -ErrorAction SilentlyContinue
+
+        # --- Disable Scheduled Tasks ---
+        Write-Host ">> Defender's Daily Routine Has Left the Chat... Permanent Vacation Activated!" -ForegroundColor Gray
+        schtasks /Change /TN "Microsoft\Windows\Windows Defender\Windows Defender Cache Maintenance" /Disable >$null 2>&1
+        schtasks /Change /TN "Microsoft\Windows\Windows Defender\Windows Defender Cleanup" /Disable >$null 2>&1
+        schtasks /Change /TN "Microsoft\Windows\Windows Defender\Windows Defender Scheduled Scan" /Disable >$null 2>&1
+        schtasks /Change /TN "Microsoft\Windows\Windows Defender\Windows Defender Verification" /Disable >$null 2>&1
 
         # Self-destruct: Removing the elevation engine to leave the Desktop clean.
         if (Test-Path $minSudoPath) {
             Write-Host ">> Evaporating elevation engine from the workspace... " -ForegroundColor Gray -NoNewline
-            Remove-Item $minSudoPath -Force -ErrorAction SilentlyContinue
+            Remove-Item -Path $minSudoPath -Force -ErrorAction SilentlyContinue
             Write-Host "[DONE]" -ForegroundColor Green
         }
     }
@@ -3036,6 +3952,230 @@ while ([console]::KeyAvailable) { [console]::ReadKey($true) | Out-Null }
 Write-Host "`nPurge complete! ✅" -ForegroundColor Green
 Write-Host "--------------------------------------------------------" -ForegroundColor Gray
 Write-Host ""
+
+##------------------------------------------------------##
+
+<#
+.SYNOPSIS
+    Windows security configuration based on recommended hardening policies.
+
+.NOTES
+    Run in an elevated PowerShell session.
+    Review the optional network settings before enabling them.
+    A restart may be required for LSA protection and some policy changes.
+
+#>
+
+# =========================
+# User options
+# =========================
+
+# Optional network settings:
+# SMB signing can affect compatibility with older NAS devices and shares.
+$RequireSMBSigning = $true
+
+# Disabling NetBIOS may affect legacy discovery/name resolution.
+$DisableNetBIOS = $false
+
+# Disable WPAD only if your network does not rely on automatic proxy discovery.
+$DisableWPAD = $false
+
+# Configure WinRM HTTPS listener only if you use remote PowerShell management.
+# This creates a self-signed certificate and changes existing WinRM listeners.
+$ConfigureWinRM = $false
+
+# =========================
+# Helpers
+# =========================
+$ErrorActionPreference = 'Stop'
+
+function Set-DwordValue {
+    param(
+        [Parameter(Mandatory)][string]$Path,
+        [Parameter(Mandatory)][string]$Name,
+        [Parameter(Mandatory)][int]$Value
+    )
+    if (-not (Test-Path -LiteralPath $Path)) {
+        New-Item -Path $Path -Force | Out-Null
+    }
+    New-ItemProperty -LiteralPath $Path -Name $Name -PropertyType DWord -Value $Value -Force | Out-Null
+    Write-Host "Set $Path\$Name = $Value" -ForegroundColor DarkGray
+}
+
+function Set-StringValue {
+    param(
+        [Parameter(Mandatory)][string]$Path,
+        [Parameter(Mandatory)][string]$Name,
+        [Parameter(Mandatory)][string]$Value
+    )
+    if (-not (Test-Path -LiteralPath $Path)) {
+        New-Item -Path $Path -Force | Out-Null
+    }
+    New-ItemProperty -LiteralPath $Path -Name $Name -PropertyType String -Value $Value -Force | Out-Null
+    Write-Host "Set $Path\$Name = $Value" -ForegroundColor DarkGray
+}
+
+Write-Host "`n=== Windows Security Configuration ===" -ForegroundColor Cyan
+
+# =========================
+# 2. Do not update Defender signatures on battery
+# =========================
+Write-Host "`n[2] Configuring Defender signature updates on battery..." -ForegroundColor Cyan
+Set-DwordValue -Path 'HKLM:\SOFTWARE\Policies\Microsoft\Windows Defender\Signature Updates' `
+               -Name 'DisableScheduledSignatureUpdateOnBattery' -Value 1
+
+# =========================
+# 3. Attachment Manager: file types treated as low risk
+# =========================
+Write-Host "`n[3] Configuring LowRiskFileTypes..." -ForegroundColor Cyan
+$attachmentManager = 'HKCU:\Software\Microsoft\Windows\CurrentVersion\Policies\Associations'
+$lowRiskExtensions = '.exe;.bat;.cmd;.vbs;.msi;.reg;.ps1'
+Set-StringValue -Path $attachmentManager -Name 'LowRiskFileTypes' -Value $lowRiskExtensions
+
+# =========================
+# 4. Block insecure SMB guest authentication
+# =========================
+Write-Host "`n[4] Blocking insecure SMB guest authentication..." -ForegroundColor Cyan
+Set-DwordValue -Path 'HKLM:\SOFTWARE\Policies\Microsoft\Windows\LanmanWorkstation' `
+               -Name 'AllowInsecureGuestAuth' -Value 0
+
+# =========================
+# 5. Require NTLMv2 only; refuse LM and NTLM
+# =========================
+Write-Host "`n[5] Configuring NTLM compatibility level..." -ForegroundColor Cyan
+Set-DwordValue -Path 'HKLM:\SYSTEM\CurrentControlSet\Control\Lsa' `
+               -Name 'LmCompatibilityLevel' -Value 5
+
+# =========================
+# 6. Disable WDigest credential caching
+# =========================
+Write-Host "`n[6] Disabling WDigest credential caching..." -ForegroundColor Cyan
+Set-DwordValue -Path 'HKLM:\SYSTEM\CurrentControlSet\Control\SecurityProviders\WDigest' `
+               -Name 'UseLogonCredential' -Value 0
+
+# =========================
+# 7. LSA protection (RunAsPPL)
+# =========================
+Write-Host "`n[7] Enabling LSA protection..." -ForegroundColor Cyan
+Set-DwordValue -Path 'HKLM:\SYSTEM\CurrentControlSet\Control\Lsa' `
+               -Name 'RunAsPPL' -Value 1
+
+# AuditLevel=8 is the value used by the referenced configuration.
+Set-DwordValue -Path 'HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Image File Execution Options\LSASS.exe' `
+               -Name 'AuditLevel' -Value 8
+
+# =========================
+# 8. Disable LLMNR
+# =========================
+Write-Host "`n[8] Disabling LLMNR..." -ForegroundColor Cyan
+Set-DwordValue -Path 'HKLM:\SOFTWARE\Policies\Microsoft\Windows NT\DNSClient' `
+               -Name 'EnableMulticast' -Value 0
+
+# =========================
+# 9. Optional: require SMB signing
+# =========================
+if ($RequireSMBSigning) {
+    Write-Host "`n[9] Requiring SMB signing..." -ForegroundColor Cyan
+
+    # LanmanWorkstation = SMB client; LanmanServer = SMB server.
+    Set-DwordValue -Path 'HKLM:\SYSTEM\CurrentControlSet\Services\LanmanWorkstation\Parameters' `
+                   -Name 'RequireSecuritySignature' -Value 1
+    Set-DwordValue -Path 'HKLM:\SYSTEM\CurrentControlSet\Services\LanmanServer\Parameters' `
+                   -Name 'RequireSecuritySignature' -Value 1
+}
+else {
+    Write-Host "`n[9] SMB signing unchanged (RequireSMBSigning = `$false)." -ForegroundColor DarkYellow
+}
+
+# =========================
+# 10. Optional: disable NetBIOS over TCP/IP
+# =========================
+if ($DisableNetBIOS) {
+    Write-Host "`n[10] Disabling NetBIOS over TCP/IP..." -ForegroundColor Cyan
+    try {
+        $adapters = Get-CimInstance Win32_NetworkAdapterConfiguration -Filter 'IPEnabled = True'
+        foreach ($adapter in $adapters) {
+            $result = Invoke-CimMethod -InputObject $adapter -MethodName SetTcpipNetbios -Arguments @{ TcpipNetbiosOptions = [uint32]2 }
+            Write-Host "Adapter '$($adapter.Description)': SetTcpipNetbios returned $($result.ReturnValue)" -ForegroundColor DarkGray
+        }
+    }
+    catch {
+        Write-Warning "Could not disable NetBIOS on every adapter: $($_.Exception.Message)"
+    }
+}
+else {
+    Write-Host "`n[10] NetBIOS unchanged (DisableNetBIOS = `$false)." -ForegroundColor DarkYellow
+}
+
+# =========================
+# 11. Optional: disable WPAD
+# =========================
+if ($DisableWPAD) {
+    Write-Host "`n[11] Disabling WPAD..." -ForegroundColor Cyan
+    Set-DwordValue -Path 'HKLM:\SYSTEM\CurrentControlSet\Services\WinHttpAutoProxySvc' `
+                   -Name 'Start' -Value 4
+    Set-DwordValue -Path 'HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Internet Settings\Wpad' `
+                   -Name 'WpadOverride' -Value 1
+    Set-DwordValue -Path 'HKCU:\Software\Microsoft\Windows\CurrentVersion\Internet Settings\Wpad' `
+                   -Name 'WpadOverride' -Value 1
+}
+else {
+    Write-Host "`n[11] WPAD unchanged (DisableWPAD = `$false)." -ForegroundColor DarkYellow
+}
+
+# =========================
+# 12. Optional: WinRM HTTPS
+# =========================
+if ($ConfigureWinRM) {
+    Write-Host "`n[12] Configuring WinRM HTTPS listener..." -ForegroundColor Yellow
+    Write-Warning "This removes existing WinRM HTTP/HTTPS listeners and creates a self-signed HTTPS listener."
+    $confirm = Read-Host "Type CONFIGURE-WINRM to continue"
+    if ($confirm -ceq 'CONFIGURE-WINRM') {
+        try {
+            $computerName = $env:COMPUTERNAME
+            $cert = New-SelfSignedCertificate `
+                -DnsName $computerName, "$computerName.$env:USERDNSDOMAIN" `
+                -CertStoreLocation 'Cert:\LocalMachine\My' `
+                -KeyAlgorithm RSA -KeyLength 2048 `
+                -NotAfter (Get-Date).AddYears(2)
+
+            # Trust the self-signed certificate locally, as in the referenced approach.
+            $rootStore = New-Object System.Security.Cryptography.X509Certificates.X509Store('Root', 'LocalMachine')
+            $rootStore.Open([System.Security.Cryptography.X509Certificates.OpenFlags]::ReadWrite)
+            $rootStore.Add($cert)
+            $rootStore.Close()
+
+            Get-ChildItem WSMan:\Localhost\Listener -ErrorAction SilentlyContinue |
+                Where-Object { $_.Keys -match 'Transport=HTTP|Transport=HTTPS' } |
+                Remove-Item -Recurse -Force -ErrorAction SilentlyContinue
+
+            New-Item -Path WSMan:\Localhost\Listener `
+                -Transport HTTPS -Address * -CertificateThumbPrint $cert.Thumbprint -Force | Out-Null
+
+            Set-Item WSMan:\localhost\Service\Auth\Basic -Value $false
+            Set-Item WSMan:\localhost\Service\AllowUnencrypted -Value $false
+
+            # Restrict WinRM firewall rules to the local subnet.
+            Get-NetFirewallRule -DisplayGroup 'Windows Remote Management' -ErrorAction SilentlyContinue |
+                Set-NetFirewallRule -RemoteAddress LocalSubnet -Enabled True
+
+            Restart-Service WinRM
+            Write-Host "WinRM HTTPS listener configured. Verify access from an authorized remote machine." -ForegroundColor Green
+        }
+        catch {
+            Write-Warning "WinRM configuration failed: $($_.Exception.Message)"
+        }
+    }
+    else {
+        Write-Host "WinRM configuration cancelled." -ForegroundColor DarkYellow
+    }
+}
+else {
+    Write-Host "`n[12] WinRM unchanged (ConfigureWinRM = `$false)." -ForegroundColor DarkYellow
+}
+
+Write-Host "`nConfiguration completed. Review warnings and reboot if required." -ForegroundColor Green
+Write-Host "LSA protection generally requires a restart to take effect." -ForegroundColor Yellow
 
 ##------------------------------------------------------##
 
@@ -3185,7 +4325,7 @@ Write-Host "----------------------------------------------------------------" -F
 
 # --- INITIAL GATE: Run Verification? ---
 Write-Host "--- Vanguard Official Requirements Check and Auto-fix ---" -ForegroundColor Cyan
-Write-Host "Do you want to verify Valorant requirements? [Y/N] (Default: N in 5s): " -NoNewline
+Write-Host "Do you want to verify Valorant requirements? [Y/N] (Default: Y in 5s): " -NoNewline
 
 $timer = 5
 while ($timer -gt 0 -and (-not [console]::KeyAvailable)) {
@@ -3199,7 +4339,7 @@ if ([console]::KeyAvailable) {
     Write-Host ""
 } else {
     Write-Host "`nTimeout reached. Skipping check..." -ForegroundColor Gray
-    $runCheck = "n"
+    $runCheck = "y"
 }
 
 if ($runCheck -eq 'y') {
@@ -3272,19 +4412,49 @@ Write-Host "`nProcess finished." -ForegroundColor Gray
         }
 
         if ($ansFix -eq 'y') {
-            # --- ENABLE SECTION (User pressed Y or Timeout) ---
+            # --- ENABLE SECTION ---
             Write-Host "Applying kernel-level security fixes..." -ForegroundColor Green
-            & dism.exe /online /enable-feature /featurename:VirtualMachinePlatform /all /norestart
-            & bcdedit.exe /set hypervisorlaunchtype auto
-            Set-ItemProperty -Path $hvciPath -Name "Enabled" -Value 1
-            Write-Host "SUCCESS: Protection Enabled. PLEASE REBOOT." -ForegroundColor Cyan
+
+            try {
+                & dism.exe /online /enable-feature /featurename:VirtualMachinePlatform /all /norestart 2>&1 | Out-Null
+            } catch {}
+
+            try {
+                & bcdedit.exe /set hypervisorlaunchtype auto 2>&1 | Out-Null
+            } catch {}
+
+            # Update HVCI only if its registry key exists.
+            try {
+                if (Test-Path -LiteralPath $hvciPath -ErrorAction SilentlyContinue) {
+                    Set-ItemProperty -LiteralPath $hvciPath `
+                        -Name 'Enabled' -Value 1 `
+                        -ErrorAction SilentlyContinue
+                }
+            } catch {}
+
+            Write-Host "Auto-fix completed. Some changes may require a reboot." -ForegroundColor Cyan
         } else {
-            # --- DISABLE SECTION (User explicitly pressed N) ---
-            Write-Host "User opted to disable features. Reverting..." -ForegroundColor Red
-            & dism.exe /online /disable-feature /featurename:VirtualMachinePlatform /norestart
-            & bcdedit.exe /set hypervisorlaunchtype off
-            Set-ItemProperty -Path $hvciPath -Name "Enabled" -Value 0 -ErrorAction SilentlyContinue
-            Write-Host "SUCCESS: Protection Disabled. PLEASE REBOOT." -ForegroundColor Cyan
+            # --- DISABLE SECTION ---
+            Write-Host "User opted to disable features. Reverting..." -ForegroundColor Yellow
+
+            try {
+                & dism.exe /online /disable-feature /featurename:VirtualMachinePlatform /norestart 2>&1 | Out-Null
+            } catch {}
+
+            try {
+                & bcdedit.exe /set hypervisorlaunchtype off 2>&1 | Out-Null
+            } catch {}
+
+            # Update HVCI only if its registry key exists.
+            try {
+                if (Test-Path -LiteralPath $hvciPath -ErrorAction SilentlyContinue) {
+                    Set-ItemProperty -LiteralPath $hvciPath `
+                        -Name 'Enabled' -Value 0 `
+                        -ErrorAction SilentlyContinue
+                }
+            } catch {}
+
+            Write-Host "Revert operations attempted. Some changes may require a reboot." -ForegroundColor Cyan
         }
     }
 }
@@ -3467,6 +4637,9 @@ if ($winVersion.Major -ge 10 -and $winVersion.Build -ge 22000) {
     foreach ($proc in $uiProcesses) {
         Get-Process -Name $proc -ErrorAction SilentlyContinue | Stop-Process -Force -ErrorAction SilentlyContinue
     }
+
+    # 7. Enable Compact Mode in File Explorer (reduces padding)
+    Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "UseCompactMode" -Value 1 -Type DWord -Force
 
     Write-Host "`n[SUCCESS] UI Optimization completed! ✅" -ForegroundColor Green
     Write-Host "----------------------------------------------------------------" -ForegroundColor Gray
@@ -3666,6 +4839,7 @@ $dllPath = Join-Path $installDir1 "Otl.Addin.dll"
 $badVersions = @(
     "8.05.00.00",
     "8.5",
+    "11.2.0",
     "12.5",
     "13.32.00.00"
 )
@@ -4416,6 +5590,195 @@ Write-Host ""
 
 ##------------------------------------------------------##
 
+# --- 11. DESKTOP CLEANUP ---
+<#
+.SYNOPSIS
+    Desktop Cleanup Manager.
+
+.DESCRIPTION
+    Removes configured desktop shortcuts, files, and folders
+    from the current user's desktop and the public desktop.
+
+.NOTES
+    Add new items in the CONFIGURATION section.
+    Run with administrator privileges if required by permissions.
+#>
+
+# ==========================================
+# CONFIGURATION
+# Add new items to the lists below.
+# ==========================================
+
+$DesktopPaths = @{
+    User   = [Environment]::GetFolderPath('Desktop')
+    Public = [Environment]::GetFolderPath('CommonDesktopDirectory')
+}
+
+# --- Shortcuts to Remove ---
+$ShortcutsToRemove = @(
+    'Ankh Tech Website.lnk'
+    'Ankh Tech Website.url'
+    'TeamOS.lnk'
+    'TeamOS.url'
+    'CPUID HWMonitorPro.lnk'
+    'AIDA64 Business.lnk'
+    'Jami.lnk'
+    'Paint.NET.lnk'
+    'IObit Unlocker.lnk'
+    'Blockify Desktop App.lnk'
+    'YouTube Music.lnk'
+    'Qalculate! (classic).lnk'
+    'PDFgear.lnk'
+    'WinSCP.lnk'
+    'Qalculate! (new).lnk'
+    'Uninstall Tool.lnk'
+    'CrystalDiskInfo.lnk'
+    'Zentimo.lnk'
+    'Audacity.lnk'
+    'VSCodium.lnk'
+    'Everything.lnk'
+    'ImageGlass.lnk'
+    'Webcamoid.lnk'
+    'Pawzy.lnk'
+    'PDF-XChange Editor.lnk'
+    'Tabby Terminal.lnk'
+    'WireSock Secure Connect.lnk'
+    'ShareX.lnk'
+    'VLC media player.lnk'
+    'RustDesk.lnk'
+)
+
+# --- Individual Files to Remove ---
+$FilesToRemove = @(
+    # 'Example.txt'
+    # 'Old Installer.exe'
+)
+
+# --- Folders to Remove ---
+$FoldersToRemove = @(
+    'Browsers Installers'
+    # 'Old Software'
+)
+
+# ==========================================
+# INTERNAL FUNCTIONS
+# No configuration is needed below this point.
+# ==========================================
+
+$script:RemovedCount = 0
+$script:NotFoundCount = 0
+$script:ErrorCount = 0
+
+function Remove-ConfiguredItem {
+    param(
+        [Parameter(Mandatory)]
+        [string]$Path,
+
+        [Parameter(Mandatory)]
+        [ValidateSet('File', 'Folder')]
+        [string]$Type
+    )
+
+    if (-not (Test-Path -LiteralPath $Path)) {
+        $script:NotFoundCount++
+        return
+    }
+
+    $Item = Get-Item -LiteralPath $Path -Force -ErrorAction SilentlyContinue
+
+    if (-not $Item) {
+        Write-Host "[ERROR] Unable to access: $Path" -ForegroundColor Red
+        $script:ErrorCount++
+        return
+    }
+
+    if ($Type -eq 'File' -and $Item.PSIsContainer) {
+        Write-Host "[SKIP] Expected a file: $Path" -ForegroundColor Yellow
+        $script:ErrorCount++
+        return
+    }
+
+    if ($Type -eq 'Folder' -and -not $Item.PSIsContainer) {
+        Write-Host "[SKIP] Expected a folder: $Path" -ForegroundColor Yellow
+        $script:ErrorCount++
+        return
+    }
+
+    try {
+        Write-Host "[REMOVE] $Path" -ForegroundColor Yellow
+
+        Remove-Item -LiteralPath $Path -Recurse:($Type -eq 'Folder') `
+            -Force -ErrorAction Stop
+
+        Write-Host "[OK] Removed successfully." -ForegroundColor Green
+        $script:RemovedCount++
+    }
+    catch {
+        Write-Host "[ERROR] Failed to remove: $Path" -ForegroundColor Red
+        Write-Host "        $($_.Exception.Message)" -ForegroundColor DarkRed
+        $script:ErrorCount++
+    }
+}
+
+# ==========================================
+# EXECUTION
+# ==========================================
+
+Write-Host "`n==========================================" -ForegroundColor Cyan
+Write-Host "         DESKTOP CLEANUP MANAGER" -ForegroundColor Cyan
+Write-Host "==========================================" -ForegroundColor Cyan
+
+foreach ($Desktop in $DesktopPaths.GetEnumerator()) {
+    $LocationName = $Desktop.Key
+    $BasePath = $Desktop.Value
+
+    if ([string]::IsNullOrWhiteSpace($BasePath)) {
+        continue
+    }
+
+    Write-Host "`n--- $LocationName Desktop ---" -ForegroundColor Cyan
+
+    # --- Remove Shortcuts ---
+    foreach ($Shortcut in $ShortcutsToRemove) {
+        Remove-ConfiguredItem `
+            -Path (Join-Path $BasePath $Shortcut) `
+            -Type File
+    }
+
+    # --- Remove Individual Files ---
+    foreach ($File in $FilesToRemove) {
+        Remove-ConfiguredItem `
+            -Path (Join-Path $BasePath $File) `
+            -Type File
+    }
+
+    # --- Remove Folders ---
+    foreach ($Folder in $FoldersToRemove) {
+        Remove-ConfiguredItem `
+            -Path (Join-Path $BasePath $Folder) `
+            -Type Folder
+    }
+}
+
+
+# ==========================================
+# FINAL REPORT
+# ==========================================
+
+Write-Host "`n==========================================" -ForegroundColor Cyan
+Write-Host "              CLEANUP SUMMARY" -ForegroundColor Cyan
+Write-Host "==========================================" -ForegroundColor Cyan
+
+Write-Host "Items removed : $script:RemovedCount" -ForegroundColor Green
+Write-Host "Not found     : $script:NotFoundCount" -ForegroundColor Gray
+
+$errorColor = if ($script:ErrorCount -gt 0) { 'Red' } else { 'Green' }
+Write-Host "Errors        : $script:ErrorCount" -ForegroundColor $errorColor
+
+Write-Host "==========================================`n" -ForegroundColor Cyan
+
+##------------------------------------------------------##
+
 # ============================================================
 # AYUGRAM DEPLOYMENT
 # ============================================================
@@ -4602,6 +5965,419 @@ try {
     Write-Host "[ERROR] $($_.Exception.Message)" -ForegroundColor Red
 }
 
+Write-Host "--------------------------------------------------------"
+Write-Host ""
+
+##------------------------------------------------------##
+
+# ============================================================
+# PAWZY DEPLOYMENT
+# ============================================================
+
+Write-Host "[MODULE] Deploying Pawzy via dynamic GitHub resolution..." -ForegroundColor Cyan
+
+# Ensure TLS 1.2 compatibility
+[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
+
+# ------------------------------------------------------------
+# PATHS & CONFIGURATION
+# ------------------------------------------------------------
+$installDir     = "$env:APPDATA\Pawzy"
+$versionMarker  = "$installDir\version.txt"
+$ua             = "Mozilla/5.0"
+$skipInstall    = $false
+
+try {
+    # ------------------------------------------------------------
+    # DETECT WINDOWS SERVER ENVIRONMENT
+    # ------------------------------------------------------------
+    Write-Host ">> Checking operating system type... " -ForegroundColor Yellow -NoNewline
+
+    $os = Get-CimInstance Win32_OperatingSystem
+    $isServer = ($os.ProductType -ne 1)
+
+    if ($isServer) {
+        Write-Host "[SERVER DETECTED - SKIPPING INSTALL]" -ForegroundColor DarkYellow
+        $skipInstall = $true
+    } else {
+        Write-Host "[WORKSTATION]" -ForegroundColor Green
+    }
+
+    # ------------------------------------------------------------
+    # FETCH LATEST VERSION & ASSET URL FROM GITHUB API
+    # ------------------------------------------------------------
+    if (-not $skipInstall) {
+
+        Write-Host ">> Resolving latest version and download asset from GitHub... " -ForegroundColor Yellow -NoNewline
+
+        $apiUrl = "https://api.github.com/repos/2004Shivam/Pawzy/releases/latest"
+        $headers = @{ "User-Agent" = $ua }
+
+        $response = Invoke-RestMethod -Uri $apiUrl -Headers $headers
+        $latestVersionStr = $response.tag_name -replace '^v', ''
+        $latestVersion = [version]$latestVersionStr
+
+        # Find the Windows setup executable asset (.exe)
+        $targetUrl = $null
+        $targetFileName = $null
+
+        foreach ($asset in $response.assets) {
+            if ($asset.name -match "\.exe$") {
+                $targetUrl = $asset.browser_download_url
+                $targetFileName = $asset.name
+                break
+            }
+        }
+
+        if (-not $targetUrl) {
+            throw "No executable asset (.exe) found in the latest GitHub release."
+        }
+
+        Write-Host "[OK: v$latestVersionStr]" -ForegroundColor Green
+        
+        $tempExe = "$env:TEMP\$targetFileName"
+    }
+
+    # ------------------------------------------------------------
+    # DETECT CURRENT INSTALLED VERSION
+    # ------------------------------------------------------------
+    if (-not $skipInstall) {
+
+        Write-Host ">> Checking local version marker..." -ForegroundColor Yellow
+
+        $currentVersion = [version]"0.0.0.0"
+        $detected = $false
+
+        if (Test-Path $versionMarker) {
+            try {
+                $content = (Get-Content $versionMarker -Raw).Trim()
+                if ($content -match "([\d\.]+)") {
+                    $currentVersion = [version]$matches[1]
+                    $detected = $true
+                    Write-Host "   [VERSION FOUND] Installed: $currentVersion" -ForegroundColor Cyan
+                }
+            } catch {
+                Write-Host "   [READ FAILED]" -ForegroundColor DarkYellow
+            }
+        }
+
+        if (-not $detected) {
+            Write-Host "   [NO PREVIOUS VERSION MARKER]" -ForegroundColor DarkGray
+        }
+
+        # ------------------------------------------------------------
+        # VERSION COMPARISON
+        # ------------------------------------------------------------
+        if ($latestVersion -le $currentVersion) {
+            Write-Host ">> Status: [ALREADY UP TO DATE]" -ForegroundColor Green
+            $skipInstall = $true
+        }
+    }
+
+    # ------------------------------------------------------------
+    # DOWNLOAD AND INSTALL ONLY IF NEEDED
+    # ------------------------------------------------------------
+    if (-not $skipInstall) {
+
+        Write-Host ">> Status: [UPDATE REQUIRED]" -ForegroundColor Cyan
+
+        # Download installer
+        Write-Host ">> Downloading $targetFileName... " -ForegroundColor Yellow -NoNewline
+        Invoke-WebRequest -Uri $targetUrl -OutFile $tempExe -UserAgent $ua -ErrorAction Stop
+        Write-Host "[OK]" -ForegroundColor Green
+
+        # Ensure target directory exists
+        if (-not (Test-Path $installDir)) {
+            New-Item -Path $installDir -ItemType Directory -Force | Out-Null
+        }
+
+        # ------------------------------------------------------------
+        # EXECUTE SILENT INSTALLATION (Using NSIS switch /S)
+        # ------------------------------------------------------------
+        Write-Host ">> Executing Pawzy installer silently..." -ForegroundColor Yellow
+        
+        Start-Process -FilePath $tempExe -ArgumentList "/S" -Wait -NoNewWindow
+
+        # Save version marker
+        Set-Content -Path $versionMarker -Value $latestVersionStr -Force
+        Write-Host ">> Version marker updated to: $latestVersionStr" -ForegroundColor Gray
+        Write-Host ">> Deployment completed successfully." -ForegroundColor Green
+    }
+
+} catch {
+    Write-Host "[ERROR] $($_.Exception.Message)" -ForegroundColor Red
+} finally {
+    # ------------------------------------------------------------
+    # CLEANUP INSTALLER EXECUTABLE
+    # ------------------------------------------------------------
+    if (-not [string]::IsNullOrEmpty($tempExe) -and (Test-Path $tempExe)) {
+        Write-Host ">> Cleaning up installer package..." -ForegroundColor Yellow
+        Remove-Item $tempExe -Force -ErrorAction SilentlyContinue
+        Write-Host ">> Cleanup complete." -ForegroundColor Green
+    }
+}
+
+# Create PawzyClose.cmd if it does not exist
+
+$Destination = "C:\ProgramData\Microsoft\Windows\Start Menu\Programs\PawzyClose.cmd"
+
+if (-not (Test-Path -LiteralPath $Destination -PathType Leaf)) {
+    Set-Content -LiteralPath $Destination -Value 'taskkill /F /IM Pawzy.exe /T' -Encoding ASCII
+}
+
+Write-Host "--------------------------------------------------------"
+Write-Host ""
+
+##------------------------------------------------------##
+
+# ============================================================
+# PDFCRAFT DEPLOYMENT
+# ============================================================
+
+Write-Host "[MODULE] Deploying PdfCraft via dynamic GitHub resolution..." -ForegroundColor Cyan
+
+# Ensure TLS 1.2 compatibility
+[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
+
+# ------------------------------------------------------------
+# PATHS & CONFIGURATION
+# ------------------------------------------------------------
+$installDir    = Join-Path $env:ProgramData "PdfCraftDeployment"
+$versionMarker = Join-Path $installDir "version.txt"
+$ua            = "Mozilla/5.0"
+$skipInstall   = $false
+$tempMsi       = $null
+$latestVersion = $null
+$latestVersionStr = $null
+
+try {
+
+    # --------------------------------------------------------
+    # DETECT WINDOWS SERVER ENVIRONMENT
+    # --------------------------------------------------------
+    Write-Host ">> Checking operating system type... " -ForegroundColor Yellow -NoNewline
+
+    $os = Get-CimInstance Win32_OperatingSystem
+    $isServer = ($os.ProductType -ne 1)
+
+    if ($isServer) {
+        Write-Host "[SERVER DETECTED - SKIPPING INSTALL]" -ForegroundColor DarkYellow
+        $skipInstall = $true
+    }
+    else {
+        Write-Host "[WORKSTATION]" -ForegroundColor Green
+    }
+
+    # --------------------------------------------------------
+    # DETECT WINDOWS ARCHITECTURE
+    # --------------------------------------------------------
+    if (-not $skipInstall) {
+
+        Write-Host ">> Detecting Windows architecture... " -ForegroundColor Yellow -NoNewline
+
+        $architecture = $env:PROCESSOR_ARCHITEW6432
+
+        if ([string]::IsNullOrWhiteSpace($architecture)) {
+            $architecture = $env:PROCESSOR_ARCHITECTURE
+        }
+
+        switch -Regex ($architecture) {
+            '^ARM64$' {
+                $targetArch = "arm64"
+                break
+            }
+            '^AMD64$' {
+                $targetArch = "x64"
+                break
+            }
+            '^x86$' {
+                $targetArch = "x86"
+                break
+            }
+            default {
+                throw "Unsupported or unrecognized Windows architecture: $architecture"
+            }
+        }
+
+        Write-Host "[$targetArch]" -ForegroundColor Green
+    }
+
+    # --------------------------------------------------------
+    # FETCH LATEST VERSION & MSI URL FROM GITHUB API
+    # --------------------------------------------------------
+    if (-not $skipInstall) {
+
+        Write-Host ">> Resolving latest version and MSI asset from GitHub... " -ForegroundColor Yellow -NoNewline
+
+        $apiUrl = "https://api.github.com/repos/storytold/pdfcraft/releases/latest"
+        $headers = @{ "User-Agent" = $ua }
+
+        $response = Invoke-RestMethod `
+            -Uri $apiUrl `
+            -Headers $headers `
+            -ErrorAction Stop
+
+        if (-not $response.tag_name) {
+            throw "GitHub did not return a valid release tag."
+        }
+
+        # Extract numeric version from the release tag
+        $latestVersionStr = $response.tag_name -replace '^v', ''
+
+        if ($latestVersionStr -notmatch '^\d+(\.\d+){1,3}$') {
+            throw "Unsupported release version format: $latestVersionStr"
+        }
+
+        $latestVersion = [version]$latestVersionStr
+
+        # Find the MSI matching the detected architecture
+        $targetAssetName = "pdfcraft-*-windows-$targetArch.msi"
+
+        $asset = $response.assets |
+            Where-Object { $_.name -like $targetAssetName } |
+            Select-Object -First 1
+
+        if (-not $asset) {
+            throw "No Windows $targetArch MSI found in release $($response.tag_name)."
+        }
+
+        $targetUrl = $asset.browser_download_url
+        $targetFileName = $asset.name
+        $tempMsi = Join-Path $env:TEMP $targetFileName
+
+        Write-Host "[OK: v$latestVersionStr - $targetArch]" -ForegroundColor Green
+    }
+
+    # --------------------------------------------------------
+    # DETECT CURRENT DEPLOYED VERSION
+    # --------------------------------------------------------
+    if (-not $skipInstall) {
+
+        Write-Host ">> Checking local version marker..." -ForegroundColor Yellow
+
+        $currentVersion = [version]"0.0.0.0"
+        $detected = $false
+
+        if (Test-Path $versionMarker) {
+            try {
+                $content = (Get-Content $versionMarker -Raw -ErrorAction Stop).Trim()
+
+                if ($content -match '^v?(\d+(\.\d+){1,3})$') {
+                    $currentVersion = [version]$matches[1]
+                    $detected = $true
+
+                    Write-Host "   [VERSION FOUND] Deployed: $currentVersion" -ForegroundColor Cyan
+                }
+            }
+            catch {
+                Write-Host "   [READ FAILED]" -ForegroundColor DarkYellow
+            }
+        }
+
+        if (-not $detected) {
+            Write-Host "   [NO PREVIOUS VERSION MARKER]" -ForegroundColor DarkGray
+        }
+
+        # ----------------------------------------------------
+        # VERSION COMPARISON
+        # ----------------------------------------------------
+        if ($latestVersion -le $currentVersion) {
+            Write-Host ">> Status: [ALREADY UP TO DATE]" -ForegroundColor Green
+            $skipInstall = $true
+        }
+    }
+
+    # --------------------------------------------------------
+    # DOWNLOAD AND INSTALL ONLY IF NEEDED
+    # --------------------------------------------------------
+    if (-not $skipInstall) {
+
+        Write-Host ">> Status: [UPDATE REQUIRED]" -ForegroundColor Cyan
+
+        # Download MSI
+        Write-Host ">> Downloading $targetFileName... " -ForegroundColor Yellow -NoNewline
+
+        Invoke-WebRequest `
+            -Uri $targetUrl `
+            -OutFile $tempMsi `
+            -UserAgent $ua `
+            -ErrorAction Stop
+
+        if (-not (Test-Path $tempMsi) -or (Get-Item $tempMsi).Length -eq 0) {
+            throw "The downloaded MSI is missing or empty."
+        }
+
+        Write-Host "[OK]" -ForegroundColor Green
+
+        # Ensure deployment directory exists
+        if (-not (Test-Path $installDir)) {
+            New-Item -Path $installDir -ItemType Directory -Force |
+                Out-Null
+        }
+
+        # ----------------------------------------------------
+        # SILENT MSI INSTALLATION
+        # ----------------------------------------------------
+        Write-Host ">> Executing PdfCraft MSI installer silently..." -ForegroundColor Yellow
+
+        $msiArgs = @(
+            "/i"
+            "`"$tempMsi`""
+            "/qn"
+            "/norestart"
+            "INSTALLDESKTOPSHORTCUT=0"
+        )
+
+        $process = Start-Process `
+            -FilePath "$env:SystemRoot\System32\msiexec.exe" `
+            -ArgumentList $msiArgs `
+            -Wait `
+            -PassThru `
+            -NoNewWindow
+
+        # 0 = success; 3010 = success, reboot required
+        if ($process.ExitCode -notin @(0, 3010)) {
+            throw "MSI installation failed with exit code $($process.ExitCode)."
+        }
+
+        # Save version marker only after successful installation
+        Set-Content `
+            -Path $versionMarker `
+            -Value $latestVersionStr `
+            -Encoding ASCII `
+            -Force
+
+        Write-Host ">> Version marker updated to: $latestVersionStr" -ForegroundColor Gray
+
+        if ($process.ExitCode -eq 3010) {
+            Write-Host ">> Deployment completed. A restart is required." -ForegroundColor Yellow
+        }
+        else {
+            Write-Host ">> Deployment completed successfully." -ForegroundColor Green
+        }
+    }
+
+}
+catch {
+    Write-Host "[ERROR] $($_.Exception.Message)" -ForegroundColor Red
+}
+finally {
+
+    # --------------------------------------------------------
+    # CLEANUP TEMPORARY MSI
+    # --------------------------------------------------------
+    if (-not [string]::IsNullOrWhiteSpace($tempMsi) -and (Test-Path $tempMsi)) {
+        Write-Host ">> Cleaning up installer package..." -ForegroundColor Yellow
+
+        Remove-Item $tempMsi -Force -ErrorAction SilentlyContinue
+
+        Write-Host ">> Cleanup complete." -ForegroundColor Green
+    }
+}
+
+Write-Host "--------------------------------------------------------"
+Write-Host ""
+
 ##------------------------------------------------------##
 
 <#
@@ -4664,7 +6440,7 @@ Write-Host "`n[MODULE] Deploying Shell Context Menu Extensions (Shift-only)..." 
 # Detect system language (ISO 2-letter code)
 $langID = (Get-Culture).TwoLetterISOLanguageName
 
-# Multi-language dictionary for all 22 requested languages
+# Multi-language dictionary for all 23 requested languages
 $translations = @{
     "en" = @{ copy = "All rights reserved."; open = "Open here"; admin = "Open here as administrator" }
     "pt" = @{ copy = "Todos os direitos reservados."; open = "Abrir aqui"; admin = "Abrir aqui como administrador" }
@@ -4688,6 +6464,7 @@ $translations = @{
     "fi" = @{ copy = "Kaikki oikeudet pidätetään."; open = "Avaa tässä"; admin = "Avaa tässä järjestelmänvalvojana" }
     "he" = @{ copy = "כל הזכויות שמורות."; open = "פתח כאן"; admin = "פתח כאן כמנהל מערכת" }
     "el" = @{ copy = "Με επιφύλαξη παντός δικαιώματος."; open = "Άνοιγμα εδώ"; admin = "Άνοιγμα εδώ ως διαχειριστής" }
+    "ar" = @{ copy = "جميع الحقوق محفوظة."; open = "افتح هنا"; admin = "افتح هنا كمسؤول" }
 }
 
 # Fallback to English if the language is not in the dictionary
@@ -4696,343 +6473,402 @@ $copyText = $langSet.copy
 $openText = $langSet.open
 $adminText = $langSet.admin
 
-# --- SECTION: COMMAND PROMPT (CMD) ---
-Write-Host ">> Configuring Command Prompt Extensions..." -ForegroundColor Gray
+# ==========================================
+# COMMAND LINE TOOLS - SHIFT-ONLY CONTEXT MENU
+# CMD + Windows PowerShell
+# ==========================================
 
-$cmdPaths = @(
-    "HKLM:\SOFTWARE\Classes\DesktopBackground\Shell\CommandPrompt",
-    "HKLM:\SOFTWARE\Classes\Directory\background\shell\CommandPrompt",
-    "HKLM:\SOFTWARE\Classes\Directory\shell\CommandPrompt",
-    "HKLM:\SOFTWARE\Classes\Drive\shell\CommandPrompt"
+Write-Host "`n>> Configuring Shift-only Command Line Tools..." -ForegroundColor Gray
+
+# --- Registry Locations ---
+$basePaths = @(
+    "HKLM:\SOFTWARE\Classes\DesktopBackground\Shell",
+    "HKLM:\SOFTWARE\Classes\Directory\background\shell",
+    "HKLM:\SOFTWARE\Classes\Directory\shell",
+    "HKLM:\SOFTWARE\Classes\Drive\shell"
 )
 
-foreach ($rootPath in $cmdPaths) {
+$parentName = "CommandLineTools"
+
+# --- Remove Previous Standalone Menus ---
+$legacyNames = @(
+    "CommandPrompt",
+    "PowerShellMenu"
+)
+
+foreach ($basePath in $basePaths) {
     try {
-        if (-not (Test-Path $rootPath)) { New-Item -Path $rootPath -Force | Out-Null }
+        # Remove legacy standalone entries
+        foreach ($legacyName in $legacyNames) {
+            $legacyPath = Join-Path $basePath $legacyName
+
+            if (Test-Path -LiteralPath $legacyPath) {
+                Remove-Item -LiteralPath $legacyPath -Recurse -Force
+            }
+        }
+
+        # ==========================================
+        # PARENT MENU
+        # ==========================================
+
+        $rootPath = Join-Path $basePath $parentName
+
+        if (-not (Test-Path -LiteralPath $rootPath)) {
+            New-Item -Path $rootPath -Force | Out-Null
+        }
+
+        Set-ItemProperty -Path $rootPath -Name "MUIVerb" -Value "Command Line Tools" -Force
         Set-ItemProperty -Path $rootPath -Name "Icon" -Value "imageres.dll,-5323" -Force
-        Set-ItemProperty -Path $rootPath -Name "MUIVerb" -Value "Command Prompt" -Force
         Set-ItemProperty -Path $rootPath -Name "SubCommands" -Value "" -Force
+
+        # Shift-only visibility
         Set-ItemProperty -Path $rootPath -Name "Extended" -Value "" -Force
 
-        $shellPath = "$rootPath\shell"
-        if (-not (Test-Path $shellPath)) { New-Item -Path $shellPath -Force | Out-Null }
-        $var = if ($rootPath -match "Directory\\shell" -or $rootPath -match "Drive\\shell") { "%L" } else { "%V" }
+        $shellPath = Join-Path $rootPath "shell"
 
-        # --- Sub-Option 1: Open Here (Normal CMD)
-        $cmd1Path = "$shellPath\cmd1"
-        # We delete and recreate to clear any English cache in the registry
-        if (Test-Path $cmd1Path) { Remove-Item $cmd1Path -Recurse -Force }
-        New-Item -Path $cmd1Path -Force | Out-Null
-        
-        # Explicitly setting the default value as the translated string
-        Set-ItemProperty -Path $cmd1Path -Name "(Default)" -Value "$openText" -Force
-        Set-ItemProperty -Path $cmd1Path -Name "Icon" -Value "imageres.dll,-5323" -Force
+        if (-not (Test-Path -LiteralPath $shellPath)) {
+            New-Item -Path $shellPath -Force | Out-Null
+        }
 
-        $cmd1Command = "$cmd1Path\command"
-        New-Item -Path $cmd1Command -Force | Out-Null
-        $normalCmd = "cmd.exe /s /k `"pushd `"$var`" & ver & echo (c) Microsoft Corporation. $copyText & echo.`""
-        Set-ItemProperty -Path $cmd1Command -Name "(Default)" -Value $normalCmd -Force
+        # Determine target path placeholder
+        $isDirectory = $basePath -match '\\(Directory|Drive)\\'
+        $target = if ($isDirectory) { '%L' } else { '%V' }
 
-        # --- Sub-Option 2: Open Here as Administrator (CMD) ---
-        $cmd2Path = "$shellPath\cmd2"
-        if (-not (Test-Path $cmd2Path)) { New-Item -Path $cmd2Path -Force | Out-Null }
-        Set-ItemProperty -Path $cmd2Path -Name "(Default)" -Value "$adminText" -Force
-        Set-ItemProperty -Path $cmd2Path -Name "HasLUAShield" -Value "" -Force
-        Set-ItemProperty -Path $cmd2Path -Name "Icon" -Value "imageres.dll,-5324" -Force
+        # ==========================================
+        # COMMAND PROMPT (CMD)
+        # ==========================================
 
-        $cmd2Command = "$cmd2Path\command"
-        if (-not (Test-Path $cmd2Command)) { New-Item -Path $cmd2Command -Force | Out-Null }
-        $innerCmd = "/k cd /d \`"$var\`" & ver & echo (c) Microsoft Corporation. $copyText & echo."
+        $cmdPath = Join-Path $shellPath "cmd"
+
+        if (Test-Path -LiteralPath $cmdPath) {
+            Remove-Item -LiteralPath $cmdPath -Recurse -Force
+        }
+
+        New-Item -Path $cmdPath -Force | Out-Null
+
+        Set-ItemProperty -Path $cmdPath -Name "MUIVerb" -Value "Command Prompt (CMD)" -Force
+        Set-ItemProperty -Path $cmdPath -Name "Icon" -Value "imageres.dll,-5323" -Force
+        Set-ItemProperty -Path $cmdPath -Name "SubCommands" -Value "" -Force
+
+        $cmdShell = Join-Path $cmdPath "shell"
+
+        # --- CMD: Open Normally ---
+        $cmdNormalPath = Join-Path $cmdShell "open"
+        $cmdNormalCommand = Join-Path $cmdNormalPath "command"
+
+        New-Item -Path $cmdNormalCommand -Force | Out-Null
+
+        Set-ItemProperty -Path $cmdNormalPath -Name "MUIVerb" -Value $openText -Force
+        Set-ItemProperty -Path $cmdNormalPath -Name "Icon" -Value "imageres.dll,-5323" -Force
+
+        $normalCmd = 'cmd.exe /s /k "pushd ""{0}"" & ver & echo (c) Microsoft Corporation. {1} & echo."' -f $target, $copyText
+
+        Set-ItemProperty -Path $cmdNormalCommand -Name "(Default)" -Value $normalCmd -Force
+
+        # --- CMD: Open as Administrator ---
+        $cmdAdminPath = Join-Path $cmdShell "admin"
+        $cmdAdminCommand = Join-Path $cmdAdminPath "command"
+
+        New-Item -Path $cmdAdminCommand -Force | Out-Null
+
+        Set-ItemProperty -Path $cmdAdminPath -Name "MUIVerb" -Value $adminText -Force
+        Set-ItemProperty -Path $cmdAdminPath -Name "Icon" -Value "imageres.dll,-5324" -Force
+        Set-ItemProperty -Path $cmdAdminPath -Name "HasLUAShield" -Value "" -Force
+
+        $innerCmd = "/k cd /d `"$target`" & ver & echo (c) Microsoft Corporation. $copyText & echo."
         $adminCmd = "powershell.exe -NoProfile -WindowStyle Hidden -Command `"Start-Process cmd.exe -ArgumentList '$innerCmd' -Verb RunAs`""
-        Set-ItemProperty -Path $cmd2Command -Name "(Default)" -Value $adminCmd -Force
 
-        Write-Host "[SUCCESS] CMD Submenu added: $($rootPath.Split('\')[-1])" -ForegroundColor Green
-    } catch { Write-Host "[ERROR] Failed at CMD: $rootPath" -ForegroundColor Red }
-}
+        Set-ItemProperty -Path $cmdAdminCommand -Name "(Default)" -Value $adminCmd -Force
 
-# --- SECTION: WINDOWS POWERSHELL ---
-Write-Host "`n>> Configuring Windows PowerShell Extensions..." -ForegroundColor Gray
+        # ==========================================
+        # WINDOWS POWERSHELL
+        # ==========================================
 
-$psPaths = @(
-    "HKLM:\SOFTWARE\Classes\DesktopBackground\Shell\PowerShellMenu",
-    "HKLM:\SOFTWARE\Classes\Directory\background\shell\PowerShellMenu",
-    "HKLM:\SOFTWARE\Classes\Directory\shell\PowerShellMenu",
-    "HKLM:\SOFTWARE\Classes\Drive\shell\PowerShellMenu"
-)
+        $psPath = Join-Path $shellPath "powershell"
 
-foreach ($rootPath in $psPaths) {
-    try {
-        if (-not (Test-Path $rootPath)) { New-Item -Path $rootPath -Force | Out-Null }
-        Set-ItemProperty -Path $rootPath -Name "Icon" -Value "powershell.exe" -Force
-        Set-ItemProperty -Path $rootPath -Name "MUIVerb" -Value "Windows PowerShell" -Force
-        Set-ItemProperty -Path $rootPath -Name "SubCommands" -Value "" -Force
-        Set-ItemProperty -Path $rootPath -Name "Extended" -Value "" -Force 
+        if (Test-Path -LiteralPath $psPath) {
+            Remove-Item -LiteralPath $psPath -Recurse -Force
+        }
 
-        $shellPath = "$rootPath\shell"
-        if (-not (Test-Path $shellPath)) { New-Item -Path $shellPath -Force | Out-Null }
-        $var = if ($rootPath -match "Directory\\shell" -or $rootPath -match "Drive\\shell") { "%L" } else { "%V" }
+        New-Item -Path $psPath -Force | Out-Null
 
-        # --- Sub-Option 1: Open Here (Normal PowerShell) ---
-        $ps1Path = "$shellPath\ps1"
-        if (-not (Test-Path $ps1Path)) { New-Item -Path $ps1Path -Force | Out-Null }
-        Set-ItemProperty -Path $ps1Path -Name "(Default)" -Value "$openText" -Force
-        Set-ItemProperty -Path $ps1Path -Name "Icon" -Value "powershell.exe" -Force
+        Set-ItemProperty -Path $psPath -Name "MUIVerb" -Value "Windows PowerShell" -Force
+        Set-ItemProperty -Path $psPath -Name "Icon" -Value "powershell.exe" -Force
+        Set-ItemProperty -Path $psPath -Name "SubCommands" -Value "" -Force
 
-        $ps1Command = "$ps1Path\command"
-        if (-not (Test-Path $ps1Command)) { New-Item -Path $ps1Command -Force | Out-Null }
-        $normalPs = 'powershell.exe -NoExit -Command "Set-Location -LiteralPath ''{0}''; Write-Host ''Windows PowerShell''; Write-Host ''(c) Microsoft Corporation. {1}''; Write-Host ''''"' -f $var, $copyText
-        Set-ItemProperty -Path $ps1Command -Name "(Default)" -Value $normalPs -Force
+        $psShell = Join-Path $psPath "shell"
 
-        # --- Sub-Option 2: Open Here as Administrator (PowerShell) ---
-        $ps2Path = "$shellPath\ps2"
-        if (-not (Test-Path $ps2Path)) { New-Item -Path $ps2Path -Force | Out-Null }
-        Set-ItemProperty -Path $ps2Path -Name "(Default)" -Value "$adminText" -Force
-        Set-ItemProperty -Path $ps2Path -Name "HasLUAShield" -Value "" -Force
-        Set-ItemProperty -Path $ps2Path -Name "Icon" -Value "powershell.exe" -Force
+        # --- PowerShell: Open Normally ---
+        $psNormalPath = Join-Path $psShell "open"
+        $psNormalCommand = Join-Path $psNormalPath "command"
 
-        $ps2Command = "$ps2Path\command"
-        if (-not (Test-Path $ps2Command)) { New-Item -Path $ps2Command -Force | Out-Null }
-        $innerPs = "Set-Location -LiteralPath ''{0}'' ; Write-Host ''Windows PowerShell'' ; Write-Host ''(c) Microsoft Corporation. {1}'' ; Write-Host ''''" -f $var, $copyText
+        New-Item -Path $psNormalCommand -Force | Out-Null
+
+        Set-ItemProperty -Path $psNormalPath -Name "MUIVerb" -Value $openText -Force
+        Set-ItemProperty -Path $psNormalPath -Name "Icon" -Value "powershell.exe" -Force
+
+        $normalPs = 'powershell.exe -NoExit -Command "Set-Location -LiteralPath ''{0}''; Write-Host ''Windows PowerShell''; Write-Host ''(c) Microsoft Corporation. {1}''' -f $target, $copyText
+
+        Set-ItemProperty -Path $psNormalCommand -Name "(Default)" -Value $normalPs -Force
+
+        # --- PowerShell: Open as Administrator ---
+        $psAdminPath = Join-Path $psShell "admin"
+        $psAdminCommand = Join-Path $psAdminPath "command"
+
+        New-Item -Path $psAdminCommand -Force | Out-Null
+
+        Set-ItemProperty -Path $psAdminPath -Name "MUIVerb" -Value $adminText -Force
+        Set-ItemProperty -Path $psAdminPath -Name "Icon" -Value "powershell.exe" -Force
+        Set-ItemProperty -Path $psAdminPath -Name "HasLUAShield" -Value "" -Force
+
+        $innerPs = "Set-Location -LiteralPath ''{0}''; Write-Host ''Windows PowerShell''; Write-Host ''(c) Microsoft Corporation. {1}''; Write-Host ''''" -f $target, $copyText
         $adminPs = 'powershell.exe -NoProfile -WindowStyle Hidden -Command "Start-Process powershell.exe -ArgumentList ''-NoExit'', ''-Command'', ''{0}'' -Verb RunAs"' -f $innerPs
-        Set-ItemProperty -Path $ps2Command -Name "(Default)" -Value $adminPs -Force
 
-        Write-Host "[SUCCESS] PowerShell Submenu added: $($rootPath.Split('\')[-1])" -ForegroundColor Green
-    } catch { Write-Host "[ERROR] Failed at PowerShell: $rootPath" -ForegroundColor Red }
+        Set-ItemProperty -Path $psAdminCommand -Name "(Default)" -Value $adminPs -Force
+
+        Write-Host "[OK] Shift-only menu configured: $basePath" -ForegroundColor Green
+    }
+    catch {
+        Write-Host "[ERROR] $basePath : $($_.Exception.Message)" -ForegroundColor Red
+    }
 }
 
-Write-Host ""
+Write-Host "`n[DONE] Command Line Tools configuration completed." -ForegroundColor Cyan
+Write-Host "Hold SHIFT + right-click to access the menu." -ForegroundColor Yellow
 Write-Host "Deployment Complete. Detected: $langID | Labels applied." -ForegroundColor Cyan
 Write-Host "`--------------------------------------------------------"
 
 ##------------------------------------------------------##
 
-# --- CUSTOM DESKTOP CONTEXT MENU MODULE (MULTI-LANGUAGE) ---
-Write-Host "`n[MODULE] Adding Advanced Tools to Desktop Context Menu..." -ForegroundColor Cyan
+# --- ADVANCED TOOLS: UNIFIED DESKTOP CONTEXT MENU ---
+Write-Host "`n[MODULE] Configuring Advanced Tools context menu..." -ForegroundColor Cyan
 
-# Detect system language
 $langID = (Get-Culture).TwoLetterISOLanguageName
 $basePath = "Registry::HKEY_CLASSES_ROOT\DesktopBackground\Shell"
-$appliedCount = 0
+$root = "$basePath\AdvancedTools"
 
-# --- Translation Dictionary ---
+# --- TRANSLATIONS ---
 $t = @{
-    "ControlPanel"    = @{ "en"="Control Panel"; "pt"="Painel de Controle"; "es"="Panel de control"; "de"="Systemsteuerung"; "nl"="Configuratiescherm"; "fr"="Panneau de configuration"; "it"="Pannello di controllo"; "ja"="コントロール パネル"; "ko"="제어판"; "zh"="控制面板"; "uk"="Панель керування"; "ru"="Панель управления"; "bg"="Контролен панел"; "hi"="कंट्रोल पैनल"; "tr"="Denetim Masası"; "vi"="Bảng điều khiển"; "th"="แผงควบคุม"; "id"="Panel Kontrol"; "ms"="Panel Kawalan"; "fi"="Ohjauspaneeli"; "he"="לוח הבקרה"; "el"="Πίνακας Ελέγχου" }
-    "CP_Cat"          = @{ "en"="Control Panel (Category)"; "pt"="Painel de Controle (Categoria)"; "es"="Panel de control (Categoría)"; "de"="Systemsteuerung (Kategorie)"; "fr"="Panneau de configuration (Catégorie)"; "ru"="Панель управления (Категория)"; "zh"="控制面板 (类别)" }
-    "CP_Icons"        = @{ "en"="All Control Panel Items (Icons)"; "pt"="Todos os Itens (Ícones)"; "es"="Todos los elementos (Iconos)"; "de"="Alle Systemsteuerungselemente (Symbole)"; "fr"="Tous les menus (Icônes)"; "ru"="Все элементы управления (Значки)" }
-    "GodMode"         = @{ "en"="All Tasks (God Mode)"; "pt"="Todas as Tarefas (God Mode)"; "es"="Todas las tareas (Modo Dios)"; "ru"="Все задачи (God Mode)" }
-    "KillTasks"       = @{ "en"="Kill Unresponsive Tasks"; "pt"="Encerrar Processos Travados"; "es"="Finalizar tareas no respondidas"; "de"="Nicht reagierende Tasks beenden"; "fr"="Tuer les tâches qui ne répondent pas"; "ru"="Завершить зависшие задачи"; "zh"="结束未响应任务" }
-    "SafeMode"        = @{ "en"="Safe Mode"; "pt"="Modo de Segurança"; "es"="Modo seguro"; "de"="Abgesicherter Modus"; "fr"="Mode sans échec"; "ja"="セーフモード"; "ru"="Безопасный режим"; "zh"="安全模式" }
-    "SM_Normal"       = @{ "en"="Restart in Normal Mode"; "pt"="Reiniciar em Modo Normal"; "es"="Reiniciar en modo normal"; "fr"="Redémarrer en mode normal"; "ru"="Перезагрузка в обычном режиме" }
-    "SM_Safe"         = @{ "en"="Restart in Safe Mode"; "pt"="Reiniciar em Modo de Segurança"; "es"="Reiniciar en modo seguro"; "fr"="Redémarrer en mode sans échec"; "ru"="Перезагрузка в безопасном режиме" }
-    "SM_Net"          = @{ "en"="Restart in Safe Mode with Networking"; "pt"="Modo de Segurança com Rede"; "es"="Modo seguro con funciones de red"; "ru"="Безопасный режим с загрузкой сетевых драйверoв" }
-    "SM_CMD"          = @{ "en"="Restart in Safe Mode with Command Prompt"; "pt"="Modo de Segurança com Prompt"; "es"="Modo seguro con símbolo del sistema"; "ru"="Безопасный режим com командной строкой" }
-    "RestartExplorer" = @{ "en"="Restart Explorer"; "pt"="Reiniciar Explorer"; "es"="Reiniciar Explorer"; "de"="Explorer neu starten"; "fr"="Redémarrer l'Explorador"; "ru"="Перезапуск проводника" }
-    "RE_Now"          = @{ "en"="Restart Explorer Now"; "pt"="Reiniciar Explorer Agora"; "es"="Reiniciar Explorer ahora"; "ru"="Перезапустить сейчас" }
-    "RE_Pause"        = @{ "en"="Restart Explorer with Pause"; "pt"="Reiniciar Explorer com Pausa"; "es"="Reiniciar Explorer con pausa"; "ru"="Перезапустить com паузой" }
-    "SysProp"         = @{ "en"="System Properties"; "pt"="Propriedades do Sistema"; "es"="Propriedades del sistema"; "de"="Systemeigenschaften"; "fr"="Propriétés système"; "ru"="Свойства системы"; "zh"="系统属性" }
+    AdvancedTools = @{
+        en = "Advanced Tools"; pt = "Ferramentas Avançadas"; es = "Herramientas avanzadas"; fr = "Outils avancés"; de = "Erweiterte Tools"; it = "Strumenti avanzati"; ru = "Дополнительные инструменты"; "zh-TW" = "進階工具"; "zh-CN" = "高级工具"; ar = "أدوات متقدمة"; cs = "Pokročilé nástroje"; da = "Avancerede værktøjer"; nl = "Geavanceerde hulpmiddelen"; fi = "Lisätyökalut"; el = "Προηγμένα εργαλεία"; he = "כלים מתקדמים"; hu = "Speciális eszközök"; ja = "高度なツール"; ko = "고급 도구"; no = "Avanserte verktøy"; pl = "Narzędzia zaawansowane"; sv = "Avancerade verktyg"; tr = "Gelişmiş Araçlar"
+    }
+    ControlPanel = @{
+        en = "Control Panel"; pt = "Painel de Controle"; es = "Panel de control"; fr = "Panneau de configuration"; de = "Systemsteuerung"; it = "Pannello di controllo"; ru = "Панель управления"; "zh-TW" = "控制台"; "zh-CN" = "控制面板"; ar = "لوحة التحكم"; cs = "Ovládací panely"; da = "Kontrolpanel"; nl = "Configuratiescherm"; fi = "Ohjauspaneeli"; el = "Πίνακας Ελέγχου"; he = "לוח הבקרה"; hu = "Vezérlőpult"; ja = "コントロール パネル"; ko = "제어판"; no = "Kontrollpanel"; pl = "Panel sterowania"; sv = "Kontrollpanelen"; tr = "Denetim Masası"
+    }
+    CPCat = @{
+        en = "Category View"; pt = "Exibir por Categoria"; es = "Ver por categoría"; fr = "Affichage par catégorie"; de = "Kategorieansicht"; it = "Visualizzazione per categoria"; ru = "Просмотр по категориям"; "zh-TW" = "類別檢視"; "zh-CN" = "类别视图"; ar = "عرض حسب الفئة"; cs = "Zobrazení podle kategorií"; da = "Kategorivisning"; nl = "Categorieweergave"; fi = "Luokkanäkymä"; el = "Προβολή κατηγορίας"; he = "תצוגת קטגוריות"; hu = "Kategória nézet"; ja = "カテゴリ表示"; ko = "범주 보기"; no = "Kategorivisning"; pl = "Widok kategorii"; sv = "Kategorivy"; tr = "Kategori Görünümü"
+    }
+    CPIcons = @{
+        en = "All Items (Icons)"; pt = "Todos os Itens (Ícones)"; es = "Todos los elementos (iconos)"; fr = "Tous les éléments (icônes)"; de = "Alle Elemente (Symbole)"; it = "Tutti gli elementi (icone)"; ru = "Все элементы (значки)"; "zh-TW" = "所有項目（圖示）"; "zh-CN" = "所有项目（图标）"; ar = "جميع العناصر (أيقونات)"; cs = "Všechny položky (ikony)"; da = "Alle elementer (ikoner)"; nl = "Alle items (pictogrammen)"; fi = "Kaikki kohteet (kuvakkeet)"; el = "Όλα τα στοιχεία (εικονίδια)"; he = "כל הפריטים (סמלים)"; hu = "Minden elem (ikonok)"; ja = "すべての項目（アイコン）"; ko = "모든 항목(아이콘)"; no = "Alle elementer (ikoner)"; pl = "Wszystkie elementy (ikony)"; sv = "Alla objekt (ikoner)"; tr = "Tüm Öğeler (Simgeler)"
+    }
+    GodMode = @{
+        en = "All Tasks (God Mode)"; pt = "Todas as Tarefas (God Mode)"; es = "Todas las tareas (Modo Dios)"; fr = "Toutes les tâches (Mode Dieu)"; de = "Alle Aufgaben (Gottmodus)"; it = "Tutte le attività (God Mode)"; ru = "Все задачи (режим Бога)"; "zh-TW" = "所有工作（上帝模式）"; "zh-CN" = "所有任务（上帝模式）"; ar = "جميع المهام (وضع الإله)"; cs = "Všechny úkoly (God Mode)"; da = "Alle opgaver (God Mode)"; nl = "Alle taken (God Mode)"; fi = "Kaikki tehtävät (God Mode)"; el = "Όλες οι εργασίες (God Mode)"; he = "כל המשימות (מצב אלוהים)"; hu = "Minden feladat (God Mode)"; ja = "すべてのタスク（God Mode）"; ko = "모든 작업(God Mode)"; no = "Alle oppgaver (God Mode)"; pl = "Wszystkie zadania (God Mode)"; sv = "Alla uppgifter (God Mode)"; tr = "Tüm Görevler (God Mode)"
+    }
+    KillTasks = @{
+        en = "Kill Unresponsive Tasks"; pt = "Encerrar Processos Travados"; es = "Finalizar tareas que no responden"; fr = "Arrêter les tâches bloquées"; de = "Nicht reagierende Prozesse beenden"; it = "Termina processi bloccati"; ru = "Завершить зависшие процессы"; "zh-TW" = "結束無回應的工作"; "zh-CN" = "结束无响应的任务"; ar = "إنهاء المهام غير المستجيبة"; cs = "Ukončit nereagující úlohy"; da = "Afslut processer, der ikke svarer"; nl = "Vastgelopen taken beëindigen"; fi = "Lopeta vastaamattomat tehtävät"; el = "Τερματισμός εργασιών που δεν αποκρίνονται"; he = "סיום משימות שאינן מגיבות"; hu = "Nem válaszoló feladatok leállítása"; ja = "応答しないタスクを終了"; ko = "응답하지 않는 작업 종료"; no = "Avslutt oppgaver som ikke svarer"; pl = "Zakończ nieodpowiadające zadania"; sv = "Avsluta processer som inte svarar"; tr = "Yanıt Vermeyen Görevleri Sonlandır"
+    }
+    SafeMode = @{
+        en = "Safe Mode"; pt = "Modo de Segurança"; es = "Modo seguro"; fr = "Mode sans échec"; de = "Abgesicherter Modus"; it = "Modalità provvisoria"; ru = "Безопасный режим"; "zh-TW" = "安全模式"; "zh-CN" = "安全模式"; ar = "الوضع الآمن"; cs = "Nouzový režim"; da = "Fejlsikret tilstand"; nl = "Veilige modus"; fi = "Vikasietotila"; el = "Ασφαλής λειτουργία"; he = "מצב בטוח"; hu = "Csökkentett mód"; ja = "セーフ モード"; ko = "안전 모드"; no = "Sikker modus"; pl = "Tryb awaryjny"; sv = "Felsäkert läge"; tr = "Güvenli Mod"
+    }
+    Normal = @{
+        en = "Restart in Normal Mode"; pt = "Reiniciar em Modo Normal"; es = "Reiniciar en modo normal"; fr = "Redémarrer en mode normal"; de = "Im normalen Modus neu starten"; it = "Riavvia in modalità normale"; ru = "Перезагрузить в обычном режиме"; "zh-TW" = "重新啟動至正常模式"; "zh-CN" = "重启进入正常模式"; ar = "إعادة التشغيل في الوضع العادي"; cs = "Restartovat v normálním režimu"; da = "Genstart i normal tilstand"; nl = "Opnieuw opstarten in normale modus"; fi = "Käynnistä uudelleen normaalitilaan"; el = "Επανεκκίνηση σε κανονική λειτουργία"; he = "הפעלה מחדש במצב רגיל"; hu = "Újraindítás normál módban"; ja = "通常モードで再起動"; ko = "일반 모드로 다시 시작"; no = "Start på nytt i normal modus"; pl = "Uruchom ponownie w trybie normalnym"; sv = "Starta om i normalt läge"; tr = "Normal Modda Yeniden Başlat"
+    }
+    Safe = @{
+        en = "Restart in Safe Mode"; pt = "Reiniciar em Modo de Segurança"; es = "Reiniciar en modo seguro"; fr = "Redémarrer en mode sans échec"; de = "Im abgesicherten Modus neu starten"; it = "Riavvia in modalità provvisoria"; ru = "Перезагрузить в безопасном режиме"; "zh-TW" = "重新啟動至安全模式"; "zh-CN" = "重启进入安全模式"; ar = "إعادة التشغيل في الوضع الآمن"; cs = "Restartovat v nouzovém režimu"; da = "Genstart i fejlsikret tilstand"; nl = "Opnieuw opstarten in veilige modus"; fi = "Käynnistä uudelleen vikasietotilaan"; el = "Επανεκκίνηση σε ασφαλή λειτουργία"; he = "הפעלה מחדש במצב בטוח"; hu = "Újraindítás csökkentett módban"; ja = "セーフ モードで再起動"; ko = "안전 모드로 다시 시작"; no = "Start på nytt i sikker modus"; pl = "Uruchom ponownie w trybie awaryjnym"; sv = "Starta om i felsäkert läge"; tr = "Güvenli Modda Yeniden Başlat"
+    }
+    Network = @{
+        en = "Safe Mode with Networking"; pt = "Modo de Segurança com Rede"; es = "Modo seguro con funciones de red"; fr = "Mode sans échec avec réseau"; de = "Abgesicherter Modus mit Netzwerk"; it = "Modalità provvisoria con rete"; ru = "Безопасный режим с поддержкой сети"; "zh-TW" = "含網路功能的安全模式"; "zh-CN" = "带网络连接的安全模式"; ar = "الوضع الآمن مع الشبكات"; cs = "Nouzový režim se sítí"; da = "Fejlsikret tilstand med netværk"; nl = "Veilige modus met netwerkmogelijkheden"; fi = "Vikasietila verkkoyhteydellä"; el = "Ασφαλής λειτουργία με δίκτυο"; he = "מצב בטוח עם רשת"; hu = "Csökkentett mód hálózattal"; ja = "ネットワーク対応セーフ モード"; ko = "네트워킹 사용 안전 모드"; no = "Sikker modus med nettverk"; pl = "Tryb awaryjny z obsługą sieci"; sv = "Felsäkert läge med nätverk"; tr = "Ağ ile Güvenli Mod"
+    }
+    CMD = @{
+        en = "Safe Mode with Command Prompt"; pt = "Modo de Segurança com Prompt"; es = "Modo seguro con símbolo del sistema"; fr = "Mode sans échec avec invite de commandes"; de = "Abgesicherter Modus mit Eingabeaufforderung"; it = "Modalità provvisoria con prompt dei comandi"; ru = "Безопасный режим с командной строкой"; "zh-TW" = "含命令提示字元的安全模式"; "zh-CN" = "带命令提示符的安全模式"; ar = "الوضع الآمن مع موجه الأوامر"; cs = "Nouzový režim s příkazovým řádkem"; da = "Fejlsikret tilstand med kommandoprompt"; nl = "Veilige modus met opdrachtprompt"; fi = "Vikasietila komentokehotteella"; el = "Ασφαλής λειτουργία με γραμμή εντολών"; he = "מצב בטוח עם שורת פקודה"; hu = "Csökkentett mód parancssorral"; ja = "コマンド プロンプト付きセーフ モード"; ko = "명령 프롬프트 사용 안전 모드"; no = "Sikker modus med ledetekst"; pl = "Tryb awaryjny z wierszem polecenia"; sv = "Felsäkert läge med kommandotolk"; tr = "Komut İstemi ile Güvenli Mod"
+    }
+    Explorer = @{
+        en = "Restart Explorer"; pt = "Reiniciar Explorer"; es = "Reiniciar el Explorador"; fr = "Redémarrer l’Explorateur"; de = "Explorer neu starten"; it = "Riavvia Esplora file"; ru = "Перезапустить Проводник"; "zh-TW" = "重新啟動檔案總管"; "zh-CN" = "重新启动文件资源管理器"; ar = "إعادة تشغيل المستكشف"; cs = "Restartovat Průzkumníka"; da = "Genstart Stifinder"; nl = "Verkenner opnieuw starten"; fi = "Käynnistä Resurssienhallinta uudelleen"; el = "Επανεκκίνηση Εξερεύνησης αρχείων"; he = "הפעלה מחדש של סייר הקבצים"; hu = "Fájlkezelő újraindítása"; ja = "エクスプローラーを再起動"; ko = "파일 탐색기 다시 시작"; no = "Start Filutforsker på nytt"; pl = "Uruchom ponownie Eksplorator plików"; sv = "Starta om Utforskaren"; tr = "Dosya Gezgini'ni Yeniden Başlat"
+    }
+    ExplorerNow = @{
+        en = "Restart Explorer Now"; pt = "Reiniciar Explorer Agora"; es = "Reiniciar el Explorador ahora"; fr = "Redémarrer l’Explorateur maintenant"; de = "Explorer jetzt neu starten"; it = "Riavvia Esplora file ora"; ru = "Перезапустить Проводник сейчас"; "zh-TW" = "立即重新啟動檔案總管"; "zh-CN" = "立即重新启动文件资源管理器"; ar = "إعادة تشغيل المستكشف الآن"; cs = "Restartovat Průzkumníka nyní"; da = "Genstart Stifinder nu"; nl = "Verkenner nu opnieuw starten"; fi = "Käynnistä Resurssienhallinta nyt uudelleen"; el = "Επανεκκίνηση Εξερεύνησης αρχείων τώρα"; he = "הפעלה מחדש של סייר הקבצים כעת"; hu = "Fájlkezelő újraindítása most"; ja = "エクスプローラーを今すぐ再起動"; ko = "파일 탐색기 지금 다시 시작"; no = "Start Filutforsker på nytt nå"; pl = "Uruchom Eksplorator plików ponownie teraz"; sv = "Starta om Utforskaren nu"; tr = "Dosya Gezgini'ni Şimdi Yeniden Başlat"
+    }
+    ExplorerPause = @{
+        en = "Restart Explorer with Pause"; pt = "Reiniciar Explorer com Pausa"; es = "Reiniciar el Explorador con pausa"; fr = "Redémarrer l’Explorateur avec pause"; de = "Explorer mit Pause neu starten"; it = "Riavvia Esplora file con pausa"; ru = "Перезапустить Проводник с паузой"; "zh-TW" = "暫停後重新啟動檔案總管"; "zh-CN" = "暂停后重新启动文件资源管理器"; ar = "إعادة تشغيل المستكشف مع توقف مؤقت"; cs = "Restartovat Průzkumníka s pauzou"; da = "Genstart Stifinder med pause"; nl = "Verkenner opnieuw starten met pauze"; fi = "Käynnistä Resurssienhallinta uudelleen tauolla"; el = "Επανεκκίνηση Εξερεύνησης αρχείων με παύση"; he = "הפעלה מחדש של סייר הקבצים עם השהיה"; hu = "Fájlkezelő újraindítása szünettel"; ja = "一時停止してエクスプローラーを再起動"; ko = "일시 중지 후 파일 탐색기 다시 시작"; no = "Start Filutforsker på nytt med pause"; pl = "Uruchom ponownie Eksplorator plików z pauzą"; sv = "Starta om Utforskaren med paus"; tr = "Dosya Gezgini'ni Duraklatarak Yeniden Başlat"
+    }
+    SysProp = @{
+        en = "System Properties"; pt = "Propriedades do Sistema"; es = "Propiedades del sistema"; fr = "Propriétés système"; de = "Systemeigenschaften"; it = "Proprietà del sistema"; ru = "Свойства системы"; "zh-TW" = "系統內容"; "zh-CN" = "系统属性"; ar = "خصائص النظام"; cs = "Vlastnosti systému"; da = "Systemegenskaber"; nl = "Systeemeigenschappen"; fi = "Järjestelmän ominaisuudet"; el = "Ιδιότητες συστήματος"; he = "מאפייני מערכת"; hu = "Rendszertulajdonságok"; ja = "システムのプロパティ"; ko = "시스템 속성"; no = "Systemegenskaper"; pl = "Właściwości systemu"; sv = "Systemegenskaper"; tr = "Sistem Özellikleri"
+    }
 }
 
-function Get-T($key) {
-    if ($t[$key].ContainsKey($langID)) { return $t[$key][$langID] } else { return $t[$key]["en"] }
+function Get-T {
+    param([string]$Key)
+
+    if ($t[$Key].ContainsKey($langID)) {
+        return $t[$Key][$langID]
+    }
+
+    return $t[$Key]["en"]
 }
 
-function Quick-Reg {
-    param ($Path, $Name, $Value, $Type = "String")
-    if (-not (Test-Path $Path)) { New-Item -Path $Path -Force | Out-Null }
-    Set-ItemProperty -Path $Path -Name $Name -Value $Value -Type $Type -Force
-}
-
-try {
-    # 1. CONTROL PANEL
-    $name = Get-T "ControlPanel"
-    Write-Host ">> Applying: $name..." -ForegroundColor Gray
-    $cp = "$basePath\ControlPanel"
-    Quick-Reg $cp "MUIVerb" $name
-    Quick-Reg $cp "SubCommands" ""
-    Quick-Reg $cp "Icon" "imageres.dll,-27"
-    Quick-Reg "$cp\shell\001flyout" "(Default)" (Get-T "CP_Cat")
-    Quick-Reg "$cp\shell\001flyout\command" "(Default)" "explorer.exe shell:::{26EE0668-A00A-44D7-9371-BEB064C98683}"
-    Quick-Reg "$cp\shell\002flyout" "(Default)" (Get-T "CP_Icons")
-    Quick-Reg "$cp\shell\002flyout\command" "(Default)" "explorer.exe shell:::{21EC2020-3AEA-1069-A2DD-08002B30309D}"
-    Quick-Reg "$cp\shell\003flyout" "(Default)" (Get-T "GodMode")
-    Quick-Reg "$cp\shell\003flyout\command" "(Default)" "explorer.exe shell:::{ED7BA470-8E54-465E-825C-99712043E01C}"
-    $appliedCount++
-
-    # 2. KILL UNRESPONSIVE TASKS
-    $name = Get-T "KillTasks"
-    Write-Host ">> Applying: $name..." -ForegroundColor Gray
-    $kill = "$basePath\KillNRTasks"
-    Quick-Reg $kill "MUIVerb" $name
-    Quick-Reg $kill "Icon" "taskmgr.exe,-30651"
-    Quick-Reg "$kill\command" "(Default)" 'CMD.exe /C taskkill.exe /f /fi "status eq Not Responding" & Pause'
-    $appliedCount++
-
-    # 3. SAFE MODE
-    $name = Get-T "SafeMode"
-    Write-Host ">> Applying: $name..." -ForegroundColor Gray
-    $sm = "$basePath\SafeMode"
-    
-    # Pre-clean: Remove the old key to kill any cached bilingual strings
-    if (Test-Path $sm) { Remove-Item -Path $sm -Recurse -Force -ErrorAction SilentlyContinue }
-
-    Quick-Reg $sm "MUIVerb" $name
-    Quick-Reg $sm "SubCommands" ""
-    Quick-Reg $sm "Icon" "bootux.dll,-1032"
-
-    $smItems = @(
-        @{ ID="001"; Name=(Get-T "SM_Normal"); CMD="bcdedit /deletevalue {current} safeboot & bcdedit /deletevalue {current} safebootalternateshell"; Icon="shell32.dll,-239" }
-        @{ ID="002"; Name=(Get-T "SM_Safe"); CMD="bcdedit /set {current} safeboot minimal & bcdedit /deletevalue {current} safebootalternateshell"; Icon="imageres.dll,-102" }
-        @{ ID="003"; Name=(Get-T "SM_Net"); CMD="bcdedit /set {current} safeboot network & bcdedit /deletevalue {current} safebootalternateshell"; Icon="shell32.dll,-257" }
-        @{ ID="004"; Name=(Get-T "SM_CMD"); CMD="bcdedit /set {current} safeboot minimal & bcdedit /set {current} safebootalternateshell yes"; Icon="cmd.exe" }
+function Set-RegString {
+    param(
+        [string]$Path,
+        [string]$Name,
+        [string]$Value
     )
 
-    foreach ($item in $smItems) {
-        $path = "$sm\shell\$($item.ID)-Mode"
-        
-        # Force MUIVerb and kill any existing LocalizedString or CanonicalName that causes bilingual labels
-        Quick-Reg $path "MUIVerb" $item.Name
-        Quick-Reg $path "(Default)" "" 
-        
-        # Restore Icon for each sub-item
-        if ($item.Icon) { Quick-Reg $path "Icon" $item.Icon }
-        
-        # Windows 11 26H1 specific: Stop system from fetching default/translated MUI strings
-        if (Test-Path $path) {
-            Remove-ItemProperty -Path $path -Name "LocalizedString" -ErrorAction SilentlyContinue
-            Quick-Reg $path "CanonicalName" "" 
-        }
-
-        Quick-Reg "$path\command" "(Default)" "powershell -windowstyle hidden -command `"Start-Process cmd -ArgumentList '/s,/c,$($item.CMD) & shutdown -r -t 00 -f' -Verb runAs`""
+    if (-not (Test-Path -LiteralPath $Path)) {
+        New-Item -Path $Path -Force -ErrorAction Stop | Out-Null
     }
-    $appliedCount++
 
-    # 4. RESTART EXPLORER
-    $name = Get-T "RestartExplorer"
-    Write-Host ">> Applying: $name..." -ForegroundColor Gray
-    $re = "$basePath\Restart Explorer"
+    if ($Name -eq "(Default)") {
+        Set-Item -LiteralPath $Path -Value $Value -ErrorAction Stop
+    }
+    else {
+        New-ItemProperty -LiteralPath $Path -Name $Name `
+            -Value $Value -PropertyType String -Force `
+            -ErrorAction Stop | Out-Null
+    }
+}
 
-    # Pre-clean to avoid bilingual/ghost issues on Win11 26H1
-    if (Test-Path $re) { Remove-Item -Path $re -Recurse -Force -ErrorAction SilentlyContinue }
+function New-MenuItem {
+    param(
+        [string]$Path,
+        [string]$Name,
+        [string]$Icon,
+        [string]$Command
+    )
 
-    Quick-Reg $re "MUIVerb" $name
-    Quick-Reg $re "Icon" "explorer.exe"
-    Quick-Reg $re "SubCommands" ""
+    Set-RegString $Path "MUIVerb" $Name
+    Set-RegString $Path "Icon" $Icon
+    Set-RegString "$Path\command" "(Default)" $Command
+}
 
-    # Sub-item: Restart Explorer Now
-    $pathNow = "$re\shell\01menu"
-    Quick-Reg $pathNow "MUIVerb" (Get-T "RE_Now")
-    Quick-Reg $pathNow "(Default)" ""
-    # ICON: Blue modern Refresh arrows (Fluent style)
-    Quick-Reg $pathNow "Icon" "shell32.dll,-16739" 
-    Quick-Reg $pathNow "CanonicalName" ""
-    Quick-Reg "$pathNow\command" "(Default)" "cmd.exe /c taskkill /f /im explorer.exe & start explorer.exe"
+try {
+    # Create the unified parent menu.
+    if (Test-Path -LiteralPath $root) {
+        Remove-Item -LiteralPath $root -Recurse -Force -ErrorAction Stop
+    }
 
-    # Sub-item: Restart Explorer with Pause
-    $pathPause = "$re\shell\02menu"
-    Quick-Reg $pathPause "MUIVerb" (Get-T "RE_Pause")
-    Quick-Reg $pathPause "(Default)" ""
-    # ICON: Settings/Process gear with a timer feel
-    Quick-Reg $pathPause "Icon" "shell32.dll,-315" 
-    Quick-Reg $pathPause "CanonicalName" ""
-    Quick-Reg "$pathPause\command" "(Default)" 'cmd.exe /c @echo off & echo Stopping explorer... & taskkill /f /im explorer.exe & pause & start explorer.exe'
+    Set-RegString $root "MUIVerb" (Get-T "AdvancedTools")
+    Set-RegString $root "Icon" "imageres.dll,-5302"
+    Set-RegString $root "SubCommands" ""
 
-    $appliedCount++
+    # 1. CONTROL PANEL SUBMENU
+    $cp = "$root\shell\01ControlPanel"
+
+    Set-RegString $cp "MUIVerb" (Get-T "ControlPanel")
+    Set-RegString $cp "Icon" "imageres.dll,-27"
+    Set-RegString $cp "SubCommands" ""
+
+    New-MenuItem "$cp\shell\01Category" `
+        (Get-T "CPCat") "imageres.dll,-27" `
+        "explorer.exe shell:::{26EE0668-A00A-44D7-9371-BEB064C98683}"
+
+    New-MenuItem "$cp\shell\02Icons" `
+        (Get-T "CPIcons") "imageres.dll,-27" `
+        "explorer.exe shell:::{21EC2020-3AEA-1069-A2DD-08002B30309D}"
+
+    New-MenuItem "$cp\shell\03GodMode" `
+        (Get-T "GodMode") "imageres.dll,-27" `
+        "explorer.exe shell:::{ED7BA470-8E54-465E-825C-99712043E01C}"
+
+    # 2. KILL UNRESPONSIVE TASKS
+    New-MenuItem "$root\shell\02KillTasks" `
+        (Get-T "KillTasks") "taskmgr.exe,-30651" `
+        'cmd.exe /c taskkill.exe /f /fi "status eq Not Responding" & pause'
+
+    # 3. SAFE MODE SUBMENU
+    $sm = "$root\shell\03SafeMode"
+
+    Set-RegString $sm "MUIVerb" (Get-T "SafeMode")
+    Set-RegString $sm "Icon" "bootux.dll,-1032"
+    Set-RegString $sm "SubCommands" ""
+
+    $safeItems = @(
+        @{
+            ID = "01Normal"
+            Key = "Normal"
+            Icon = "shell32.dll,-239"
+            Args = '/deletevalue {current} safeboot'
+            Extra = ' & bcdedit /deletevalue {current} safebootalternateshell'
+        },
+        @{
+            ID = "02Safe"
+            Key = "Safe"
+            Icon = "imageres.dll,-102"
+            Args = '/set {current} safeboot minimal'
+            Extra = ' & bcdedit /deletevalue {current} safebootalternateshell'
+        },
+        @{
+            ID = "03Network"
+            Key = "Network"
+            Icon = "shell32.dll,-257"
+            Args = '/set {current} safeboot network'
+            Extra = ' & bcdedit /deletevalue {current} safebootalternateshell'
+        },
+        @{
+            ID = "04CMD"
+            Key = "CMD"
+            Icon = "cmd.exe"
+            Args = '/set {current} safeboot minimal'
+            Extra = ' & bcdedit /set {current} safebootalternateshell yes'
+        }
+    )
+
+    foreach ($item in $safeItems) {
+        $cmd = "bcdedit $($item.Args)$($item.Extra) & shutdown.exe -r -t 0 -f"
+
+        New-MenuItem "$sm\shell\$($item.ID)" `
+            (Get-T $item.Key) $item.Icon `
+            "powershell.exe -NoProfile -Command `"Start-Process cmd.exe -ArgumentList '/c $cmd' -Verb RunAs`""
+    }
+
+    # 4. RESTART EXPLORER SUBMENU
+    $re = "$root\shell\04Explorer"
+
+    Set-RegString $re "MUIVerb" (Get-T "Explorer")
+    Set-RegString $re "Icon" "explorer.exe"
+    Set-RegString $re "SubCommands" ""
+
+    New-MenuItem "$re\shell\01Now" `
+        (Get-T "ExplorerNow") "shell32.dll,-16739" `
+        'cmd.exe /c taskkill /f /im explorer.exe & start explorer.exe'
+
+    New-MenuItem "$re\shell\02Pause" `
+        (Get-T "ExplorerPause") "shell32.dll,-315" `
+        'cmd.exe /c taskkill /f /im explorer.exe & pause & start explorer.exe'
 
     # 5. SYSTEM PROPERTIES
-    $name = Get-T "SysProp"
-    Write-Host ">> Applying: $name..." -ForegroundColor Gray
-    $sp = "$basePath\System Properties"
-    Quick-Reg $sp "MUIVerb" $name
-    Quick-Reg $sp "Icon" "SystemPropertiesAdvanced.exe"
-    Quick-Reg "$sp\command" "(Default)" "SystemPropertiesAdvanced.exe"
-    $appliedCount++
+    New-MenuItem "$root\shell\05SystemProperties" `
+        (Get-T "SysProp") "SystemPropertiesAdvanced.exe" `
+        "SystemPropertiesAdvanced.exe"
 
-    Write-Host "`n[SUCCESS] Context Menu upgrade complete ($langID)." -ForegroundColor Green
-    Write-Host "Total Menu Modules: $appliedCount" -ForegroundColor White
-}
-catch {
-    Write-Host "[ERROR] Failed to update context menu: $($_.Exception.Message)" -ForegroundColor Red
-}
+    # Remove the old standalone entries created by the previous module.
+    $oldKeys = @(
+        "ControlPanel",
+        "KillNRTasks",
+        "SafeMode",
+        "Restart Explorer",
+        "System Properties"
+    )
 
-Write-Host "--------------------------------------------------------"
+    foreach ($key in $oldKeys) {
+        $oldPath = "$basePath\$key"
 
-##------------------------------------------------------##
-
-# --- Disable CTRL+ALT+DEL Requirement (Registry + SecPol) ---
-Write-Host "`n[MODULE] Disabling CTRL+ALT+DEL requirement for logon..." -ForegroundColor Cyan
-
-# 1. Update Registry (Immediate System Effect)
-$regPath = "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System"
-if (-not (Test-Path $regPath)) { New-Item -Path $regPath -Force | Out-Null }
-Set-ItemProperty -Path $regPath -Name "DisableCAD" -Value 1 -Type DWord -Force
-Write-Host ">> Registry key 'DisableCAD' set to 1." -ForegroundColor Gray
-
-# 2. Update Local Security Policy (SecPol.msc UI Sync)
-try {
-    $tempFile = "$env:TEMP\secpol_cfg.inf"
-    $dbFile = "$env:TEMP\secpol.sdb"
-
-    # Export current security settings to a temporary INF file
-    secedit /export /cfg $tempFile /quiet
-
-    # Read the content as a raw string to handle multi-line regex
-    $cfgContent = Get-Content $tempFile -Raw
-    $cadLine = 'MACHINE\Software\Microsoft\Windows\CurrentVersion\Policies\System\DisableCAD=4,1'
-
-    # Check if [Registry Values] section exists. If not, append it.
-    if ($cfgContent -match "\[Registry Values\]") {
-        if ($cfgContent -match "DisableCAD") {
-            # Replace any existing value (0 or 1) with the correct one (4,1 -> Enabled/No CAD)
-            $cfgContent = $cfgContent -replace "MACHINE\\Software\\Microsoft\\Windows\\CurrentVersion\\Policies\\System\\DisableCAD\s*=\s*\d,\d", $cadLine
-        } else {
-            # Add the line directly under the section header
-            $cfgContent = $cfgContent -replace "\[Registry Values\]", "[Registry Values]`r`n$cadLine"
+        if (Test-Path -LiteralPath $oldPath) {
+            Remove-Item -LiteralPath $oldPath -Recurse -Force `
+                -ErrorAction Stop
+            Write-Host "Removed old entry: $key" -ForegroundColor DarkGray
         }
-    } else {
-        # Create the entire section if it's missing from the export
-        $cfgContent += "`r`n[Registry Values]`r`n$cadLine"
     }
 
-    # Save the modified INF using Unicode encoding (required by secedit)
-    $cfgContent | Out-File $tempFile -Encoding Unicode
-
-    # Import and apply the security policy configuration
-    secedit /configure /db $dbFile /cfg $tempFile /areas SECURITYPOLICY /quiet
+    Write-Host "`n[SUCCESS] Advanced Tools menu configured." -ForegroundColor Green
+    Write-Host "Language: $langID" -ForegroundColor Gray
+    Write-Host "All tools are grouped under one submenu." -ForegroundColor White
 }
 catch {
-    Write-Host "[ERROR] Failed to sync SecPol.msc: $($_.Exception.Message)" -ForegroundColor Red
+    Write-Host "`n[ERROR] $($_.Exception.Message)" -ForegroundColor Red
+    Write-Host "Check the registry for partially created entries." -ForegroundColor Yellow
 }
-
-# --- FINAL VERIFICATION ---
-Write-Host ">> Verifying status..." -ForegroundColor Gray
-Start-Sleep -Seconds 1 # Short pause for OS processing
-
-$regValue = (Get-ItemProperty -Path $regPath -Name "DisableCAD" -ErrorAction SilentlyContinue).DisableCAD
-$checkFile = "$env:TEMP\check.inf"
-secedit /export /cfg $checkFile /quiet
-$secContent = Get-Content $checkFile -Raw
-Remove-Item $checkFile -Force -ErrorAction SilentlyContinue
-
-# Registry Check: 1 = Disabled CAD
-if ($regValue -eq 1) {
-    Write-Host "[SUCCESS] Registry: CTRL+ALT+DEL is DISABLED." -ForegroundColor Green
-} else {
-    Write-Host "[FAILED] Registry: Value not applied." -ForegroundColor Red
-}
-
-# SecPol UI Check: "4,1" in INF means "Enabled" (Do not require)
-if ($secContent -match "DisableCAD=4,1") {
-    Write-Host "[SUCCESS] SecPol: UI is now set to 'Enabled' (Do not require)." -ForegroundColor Green
-} else {
-    Write-Host "[FAILED] SecPol: UI Sync failed." -ForegroundColor Red
-}
-
-# Cleanup temporary files
-if (Test-Path $tempFile) { Remove-Item $tempFile -Force }
-if (Test-Path $dbFile) { Remove-Item $dbFile -Force }
 
 Write-Host "--------------------------------------------------------"
-Write-Host ""
 
 ##------------------------------------------------------##
 
@@ -5183,7 +7019,7 @@ if ($isServer) {
         "ru*" = "Исправить диспетчер печати"
         "zh-TW*" = "修復列印多多工緩衝處理器"
         "zh-CN*" = "修复打印后台处理程序"
-        "ar*" = "إصلاح Spooler الطباعة"
+        "ar*" = "إصلاح قائمة انتظار الطباعة"
         "cs*" = "Opravit službu Spooler"
         "da*" = "Reparer Print Spooler"
         "nl*" = "Afdrukspooler repareren"
@@ -5246,6 +7082,552 @@ if ($isServer) {
 # FINAL
 # ------------------------------------------------
 Write-Host "--- Deployment Finished ---" -ForegroundColor Yellow
+Write-Host "--------------------------------------------------------"
+Write-Host ""
+
+##------------------------------------------------------##
+
+# ==============================================================================
+# SCRIPT: Shutdown Context Menu Deployment (Multilingual)
+# DESCRIPTION: Creates a native Windows desktop context menu with nine options.
+#              Supports Windows Client and Windows Server.
+# ==============================================================================
+
+Write-Host "`n--- SHUTDOWN CONTEXT MENU DEPLOYMENT ---" -ForegroundColor Cyan
+
+# ------------------------------------------------
+# LANGUAGE DETECTION
+# ------------------------------------------------
+
+$currentLang = [System.Globalization.CultureInfo]::CurrentUICulture.Name
+
+$langMap = @{
+    "pt" = @(
+        "Desligar o PC"
+        "Desligar o PC agora"
+        "Desligar o PC em 20 minutos"
+        "Desligar o PC em 40 minutos"
+        "Desligar o PC em 1 hora"
+        "Desligar o PC em 2 horas"
+        "Desligar o PC em 3 horas"
+        "Desligar o PC em 4 horas"
+        "Reiniciar o PC agora"
+        "Cancelar desligamento automático"
+        "Deslizar para desligar o PC"
+    )
+    "en" = @(
+        "Shut Down PC"
+        "Shut Down PC Now"
+        "Shut Down PC in 20 Minutes"
+        "Shut Down PC in 40 Minutes"
+        "Shut Down PC in 1 Hour"
+        "Shut Down PC in 2 Hours"
+        "Shut Down PC in 3 Hours"
+        "Shut Down PC in 4 Hours"
+        "Restart PC Now"
+        "Cancel Automatic Shutdown"
+        "Slide to Shut Down PC"
+    )
+    "es" = @(
+        "Apagar el PC"
+        "Apagar el PC ahora"
+        "Apagar el PC en 20 minutos"
+        "Apagar el PC en 40 minutos"
+        "Apagar el PC en 1 hora"
+        "Apagar el PC en 2 horas"
+        "Apagar el PC en 3 horas"
+        "Apagar el PC en 4 horas"
+        "Reiniciar el PC ahora"
+        "Cancelar apagado automático"
+        "Deslizar para apagar el PC"
+    )
+    "fr" = @(
+        "Arrêter le PC"
+        "Arrêter le PC maintenant"
+        "Arrêter le PC dans 20 minutes"
+        "Arrêter le PC dans 40 minutes"
+        "Arrêter le PC dans 1 heure"
+        "Arrêter le PC dans 2 heures"
+        "Arrêter le PC dans 3 heures"
+        "Arrêter le PC dans 4 heures"
+        "Redémarrer le PC maintenant"
+        "Annuler l'arrêt automatique"
+        "Faire glisser pour arrêter le PC"
+    )
+    "de" = @(
+        "PC herunterfahren"
+        "PC jetzt herunterfahren"
+        "PC in 20 Minuten herunterfahren"
+        "PC in 40 Minuten herunterfahren"
+        "PC in 1 Stunde herunterfahren"
+        "PC in 2 Stunden herunterfahren"
+        "PC in 3 Stunden herunterfahren"
+        "PC in 4 Stunden herunterfahren"
+        "PC jetzt neu starten"
+        "Automatisches Herunterfahren abbrechen"
+        "Zum Herunterfahren des PCs wischen"
+    )
+    "it" = @(
+        "Arresta il PC"
+        "Arresta il PC adesso"
+        "Arresta il PC tra 20 minuti"
+        "Arresta il PC tra 40 minuti"
+        "Arresta il PC tra 1 ora"
+        "Arresta il PC tra 2 ore"
+        "Arresta il PC tra 3 ore"
+        "Arresta il PC tra 4 ore"
+        "Riavvia il PC adesso"
+        "Annulla arresto automatico"
+        "Scorri per arrestare il PC"
+    )
+    "ru" = @(
+        "Выключение компьютера"
+        "Выключить компьютер сейчас"
+        "Выключить через 20 минут"
+        "Выключить через 40 минут"
+        "Выключить через 1 час"
+        "Выключить через 2 часа"
+        "Выключить через 3 часа"
+        "Выключить через 4 часа"
+        "Перезагрузить компьютер"
+        "Отменить автоматическое выключение"
+        "Проведите, чтобы выключить компьютер"
+    )
+    "zh-TW" = @(
+        "關閉電腦"
+        "立即關閉電腦"
+        "20 分鐘後關閉電腦"
+        "40 分鐘後關閉電腦"
+        "1 小時後關閉電腦"
+        "2 小時後關閉電腦"
+        "3 小時後關閉電腦"
+        "4 小時後關閉電腦"
+        "立即重新啟動電腦"
+        "取消自動關機"
+        "滑動以關閉電腦"
+    )
+    "zh-CN" = @(
+        "关闭电脑"
+        "立即关闭电脑"
+        "20 分钟后关闭电脑"
+        "40 分钟后关闭电脑"
+        "1 小时后关闭电脑"
+        "2 小时后关闭电脑"
+        "3 小时后关闭电脑"
+        "4 小时后关闭电脑"
+        "立即重启电脑"
+        "取消自动关机"
+        "滑动以关闭电脑"
+    )
+    "ar" = @(
+        "إيقاف تشغيل الكمبيوتر"
+        "إيقاف التشغيل الآن"
+        "إيقاف التشغيل بعد 20 دقيقة"
+        "إيقاف التشغيل بعد 40 دقيقة"
+        "إيقاف التشغيل بعد ساعة"
+        "إيقاف التشغيل بعد ساعتين"
+        "إيقاف التشغيل بعد 3 ساعات"
+        "إيقاف التشغيل بعد 4 ساعات"
+        "إعادة تشغيل الكمبيوتر الآن"
+        "إلغاء إيقاف التشغيل التلقائي"
+        "اسحب لإيقاف تشغيل الكمبيوتر"
+    )
+    "cs" = @(
+        "Vypnout počítač"
+        "Vypnout počítač nyní"
+        "Vypnout za 20 minut"
+        "Vypnout za 40 minut"
+        "Vypnout za 1 hodinu"
+        "Vypnout za 2 hodiny"
+        "Vypnout za 3 hodiny"
+        "Vypnout za 4 hodiny"
+        "Restartovat počítač"
+        "Zrušit automatické vypnutí"
+        "Přejetím vypnete počítač"
+    )
+    "da" = @(
+        "Luk computeren ned"
+        "Luk computeren ned nu"
+        "Luk computeren ned om 20 minutter"
+        "Luk computeren ned om 40 minutter"
+        "Luk computeren ned om 1 time"
+        "Luk computeren ned om 2 timer"
+        "Luk computeren ned om 3 timer"
+        "Luk computeren ned om 4 timer"
+        "Genstart computeren nu"
+        "Annuller automatisk nedlukning"
+        "Stryg for at lukke computeren ned"
+    )
+    "nl" = @(
+        "PC afsluiten"
+        "PC nu afsluiten"
+        "PC afsluiten over 20 minuten"
+        "PC afsluiten over 40 minuten"
+        "PC afsluiten over 1 uur"
+        "PC afsluiten over 2 uur"
+        "PC afsluiten over 3 uur"
+        "PC afsluiten over 4 uur"
+        "PC nu opnieuw opstarten"
+        "Automatisch afsluiten annuleren"
+        "Vegen om de pc af te sluiten"
+    )
+    "fi" = @(
+        "Sammuta tietokone"
+        "Sammuta tietokone nyt"
+        "Sammuta 20 minuutin kuluttua"
+        "Sammuta 40 minuutin kuluttua"
+        "Sammuta 1 tunnin kuluttua"
+        "Sammuta 2 tunnin kuluttua"
+        "Sammuta 3 tunnin kuluttua"
+        "Sammuta 4 tunnin kuluttua"
+        "Käynnistä tietokone uudelleen"
+        "Peruuta automaattinen sammutus"
+        "Pyyhkäise sammuttaaksesi tietokoneen"
+    )
+    "el" = @(
+        "Τερματισμός υπολογιστή"
+        "Τερματισμός τώρα"
+        "Τερματισμός σε 20 λεπτά"
+        "Τερματισμός σε 40 λεπτά"
+        "Τερματισμός σε 1 ώρα"
+        "Τερματισμός σε 2 ώρες"
+        "Τερματισμός σε 3 ώρες"
+        "Τερματισμός σε 4 ώρες"
+        "Επανεκκίνηση υπολογιστή"
+        "Ακύρωση αυτόματου τερματισμού"
+        "Σύρετε για τερματισμό του υπολογιστή"
+    )
+    "he" = @(
+        "כיבוי המחשב"
+        "כבה את המחשב עכשיו"
+        "כבה בעוד 20 דקות"
+        "כבה בעוד 40 דקות"
+        "כבה בעוד שעה"
+        "כבה בעוד שעתיים"
+        "כבה בעוד 3 שעות"
+        "כבה בעוד 4 שעות"
+        "הפעל מחדש את המחשב"
+        "בטל כיבוי אוטומטי"
+        "החלק כדי לכבות את המחשב"
+    )
+    "hu" = @(
+        "Számítógép leállítása"
+        "Leállítás most"
+        "Leállítás 20 perc múlva"
+        "Leállítás 40 perc múlva"
+        "Leállítás 1 óra múlva"
+        "Leállítás 2 óra múlva"
+        "Leállítás 3 óra múlva"
+        "Leállítás 4 óra múlva"
+        "Számítógép újraindítása"
+        "Automatikus leállítás megszakítása"
+        "Húzza el a számítógép leállításához"
+    )
+    "ja" = @(
+        "PCをシャットダウン"
+        "今すぐシャットダウン"
+        "20分後にシャットダウン"
+        "40分後にシャットダウン"
+        "1時間後にシャットダウン"
+        "2時間後にシャットダウン"
+        "3時間後にシャットダウン"
+        "4時間後にシャットダウン"
+        "今すぐ再起動"
+        "自動シャットダウンをキャンセル"
+        "スワイプしてPCをシャットダウン"
+    )
+    "ko" = @(
+        "PC 종료"
+        "지금 PC 종료"
+        "20분 후 PC 종료"
+        "40분 후 PC 종료"
+        "1시간 후 PC 종료"
+        "2시간 후 PC 종료"
+        "3시간 후 PC 종료"
+        "4시간 후 PC 종료"
+        "지금 PC 다시 시작"
+        "자동 종료 취소"
+        "밀어서 PC 종료"
+    )
+    "no" = @(
+        "Slå av PC-en"
+        "Slå av PC-en nå"
+        "Slå av om 20 minutter"
+        "Slå av om 40 minutter"
+        "Slå av om 1 time"
+        "Slå av om 2 timer"
+        "Slå av om 3 timer"
+        "Slå av om 4 timer"
+        "Start PC-en på nytt"
+        "Avbryt automatisk avslutning"
+        "Sveip for å slå av PC-en"
+    )
+    "pl" = @(
+        "Wyłącz komputer"
+        "Wyłącz komputer teraz"
+        "Wyłącz za 20 minut"
+        "Wyłącz za 40 minut"
+        "Wyłącz za 1 godzinę"
+        "Wyłącz za 2 godziny"
+        "Wyłącz za 3 godziny"
+        "Wyłącz za 4 godziny"
+        "Uruchom komputer ponownie"
+        "Anuluj automatyczne wyłączanie"
+        "Przesuń, aby wyłączyć komputer"
+    )
+    "sv" = @(
+        "Stäng av datorn"
+        "Stäng av datorn nu"
+        "Stäng av om 20 minuter"
+        "Stäng av om 40 minuter"
+        "Stäng av om 1 timme"
+        "Stäng av om 2 timmar"
+        "Stäng av om 3 timmar"
+        "Stäng av om 4 timmar"
+        "Starta om datorn"
+        "Avbryt automatisk avstängning"
+        "Svep för att stänga av datorn"
+    )
+    "tr" = @(
+        "Bilgisayarı Kapat"
+        "Bilgisayarı Şimdi Kapat"
+        "20 Dakika Sonra Kapat"
+        "40 Dakika Sonra Kapat"
+        "1 Saat Sonra Kapat"
+        "2 Saat Sonra Kapat"
+        "3 Saat Sonra Kapat"
+        "4 Saat Sonra Kapat"
+        "Bilgisayarı Yeniden Başlat"
+        "Otomatik Kapatmayı İptal Et"
+        "Kapatmak İçin Kaydır"
+    )
+}
+
+# Select language: exact match, special Chinese variants, then language prefix.
+$languageKey = $null
+
+if ($langMap.ContainsKey($currentLang)) {
+    $languageKey = $currentLang
+}
+elseif ($currentLang -like "zh-TW*") {
+    $languageKey = "zh-TW"
+}
+elseif ($currentLang -like "zh-CN*") {
+    $languageKey = "zh-CN"
+}
+else {
+    $languagePrefix = $currentLang.Split("-")[0]
+
+    if ($langMap.ContainsKey($languagePrefix)) {
+        $languageKey = $languagePrefix
+    }
+}
+
+if ($languageKey) {
+    $labels = $langMap[$languageKey]
+}
+else {
+    $labels = $langMap["en"]
+}
+
+Write-Host "[LANGUAGE] $currentLang" -ForegroundColor Gray
+Write-Host "[MENU] $($labels[0])" -ForegroundColor Cyan
+
+# ------------------------------------------------
+# REGISTRY CONFIGURATION
+# ------------------------------------------------
+
+$menuPath = "Registry::HKEY_LOCAL_MACHINE\SOFTWARE\Classes\DesktopBackground\Shell\ShutdownPC"
+
+$commands = @(
+    @{
+        Name = "ShutdownNow"
+        Label = $labels[1]
+        Icon = "shell32.dll,215"
+        Command = "shutdown.exe -s -t 00"
+        Shield = $true
+    }
+    @{
+        Name = "Shutdown20"
+        Label = $labels[2]
+        Icon = "shell32.dll,239"
+        Command = "shutdown.exe -s -t 1200"
+    }
+    @{
+        Name = "Shutdown40"
+        Label = $labels[3]
+        Icon = "shell32.dll,239"
+        Command = "shutdown.exe -s -t 2400"
+    }
+    @{
+        Name = "Shutdown1Hour"
+        Label = $labels[4]
+        Icon = "shell32.dll,239"
+        Command = "shutdown.exe -s -t 3600"
+    }
+    @{
+        Name = "Shutdown2Hours"
+        Label = $labels[5]
+        Icon = "shell32.dll,239"
+        Command = "shutdown.exe -s -t 7200"
+    }
+    @{
+        Name = "Shutdown3Hours"
+        Label = $labels[6]
+        Icon = "shell32.dll,239"
+        Command = "shutdown.exe -s -t 10800"
+    }
+    @{
+        Name = "Shutdown4Hours"
+        Label = $labels[7]
+        Icon = "shell32.dll,239"
+        Command = "shutdown.exe -s -t 14400"
+    }
+    @{
+        Name = "RestartPC"
+        Label = $labels[8]
+        Icon = "imageres.dll,253"
+        Command = "shutdown.exe -r -t 00 -f"
+    }
+    @{
+        Name = "CancelShutdown"
+        Label = $labels[9]
+        Icon = "shell32.dll,112"
+        Command = "shutdown.exe -a"
+    }
+    @{
+        Name    = "SlideToShutdown"
+        Label   = $labels[10]
+        Icon    = "shell32.dll,215"
+        Command = "`"$env:windir\System32\SlideToShutDown.exe`""
+    }
+)
+
+# ------------------------------------------------
+# CREATE NATIVE WINDOWS CONTEXT MENU
+# ------------------------------------------------
+
+try {
+    Write-Host "`n[STEP 1] Creating native shutdown menu..." -ForegroundColor Cyan
+
+    # Remove only this script's previous menu.
+    if (Test-Path -LiteralPath $menuPath) {
+        Remove-Item -LiteralPath $menuPath -Recurse -Force
+    }
+
+    # Create the parent menu.
+    New-Item -Path $menuPath -Force | Out-Null
+
+    Set-ItemProperty -LiteralPath $menuPath `
+        -Name "MUIVerb" -Value $labels[0]
+
+    Set-ItemProperty -LiteralPath $menuPath `
+        -Name "Icon" -Value "shell32.dll,215"
+
+    Set-ItemProperty -LiteralPath $menuPath `
+        -Name "Position" -Value "1"
+
+    # Use native cascading submenu entries.
+    Set-ItemProperty -LiteralPath $menuPath `
+        -Name "SubCommands" -Value ""
+
+    $shellPath = Join-Path $menuPath "shell"
+    New-Item -Path $shellPath -Force | Out-Null
+
+    foreach ($item in $commands) {
+        $itemPath = Join-Path $shellPath $item.Name
+        $commandPath = Join-Path $itemPath "command"
+
+        New-Item -Path $itemPath -Force | Out-Null
+
+        Set-ItemProperty -LiteralPath $itemPath `
+            -Name "MUIVerb" -Value $item.Label
+
+        Set-ItemProperty -LiteralPath $itemPath `
+            -Name "Icon" -Value $item.Icon
+
+        if ($item.ContainsKey("Shield") -and $item.Shield) {
+            New-ItemProperty -LiteralPath $itemPath `
+                -Name "HasLUAShield" `
+                -PropertyType String `
+                -Value "" `
+                -Force | Out-Null
+        }
+
+        New-Item -Path $commandPath -Force | Out-Null
+
+        Set-Item -LiteralPath $commandPath -Value $item.Command
+    }
+
+    Write-Host "[OK] Created $($commands.Count) shutdown options." -ForegroundColor Green
+
+    # ============================================================
+    # CLEAN UP LEGACY CONTEXT MENU ENTRIES
+    # ============================================================
+
+    Write-Host "[STEP 2] Cleaning up legacy entries..." -ForegroundColor Cyan
+
+        # --------------------------------------------------------
+        # REMOVE LEGACY COMMANDSTORE ENTRIES
+        # --------------------------------------------------------
+
+        $storePath = "Registry::HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\CommandStore\shell"
+
+        $legacyNames = @(
+            "WD-Desligar"
+            "WD-DesligarEm20min"
+            "WD-DesligarEm40min"
+            "WD-DesligarEm1hora"
+            "WD-DesligarEm2horas"
+            "WD-DesligarEm3horas"
+            "WD-DesligarEm4horas"
+            "WD-ReiniciarPC"
+            "WD-Cancelar"
+        )
+
+        foreach ($name in $legacyNames) {
+            $legacyPath = Join-Path $storePath $name
+
+            if (Test-Path -LiteralPath $legacyPath) {
+                Remove-Item -LiteralPath $legacyPath -Recurse -Force -ErrorAction Stop
+                Write-Host "[REMOVED] CommandStore: $name" -ForegroundColor Yellow
+            }
+            else {
+                Write-Host "[SKIP] CommandStore entry not found: $name" -ForegroundColor DarkGray
+            }
+        }
+
+        # --------------------------------------------------------
+        # REMOVE LEGACY "TURN OFF PC" DESKTOP CONTEXT MENU
+        # --------------------------------------------------------
+
+        Write-Host "[STEP 2] Checking legacy 'TurnOff PC' context menu..." -ForegroundColor Cyan
+
+        $turnOffPcPath = "Registry::HKEY_LOCAL_MACHINE\SOFTWARE\Classes\DesktopBackground\Shell\TurnOff PC"
+
+        if (Test-Path -LiteralPath $turnOffPcPath) {
+            Remove-Item -LiteralPath $turnOffPcPath -Recurse -Force -ErrorAction Stop
+            Write-Host "[REMOVED] Context menu: TurnOff PC" -ForegroundColor Yellow
+        }
+        else {
+            Write-Host "[SKIP] Context menu 'TurnOff PC' does not exist." -ForegroundColor DarkGray
+        }
+
+        Write-Host "[OK] Legacy entries cleanup completed." -ForegroundColor Green
+}
+catch {
+    Write-Host "[ERROR] $($_.Exception.Message)" -ForegroundColor Red
+    throw
+}
+
+# ------------------------------------------------
+# FINAL
+# ------------------------------------------------
+
+Write-Host ""
+Write-Host "--- Deployment Finished ---" -ForegroundColor Yellow
+Write-Host "Menu: $($labels[0])" -ForegroundColor Green
+Write-Host "Options: $($commands.Count)" -ForegroundColor Green
 Write-Host "--------------------------------------------------------"
 Write-Host ""
 
@@ -5318,7 +7700,7 @@ Write-Host ""
 # Method: Generates a temporary UTF-16LE .reg file to bypass Registry locks and character conflicts.
 # Target: Windows 10/11 (Global Support - 22 Languages)
 
-# 1. Global Language Dictionary (22 Languages)
+# 1. Global Language Dictionary (23 Languages)
 $langID = (Get-Culture).TwoLetterISOLanguageName
 $t = @{
     "TakeOwnership" = @{ 
@@ -5327,7 +7709,7 @@ $t = @{
         "ko"="소유권 가져오기"; "zh"="取得所有权"; "uk"="Стати власником"; "ru"="Стать владельцем"; 
         "bg"="Стани собственик"; "hi"="स्वामित्व लें"; "tr"="Sahipliği Al"; "vi"="Chiếm quyền sở hữu"; 
         "th"="เป็นเจ้าของ"; "id"="Ambil Kepemilikan"; "ms"="Ambil Pemilikan"; "fi"="Ota omistajuus"; 
-        "he"="קבל בעלות"; "el"="Ανάληψη κυριότητας" 
+        "he"="קבל בעלות"; "el"="Ανάληψη κυριότητας"; "ar"="أخذ الملكية" 
     }
 }
 
@@ -5446,23 +7828,51 @@ Set-ExecutionPolicy Bypass -Scope Process -Force;
 if (!(Test-Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Psched")) { New-Item -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Psched" -Force }
 New-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Psched" -Name "NonBestEffortLimit" -Value 0 -PropertyType DWord -Force
 
-# --- 3. Explorer: Hide Recycle Bin from Desktop ---
-Write-Host "Hiding Recycle Bin from Desktop..." -ForegroundColor Cyan
+# --- 3. Explorer: Hide Recycle Bin, Control Panel, This PC and User Folder ---
+Write-Host "[MODULE] Hiding desktop system icons..." -ForegroundColor Cyan
 
-$regPath = "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\HideDesktopIcons\NewStartPanel"
-$binGuid = "{645FF040-5081-101B-9F08-00AA002F954E}"
-
-# Ensure the registry key (folder) exists before creating the value
-if (!(Test-Path $regPath)) {
-    New-Item -Path $regPath -Force | Out-Null
+$desktopItems = [ordered]@{
+    "Recycle Bin"  = "{645FF040-5081-101B-9F08-00AA002F954E}"
+    "Control Panel" = "{5399E694-6CE5-4D6C-8FCE-1D8870FDCBA0}"
+    "This PC"       = "{20D04FE0-3AEA-1069-A2D8-08002B30309D}"
+    "User Folder"   = "{59031A47-3F72-44A7-89C5-5595FE6B30EE}"
 }
 
-# Set the value to hide the icon (1 = Hidden, 0 = Visible)
-# Set-ItemProperty is used here because it creates the value if it doesn't exist 
-# or updates it if it does, preventing the "path not found" error.
-Set-ItemProperty -Path $regPath -Name $binGuid -Value 1 -Type DWord -Force
+$regPaths = @(
+    "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\HideDesktopIcons\NewStartPanel",
+    "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\HideDesktopIcons\ClassicStartMenu"
+)
+
+try {
+    foreach ($regPath in $regPaths) {
+        if (-not (Test-Path $regPath)) {
+            New-Item -Path $regPath -Force | Out-Null
+        }
+
+        foreach ($item in $desktopItems.GetEnumerator()) {
+            New-ItemProperty `
+                -Path $regPath `
+                -Name $item.Value `
+                -Value 1 `
+                -PropertyType DWord `
+                -Force | Out-Null
+        }
+    }
+
+    foreach ($item in $desktopItems.GetEnumerator()) {
+        Write-Host "[OK] $($item.Key) hidden successfully." -ForegroundColor Green
+    }
+
+    Write-Host "[INFO] Refresh the desktop or restart Explorer to apply changes." -ForegroundColor Yellow
+}
+catch {
+    Write-Warning "Failed to configure desktop icons: $($_.Exception.Message)"
+}
 
 Write-Host "Recycle Bin hidden successfully! ✅" -ForegroundColor Green
+Write-Host "Control Panel hidden successfully! ✅" -ForegroundColor Green
+Write-Host "This PC hidden successfully! ✅" -ForegroundColor Green
+Write-Host "User Folder hidden successfully! ✅" -ForegroundColor Green
 
 # --- 4. Explorer: Pin Recycle Bin to Navigation Pane ---
 Write-Host "Pinning Recycle Bin to Explorer Sidebar..."
@@ -5517,11 +7927,11 @@ $langID = (Get-Culture).TwoLetterISOLanguageName
 
 # Multi-language dictionary for ShellNew Item Names
 $translations = @{
-    ".vbs" = @{ "en"="VBScript"; "pt"="VBScript"; "es"="VBScript"; "de"="VBScript"; "nl"="VBScript"; "fr"="VBScript"; "it"="VBScript"; "ja"="VBScript"; "ko"="VBScript"; "zh"="VBScript"; "uk"="VBScript"; "ru"="VBScript"; "bg"="VBScript"; "hi"="VBScript"; "tr"="VBScript"; "vi"="VBScript"; "th"="VBScript"; "id"="VBScript"; "ms"="VBScript"; "fi"="VBScript"; "he"="VBScript"; "el"="VBScript" }
-    ".bat" = @{ "en"="Batch File (.bat)"; "pt"="Arquivo de Lote (.bat)"; "es"="Archivo por lotes (.bat)"; "de"="Stapelverarbeitungsdatei (.bat)"; "nl"="Batchbestand (.bat)"; "fr"="Fichier de commandes (.bat)"; "it"="File batch (.bat)"; "ja"="バッチファイル (.bat)"; "ko"="배치 파일 (.bat)"; "zh"="批处理文件 (.bat)"; "uk"="Пакетний файл (.bat)"; "ru"="Пакетный файл (.bat)"; "bg"="Пакетен файл (.bat)"; "hi"="बैच फ़ाइल (.bat)"; "tr"="Toplu İş Dosyası (.bat)"; "vi"="Tệp lô (.bat)"; "th"="ไฟล์แบตช์ (.bat)"; "id"="File batch (.bat)"; "ms"="Fail kelompok (.bat)"; "fi"="Eräajo-tiedosto (.bat)"; "he"="קובץ Batch (.bat)"; "el"="Αρχείο δέσμης ενεργειών (.bat)" }
-    ".cmd" = @{ "en"="Command Script (.cmd)"; "pt"="Script de Comando (.cmd)"; "es"="Script de comando (.cmd)"; "de"="Befehlsskript (.cmd)"; "nl"="Opdrachtscript (.cmd)"; "fr"="Script de commande (.cmd)"; "it"="Script di comando (.cmd)"; "ja"="コマンドスクリプト (.cmd)"; "ko"="명령 스크립트 (.cmd)"; "zh"="命令脚本 (.cmd)"; "uk"="Командний сценарій (.cmd)"; "ru"="Командный сценарий (.cmd)"; "bg"="Команден скрипт (.cmd)"; "hi"="कमांड स्क्रिप्ट (.cmd)"; "tr"="Komut Dosyası (.cmd)"; "vi"="Kịch bản lệnh (.cmd)"; "th"="สคริปต์คำสั่ง (.cmd)"; "id"="Skrip perintah (.cmd)"; "ms"="Skrip arahan (.cmd)"; "fi"="Komentosarjassa (.cmd)"; "he"="סקריפט פקודה (.cmd)"; "el"="Δέσμη εντολών (.cmd)" }
-    ".reg" = @{ "en"="Registry Entries (.reg)"; "pt"="Entradas de Registro (.reg)"; "es"="Entradas de registro (.reg)"; "de"="Registrierungseinträge (.reg)"; "nl"="Registervermeldingen (.reg)"; "fr"="Entrées de registre (.reg)"; "it"="Voci di registro (.reg)"; "ja"="レジストリエントリ (.reg)"; "ko"="레ジ스트리 항목 (.reg)"; "zh"="注册表项 (.reg)"; "uk"="Записи реєстру (.uk)"; "ru"="Записи реестра (.reg)"; "bg"="Записи в регистъра (.reg)"; "hi"="रजिस्ट्री प्रविष्टियाँ (.reg)"; "tr"="Kayıt Defteri Girdileri (.reg)"; "vi"="Mục đăng ký (.reg)"; "th"="รายการรีจิสทรี (.reg)"; "id"="Entri registri (.reg)"; "ms"="Kemasukan pendaftaran (.reg)"; "fi"="Rekisterimerkinnät (.reg)"; "he"="ערכי רישום (.reg)"; "el"="Καταχωρήσεις μητρώου (.reg)" }
-    ".ps1" = @{ "en"="PowerShell Script (.ps1)"; "pt"="Script do PowerShell (.ps1)"; "es"="Script de PowerShell (.ps1)"; "de"="PowerShell-Skript (.ps1)"; "nl"="PowerShell-script (.ps1)"; "fr"="Script PowerShell (.ps1)"; "it"="Script PowerShell (.ps1)"; "ja"="PowerShell スクリプト (.ps1)"; "ko"="PowerShell 스크립트 (.ps1)"; "zh"="PowerShell 脚本 (.ps1)"; "uk"="Сценарій PowerShell (.ps1)"; "ru"="Сценарий PowerShell (.ps1)"; "bg"="PowerShell скрипт (.ps1)"; "hi"="PowerShell स्क्रिप्ट (.ps1)"; "tr"="PowerShell Betiği (.ps1)"; "vi"="Kịch bản PowerShell (.ps1)"; "th"="สคริปต์ PowerShell (.ps1)"; "id"="Skrip PowerShell (.ps1)"; "ms"="Skrip PowerShell (.ps1)"; "fi"="PowerShell-skripti (.ps1)"; "he"="סקריפט PowerShell (.ps1)"; "el"="Δέσμη ενεργειών PowerShell (.ps1)" }
+    ".vbs" = @{ "en"="VBScript"; "pt"="VBScript"; "es"="VBScript"; "de"="VBScript"; "nl"="VBScript"; "fr"="VBScript"; "it"="VBScript"; "ja"="VBScript"; "ko"="VBScript"; "zh"="VBScript"; "uk"="VBScript"; "ru"="VBScript"; "bg"="VBScript"; "hi"="VBScript"; "tr"="VBScript"; "vi"="VBScript"; "th"="VBScript"; "id"="VBScript"; "ms"="VBScript"; "fi"="VBScript"; "he"="VBScript"; "el"="VBScript"; "ar"="VBScript" }
+    ".bat" = @{ "en"="Batch File (.bat)"; "pt"="Arquivo de Lote (.bat)"; "es"="Archivo por lotes (.bat)"; "de"="Stapelverarbeitungsdatei (.bat)"; "nl"="Batchbestand (.bat)"; "fr"="Fichier de commandes (.bat)"; "it"="File batch (.bat)"; "ja"="バッチファイル (.bat)"; "ko"="배치 파일 (.bat)"; "zh"="批处理文件 (.bat)"; "uk"="Пакетний файл (.bat)"; "ru"="Пакетный файл (.bat)"; "bg"="Пакетен файл (.bat)"; "hi"="बैच फ़ाइल (.bat)"; "tr"="Toplu İş Dosyası (.bat)"; "vi"="Tệp lô (.bat)"; "th"="ไฟล์แบตช์ (.bat)"; "id"="File batch (.bat)"; "ms"="Fail kelompok (.bat)"; "fi"="Eräajo-tiedosto (.bat)"; "he"="קובץ Batch (.bat)"; "el"="Αρχείο δέσμης ενεργειών (.bat)"; "ar"="ملف دفعي (.bat)" }
+    ".cmd" = @{ "en"="Command Script (.cmd)"; "pt"="Script de Comando (.cmd)"; "es"="Script de comando (.cmd)"; "de"="Befehlsskript (.cmd)"; "nl"="Opdrachtscript (.cmd)"; "fr"="Script de commande (.cmd)"; "it"="Script di comando (.cmd)"; "ja"="コマンドスクリプト (.cmd)"; "ko"="명령 스크립트 (.cmd)"; "zh"="命令脚本 (.cmd)"; "uk"="Командний сценарій (.cmd)"; "ru"="Командный сценарий (.cmd)"; "bg"="Команден скрипт (.cmd)"; "hi"="कमांड स्क्रिप्ट (.cmd)"; "tr"="Komut Dosyası (.cmd)"; "vi"="Kịch bản lệnh (.cmd)"; "th"="สคริปต์คำสั่ง (.cmd)"; "id"="Skrip perintah (.cmd)"; "ms"="Skrip arahan (.cmd)"; "fi"="Komentosarjassa (.cmd)"; "he"="סקריפט פקודה (.cmd)"; "el"="Δέσμη εντολών (.cmd)"; "ar"="برنامج نصي للأوامر (.cmd)" }
+    ".reg" = @{ "en"="Registry Entries (.reg)"; "pt"="Entradas de Registro (.reg)"; "es"="Entradas de registro (.reg)"; "de"="Registrierungseinträge (.reg)"; "nl"="Registervermeldingen (.reg)"; "fr"="Entrées de registre (.reg)"; "it"="Voci di registro (.reg)"; "ja"="レジストリエントリ (.reg)"; "ko"="레지스트리 항목 (.reg)"; "zh"="注册表项 (.reg)"; "uk"="Записи реєстру (.reg)"; "ru"="Записи реестра (.reg)"; "bg"="Записи в регистъра (.reg)"; "hi"="रजिस्ट्री प्रविष्टियाँ (.reg)"; "tr"="Kayıt Defteri Girdileri (.reg)"; "vi"="Mục đăng ký (.reg)"; "th"="รายการรีจิสทรี (.reg)"; "id"="Entri registri (.reg)"; "ms"="Kemasukan pendaftaran (.reg)"; "fi"="Rekisterimerkinnät (.reg)"; "he"="ערכי רישום (.reg)"; "el"="Καταχωρήσεις μητρώου (.reg)"; "ar"="إدخالات السجل (.reg)" }
+    ".ps1" = @{ "en"="PowerShell Script (.ps1)"; "pt"="Script do PowerShell (.ps1)"; "es"="Script de PowerShell (.ps1)"; "de"="PowerShell-Skript (.ps1)"; "nl"="PowerShell-script (.ps1)"; "fr"="Script PowerShell (.ps1)"; "it"="Script PowerShell (.ps1)"; "ja"="PowerShell スクリプト (.ps1)"; "ko"="PowerShell 스크립트 (.ps1)"; "zh"="PowerShell 脚本 (.ps1)"; "uk"="Сценарій PowerShell (.ps1)"; "ru"="Сценарий PowerShell (.ps1)"; "bg"="PowerShell скрипт (.ps1)"; "hi"="PowerShell स्क्रिप्ट (.ps1)"; "tr"="PowerShell Betiği (.ps1)"; "vi"="Kịch bản PowerShell (.ps1)"; "th"="สคริปต์ PowerShell (.ps1)"; "id"="Skrip PowerShell (.ps1)"; "ms"="Skrip PowerShell (.ps1)"; "fi"="PowerShell-skripti (.ps1)"; "he"="סקריפט PowerShell (.ps1)"; "el"="Δέσμη ενεργειών PowerShell (.ps1)"; "ar"="برنامج PowerShell النصي (.ps1)" }
 }
 
 $shellNewItems = @(
@@ -5754,14 +8164,15 @@ Set-ItemProperty -Path $auPath -Name "NoAutoRebootWithLoggedOnUsers" -Value 1 -T
 Write-Host ""
 
 # 20. Add all User Folders (Desktop, Music, etc.) under 'This PC' in Explorer
-Write-Host "-- Adding user folders under 'This PC'..." -ForegroundColor Gray
+Write-Host "-- Adding user folders and system shortcuts under 'This PC'..." -ForegroundColor Gray
 $namespacePath = "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\MyComputer\NameSpace"
 $folders = @(
     "{B4BFCC3A-DB2C-424C-B029-7FE99A87C641}", # Desktop
     "{d3162b92-9365-467a-956b-92703aca08af}", # Documents
     "{088e3905-0323-4b02-9826-5d99428e115f}", # Downloads
     "{3dfdf296-dbec-4fb4-81d1-6a3438bcf4de}", # Music
-    "{24ad3ad4-a569-4530-98e1-ab02f9417aa8}"  # Pictures
+    "{24ad3ad4-a569-4530-98e1-ab02f9417aa8}", # Pictures
+    "{f86fa3ab-70d2-4fc7-9c99-fcbf05467f3a}"  # Videos
 )
 
 foreach ($guid in $folders) {
@@ -5775,283 +8186,50 @@ foreach ($guid in $folders) {
     Set-ItemProperty -Path $path -Name "HiddenByDefault" -Value 0 -Type DWord
 }
 
+# OPTIONAL: Remove Recycle Bin or Classic Printers from 'This PC' if desired
+# Uncomment the lines below to remove them:
+# Remove-Item -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\MyComputer\NameSpace\{645FF040-5081-101B-9F08-00AA002F954E}" -Recurse -Force -ErrorAction SilentlyContinue
+# Remove-Item -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\MyComputer\NameSpace\{2227A280-3AEA-1069-A2DE-08002B30309D}" -Recurse -Force -ErrorAction SilentlyContinue
+
 Write-Host ""
 Write-Host "Registry tweaks applied successfully! ✅" -ForegroundColor Green
 Write-Host "--------------------------------------------------------"
 Write-Host ""
 
-# 21. Browser Tweaks: Chrome, Brave, Edge & Firefox
-Write-Host "-- Applying Browser Registry Tweaks (Chrome, Brave, Edge & Firefox)..." -ForegroundColor Gray
-
-# List of registry paths for centralized policy management
-$browserPaths = @(
-    "HKLM:\SOFTWARE\Policies\Google\Chrome",
-    "HKLM:\SOFTWARE\Policies\BraveSoftware\Brave",
-    "HKLM:\SOFTWARE\Policies\Microsoft\Edge",
-    "HKLM:\SOFTWARE\Policies\Mozilla\Firefox"
-)
-
-# Shared Policy Settings (Applies to most Chromium-based browsers and Firefox)
-$sharedTweaks = @{
-    "PasswordManagerEnabled"          = 1   # Keep "Offer to save passwords" active
-    "MetricsReportingEnabled"         = 0   # Disable Telemetry and usage data collection
-    "BackgroundModeEnabled"           = 0   # Prevent browser from running in the background after closing
-    "HardwareAccelerationModeEnabled" = 0   # Disable GPU acceleration (useful for troubleshooting/stability)
-    "ComponentUpdatesEnabled"         = 0   # Disable automatic internal component updates
-    "BuiltInComponentUpdaterEnabled"  = 0   # Disable built-in cleanup and reporting tools
-    "NetworkPredictionOptions"        = 2   # Disable DNS pre-fetching / Page prediction
-    "SpellcheckEnabled"               = 0   # Disable built-in spellchecking service
-}
-
-# --- DISABLE CHROMIUM AI FEATURES ---
-Write-Host "-- Disabling Chromium AI features (Edge / Chrome)..." -ForegroundColor Gray
-
-$chromiumAIPathList = @(
-    "HKLM:\SOFTWARE\Policies\Google\Chrome",
-    "HKLM:\SOFTWARE\Policies\Microsoft\Edge"
-)
-
-foreach ($aiPath in $chromiumAIPathList) {
-
-    if (!(Test-Path $aiPath)) {
-        New-Item -Path $aiPath -Force | Out-Null
-    }
-
-    # Disable local AI / foundational model features
-    Set-ItemProperty -Path $aiPath -Name "GenAILocalFoundationalModelSettings" -Value 1 -Type DWord -ErrorAction SilentlyContinue
-}
-
-foreach ($basePath in $browserPaths) {
-    # Create the key if it does not exist
-    if (!(Test-Path $basePath)) { New-Item -Path $basePath -Force | Out-Null }
-    
-    # Determine the correct registry type (Firefox requires String for these policies)
-    $type = if ($basePath -like "*Mozilla*") { "String" } else { "DWord" }
-    
-    foreach ($name in $sharedTweaks.Keys) {
-        Set-ItemProperty -Path $basePath -Name $name -Value $sharedTweaks[$name] -Type $type -ErrorAction SilentlyContinue
-    }
-
-    # Remove DNS policies from HKLM ONLY for Brave to UNLOCK the button in the UI
-    if ($basePath -like "*BraveSoftware*") {
-        Remove-ItemProperty -Path $basePath -Name "DnsOverHttpsMode" -ErrorAction SilentlyContinue
-        Remove-ItemProperty -Path $basePath -Name "DnsOverHttpsTemplates" -ErrorAction SilentlyContinue
-    }
-}
-
-# --- FIREFOX SPECIFIC DEBLOAT ---
-# Policies specifically for Mozilla Firefox's engine
-$firefoxOnlyPath = "HKLM:\SOFTWARE\Policies\Mozilla\Firefox"
-$firefoxTweaks = @{
-    "DisableTelemetry"           = "1"  # Disable all telemetry reports
-    "DisableFirefoxStudies"      = "1"  # Prevent Mozilla from running SHIELD studies
-    "DisablePocket"              = "1"  # Remove the Pocket integration from the UI
-    "DisableAppUpdate"           = "1"  # Stop Firefox from updating automatically
-    "OverrideFirstRunPage"       = ""   # Skip the "Welcome" tab on new profiles
-    "OverridePostUpdatePage"     = ""   # Skip the "What's New" tab after updates
-    "DisableFirefoxScreenshots"  = "0"  # Keep screenshot tool enabled (useful utility)
-    "DisableFirefoxAccounts"     = "0"  # Keep Firefox Sync enabled
-    "DisableFeedbackCommands"    = "1"  # Remove "Submit Feedback" from menus
-    "DisableDefaultBrowserAgent" = "1"  # Disable the service that checks if Firefox is default
-    "DisableImportResources"     = "1"  # Disable prompts to import data from other browsers
-    "DisableDeveloperTools"      = "0"  # Ensure Developer Tools remain enabled
-    "DontCheckDefaultBrowser"    = "1"  # Disable the check for default browser
-    "DisableBackgroundUpdate"    = "1"  # Disable background updates
-}
-
-foreach ($name in $firefoxTweaks.Keys) {
-    Set-ItemProperty -Path $firefoxOnlyPath -Name $name -Value $firefoxTweaks[$name] -Type String -ErrorAction SilentlyContinue
-}
-
-# --- CHROME SPECIFIC DEBLOAT ---
-# Policies for Google Chrome
-$chromeOnlyPath = "HKLM:\SOFTWARE\Policies\Google\Chrome"
-$chromeTweaks = @{
-    "SyncDisabled"               = 1        # Disable Sync
-    "DefaultBrowserSettingEnabled" = 0      # Don't Check Default Browser
-    "DeveloperToolsAvailability" = 1        # Enable Developer Mode
-    "ChromeCleanupEnabled"       = 0        # Disable Chrome Cleanup Tool
-    "ChromeCleanupReportingEnabled" = 0     # Disable Cleanup reporting
-}
-
-foreach ($name in $chromeTweaks.Keys) {
-    Set-ItemProperty -Path $chromeOnlyPath -Name $name -Value $chromeTweaks[$name] -Type DWord -ErrorAction SilentlyContinue
-}
-
-# --- BRAVE SPECIFIC DEBLOAT ---
-# Policies for Brave-specific features (Web3, Rewards, and AI)
-$braveOnlyPath = "HKLM:\SOFTWARE\Policies\BraveSoftware\Brave"
-$braveTweaks = @{
-    "BraveVPNDisabled"           = 1        # Remove Brave VPN button and service
-    "BraveWalletDisabled"        = 1        # Disable the built-in Crypto Wallet
-    "BraveAIChatEnabled"         = 0        # Disable "Leo" AI Chat
-    "BraveRewardsDisabled"       = 1        # Disable Brave Rewards/Ads
-    "BraveTalkDisabled"          = 1        # Disable the "Brave Talk" video call feature
-    "BraveNewsDisabled"          = 1        # Disable the Brave News feed on new tabs
-    "SyncDisabled"               = 1        # Disable Sync
-    "DefaultBrowserSettingEnabled" = 0      # Don't Check Default Browser
-    "DeveloperToolsAvailability" = 1        # Enable Developer Mode
-    "BuiltInDnsClientEnabled"    = 1        # Unlocks the internal DNS client (Button)
-}
-
-foreach ($name in $braveTweaks.Keys) {
-    Set-ItemProperty -Path $braveOnlyPath -Name $name -Value $braveTweaks[$name] -Type DWord -ErrorAction SilentlyContinue
-}
-
-# --- MICROSOFT EDGE SPECIFIC DEBLOAT ---
-# Extensive cleanup of Edge's tracking, shopping, and sidebar features
-$edgeOnlyPath = "HKLM:\SOFTWARE\Policies\Microsoft\Edge"
-$edgeTweaks = @{
-    "EdgeEnhanceImagesEnabled"         = 0  # Disable image super-resolution
-    "PersonalizationReportingEnabled"  = 0  # Disable personalization telemetry
-    "ShowRecommendationsEnabled"       = 0  # Remove recommendations from the UI
-    "HideFirstRunExperience"           = 1  # Skip the massive "First Run" setup
-    "UserFeedbackAllowed"              = 0  # Disable "Send Feedback"
-    "ConfigureDoNotTrack"              = 1  # Enable "Do Not Track" header
-    "AlternateErrorPagesEnabled"       = 0  # Disable Microsoft's error pages
-    "EdgeCollectionsEnabled"           = 0  # Disable the "Collections" feature
-    "EdgeFollowEnabled"                = 0  # Disable the "Follow Creator" feature
-    "EdgeShoppingAssistantEnabled"     = 0  # Disable shopping/coupons popups
-    "MicrosoftEdgeInsiderPromotionEnabled" = 0 # Disable Insider promotions
-    "RelatedMatchesCloudServiceEnabled" = 0 # Disable cloud-based related searches
-    "ShowMicrosoftRewards"             = 0  # Remove Rewards icon
-    "WebWidgetAllowed"                 = 0  # Disable the Edge "Desktop Widget"
-    "StartupBoostEnabled"              = 0  # Stop Edge from launching at Windows startup
-    "BingAdsSuppression"               = 1  # Suppress Bing search ads
-    "NewTabPageHideDefaultTopSites"    = 1  # Cleanup default sites on new tabs
-    "PromotionalTabsEnabled"           = 0  # Disable "Promotional" popups
-    "SendSiteInfoToImproveServices"    = 0  # Disable site tracking for "improvement"
-    "SpotlightExperiencesAndRecommendationsEnabled" = 0 # Disable spotlight ads
-    "DiagnosticData"                   = 0  # Set diagnostic data to minimal/off
-    "EdgeAssetDeliveryServiceEnabled"  = 0  # Disable asset background delivery
-    "CryptoWalletEnabled"              = 0  # Disable Edge Crypto Wallet
-    "WalletDonationEnabled"            = 0  # Disable donation features in Wallet
-    "HubsSidebarEnabled"               = 0  # Remove the Edge Sidebar
-    "CopilotPageAction"                = 0  # Disable the Copilot icon/action
-    "SmartScreenEnabled"               = 0  # Disable SmartScreen UI
-    "SmartScreenPuaFullScanEnabled"    = 0  # Disable SmartScreen PUA full scan
-    "DeveloperToolsAvailability"       = 1  # Enable Developer Mode tools
-    "BuiltInMicrosoftFormsEnabled"     = 0  # Disable internal Microsoft forms
-    "EdgeManagementEnabled"            = 0  # Minimize unnecessary remote management
-    "SyncDisabled"                     = 1  # Disable Sync
-}
-
-foreach ($name in $edgeTweaks.Keys) {
-    Set-ItemProperty -Path $edgeOnlyPath -Name $name -Value $edgeTweaks[$name] -Type DWord -ErrorAction SilentlyContinue
-}
-
-# --- UNLOCKED SETTINGS (PREFERENCES) ---
-# Set initial values but allow manual toggle in the UI (No "Managed by organization" lock)
-
-$userPaths = @(
-    "HKCU:\Software\Google\Chrome",
-    "HKCU:\Software\BraveSoftware\Brave",
-    "HKCU:\Software\Microsoft\Edge"
-)
-
-foreach ($uPath in $userPaths) {
-    if (!(Test-Path $uPath)) { New-Item -Path $uPath -Force | Out-Null }
-    
-    # Safe Browsing set to 0 (Disabled) but toggleable
-    Set-ItemProperty -Path $uPath -Name "SafeBrowsingEnabled" -Value 0 -Type DWord -ErrorAction SilentlyContinue
-    Set-ItemProperty -Path $uPath -Name "StatsReportingDisabled" -Value 1 -Type DWord -ErrorAction SilentlyContinue
-}
-
-# Firefox Specific (Manual Toggle)
-$ffPath = "HKCU:\Software\Mozilla\Firefox"
-if (!(Test-Path $ffPath)) { New-Item -Path $ffPath -Force | Out-Null }
-Set-ItemProperty -Path $ffPath -Name "DisableTelemetry" -Value "1" -Type String -ErrorAction SilentlyContinue
-
-# --- INTERACTIVE DNS OVER HTTPS WITH TIMEOUT (GOOGLE CHROME) ---
-Write-Host "Do you want to enable Secure DNS (DNS Over HTTPS) for CHROME? [Y/N] (Default: N in 5s): " -NoNewline
-
-$counterChrome = 5
-while ($counterChrome -gt 0 -and (-not [console]::KeyAvailable)) {
-    Write-Host "..$counterChrome " -NoNewline -ForegroundColor Gray
-    Start-Sleep -Seconds 1
-    $counterChrome--
-}
-
-if ([console]::KeyAvailable) {
-    $choiceChromeDNS = [console]::ReadKey($true).KeyChar
-    Write-Host ""
+# 21. Deleting Default0 User
+Write-Host "-- Deleting Default0 User..." -ForegroundColor Gray
+if (Get-LocalUser -Name "defaultuser0" -ErrorAction SilentlyContinue) {
+    Remove-LocalUser -Name "defaultuser0" -ErrorAction SilentlyContinue
+    Write-Host "Default0 user successfully removed! ✅" -ForegroundColor Green
 } else {
-    Write-Host "`nTimeout reached. Disabling DNS Over HTTPS for Chrome..." -ForegroundColor Gray
-    $choiceChromeDNS = "n"
+    Write-Host "Default0 user not found, skipping... ⏭️" -ForegroundColor Yellow
 }
 
-# Mandatory Policy Injection: Chrome requires HKLM enforcement to override managed state.
-# Value must be passed as String ("automatic" | "off") to maintain Chromium engine compatibility.
-$chromePolicyPath = "HKLM:\SOFTWARE\Policies\Google\Chrome"
-if ($choiceChromeDNS -eq 'y' -or $choiceChromeDNS -eq 'Y') {
-    Write-Host "-- Enabling DNS Over HTTPS for CHROME (Policy Mode)..." -ForegroundColor Cyan
-    Set-ItemProperty -Path $chromePolicyPath -Name "DnsOverHttpsMode" -Value "automatic" -Type String -ErrorAction SilentlyContinue
-} else {
-    Write-Host "-- Disabling DNS Over HTTPS for CHROME..." -ForegroundColor Yellow
-    Set-ItemProperty -Path $chromePolicyPath -Name "DnsOverHttpsMode" -Value "off" -Type String -ErrorAction SilentlyContinue
-}
-
-# --- CLEAR BUFFER ---
-# Clears any leftover keystrokes so the next question doesn't skip
-while ([console]::KeyAvailable) { [console]::ReadKey($true) | Out-Null }
-
-# --- INTERACTIVE DNS OVER HTTPS WITH TIMEOUT (BRAVE ONLY) ---
-Write-Host "Do you want to enable Secure DNS (DNS Over HTTPS) for BRAVE? [Y/N] (Default: N in 5s): " -NoNewline
-
-$counterBrave = 5
-while ($counterBrave -gt 0 -and (-not [console]::KeyAvailable)) {
-    Write-Host "..$counterBrave " -NoNewline -ForegroundColor Gray
-    Start-Sleep -Seconds 1
-    $counterBrave--
-}
-
-if ([console]::KeyAvailable) {
-    $choiceBraveDNS = [console]::ReadKey($true).KeyChar
-    Write-Host ""
-} else {
-    Write-Host "`nTimeout reached. Skipping DNS config..." -ForegroundColor Gray
-    $choiceBraveDNS = "n"
-}
-
-if ($choiceBraveDNS -eq 'y' -or $choiceBraveDNS -eq 'Y') {
-    Write-Host "-- Enabling DNS Over HTTPS for BRAVE (Unlocked Mode)..." -ForegroundColor Cyan
-    $braveUserPath = "HKCU:\Software\BraveSoftware\Brave"
-    Set-ItemProperty -Path $braveUserPath -Name "DnsOverHttpsMode" -Value "automatic" -Type String -ErrorAction SilentlyContinue
-} else {
-    Write-Host "-- DNS Over HTTPS for Brave remains disabled or unchanged." -ForegroundColor Yellow
-}
-
-# --- DNS CACHE OPTIMIZATION ---
-# Increases the efficiency of the local Windows DNS cache for faster page loads
-$dnsPath = "HKLM:\SYSTEM\CurrentControlSet\Services\Dnscache\Parameters"
-if (Test-Path $dnsPath) {
-    Set-ItemProperty -Path $dnsPath -Name "CacheHashTableBucketSize" -Value 1 -Type DWord
-    Set-ItemProperty -Path $dnsPath -Name "CacheHashTableSize" -Value 384 -Type DWord
-    Set-ItemProperty -Path $dnsPath -Name "MaxCacheEntryTtlLimit" -Value 10800 -Type DWord # 3 hours
-    Set-ItemProperty -Path $dnsPath -Name "MaxSOACacheEntryTtlLimit" -Value 301 -Type DWord
-}
-
-Write-Host "Browser tweaks applied successfully! ✅" -ForegroundColor Green
 Write-Host "--------------------------------------------------------"
 Write-Host ""
 
 # --- 22. USER SECURITY (PASSWORD NEVER EXPIRES) ---
-Write-Host "Updating password expiration policy for user: Admin..." -ForegroundColor Cyan
+
+$currentUser = [System.Security.Principal.WindowsIdentity]::GetCurrent().Name
+Write-Host "Updating password expiration policy for current user: $currentUser..." -ForegroundColor Cyan
 
 try {
-    # Check if the user exists first
-    if (Get-LocalUser -Name "Admin" -ErrorAction SilentlyContinue) {
-        # Target the specific account and apply the 'Never Expires' flag
-        # -ErrorAction Stop forces the command to jump to 'catch' if it fails
-        Set-LocalUser -Name "Admin" -PasswordNeverExpires $true -ErrorAction Stop
-        Write-Host "[Admin] Status changed to PASSWORD NEVER EXPIRES successfully." -ForegroundColor Green
+    # Get the current username without the domain or computer name
+    $userName = $currentUser.Split('\')[-1]
+
+    # Check whether the current account is a local user
+    $localUser = Get-LocalUser -Name $userName -ErrorAction SilentlyContinue
+
+    if ($localUser) {
+        Set-LocalUser -Name $userName -PasswordNeverExpires $true -ErrorAction Stop
+        Write-Host "[$currentUser] Password set to NEVER EXPIRES successfully." -ForegroundColor Green
     }
     else {
-        Write-Host "[WARNING] User 'Admin' not found on this system. Skipping..." -ForegroundColor Yellow
+        Write-Host "[WARNING] Current user '$currentUser' is not a local account or was not found. Skipping..." -ForegroundColor Yellow
     }
 }
 catch {
-    Write-Host "[ERROR] Failed to update user 'Admin'. Ensure the script is running with Administrative privileges." -ForegroundColor Red
+    Write-Host "[ERROR] Failed to update password expiration for '$currentUser'. Ensure the script is running with Administrative privileges." -ForegroundColor Red
 }
 
 Write-Host "--------------------------------------------------------"
@@ -6068,6 +8246,1043 @@ catch {
     Write-Host "[ERROR] Failed to set Detailed BSOD parameters." -ForegroundColor Red
 }
 
+Write-Host "--------------------------------------------------------"
+Write-Host ""
+
+# 24. Disabling Lock Screen Camera
+Write-Host "`n Disabling Lock Screen Camera..." -ForegroundColor Gray
+reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows\Personalization" /v "NoLockScreenCamera" /t REG_DWORD /d 1 /f | Out-Null
+
+Write-Host ""
+Write-Host "Lock Screen Camera disabled successfully! ✅" -ForegroundColor Green
+Write-Host "--------------------------------------------------------"
+Write-Host ""
+
+# 25. Limiting Windows Defender CPU Usage
+Write-Host "`n Limiting Windows Defender CPU Usage..." -ForegroundColor Gray
+reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows Defender\Scan" /v "AvgCPULoadFactor" /t REG_DWORD /d "25" /f | Out-Null
+reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows Defender\Scan" /v "ScanAvgCPULoadFactor" /t REG_DWORD /d "25" /f | Out-Null
+
+Write-Host ""
+Write-Host "Defender CPU usage limited successfully! ✅" -ForegroundColor Green
+Write-Host "--------------------------------------------------------"
+Write-Host ""
+
+# 26. Enabling Dark Mode
+Write-Host "-- Enabling Dark Mode..." -ForegroundColor Gray
+reg add "HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Themes\Personalize" /v "AppsUseLightTheme" /t REG_DWORD /d 0 /f | Out-Null
+reg add "HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Themes\Personalize" /v "SystemUsesLightTheme" /t REG_DWORD /d 0 /f | Out-Null
+
+Write-Host ""
+Write-Host "Dark mode enabled successfully! ✅" -ForegroundColor Green
+Write-Host "--------------------------------------------------------"
+Write-Host ""
+
+# 27. Pin Classic Printers to File Explorer Navigation Pane
+Write-Host "`n Pinning Classic Printers to Explorer Navigation Pane..." -ForegroundColor Gray
+
+$clsid = "{2227A280-3AEA-1069-A2DE-08002B30309D}"
+$clsidPath = "HKCU:\Software\Classes\CLSID\$clsid"
+$inprocPath = "$clsidPath\InProcServer32"
+$nameSpacePath = "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Desktop\NameSpace\$clsid"
+
+try {
+    # Create CLSID structure
+    New-Item -Path $clsidPath -Force -ErrorAction Stop | Out-Null
+
+    # Register Printers shell folder
+    Set-Item -Path $clsidPath -Value "Printers" -ErrorAction Stop
+
+    New-ItemProperty -Path $clsidPath `
+        -Name "System.IsPinnedToNamespaceTree" `
+        -Value 1 -PropertyType DWord -Force -ErrorAction Stop | Out-Null
+
+    New-ItemProperty -Path $clsidPath `
+        -Name "SortOrderIndex" `
+        -Value 60 -PropertyType DWord -Force -ErrorAction Stop | Out-Null
+
+    New-ItemProperty -Path $clsidPath `
+        -Name "LocalizedString" `
+        -Value "@%SystemRoot%\System32\prnfldr.dll,-8036" `
+        -PropertyType ExpandString -Force -ErrorAction Stop | Out-Null
+
+    New-ItemProperty -Path $clsidPath `
+        -Name "InfoTip" `
+        -Value "@%SystemRoot%\System32\prnfldr.dll,-8062" `
+        -PropertyType ExpandString -Force -ErrorAction Stop | Out-Null
+
+    # Register the COM server
+    New-Item -Path $inprocPath -Force -ErrorAction Stop | Out-Null
+
+    Set-Item -Path $inprocPath `
+        -Value "$env:SystemRoot\System32\prnfldr.dll" `
+        -ErrorAction Stop
+
+    New-ItemProperty -Path $inprocPath `
+        -Name "ThreadingModel" `
+        -Value "Apartment" -PropertyType String `
+        -Force -ErrorAction Stop | Out-Null
+
+    # Set the default icon
+    $iconPath = "$clsidPath\DefaultIcon"
+    New-Item -Path $iconPath -Force -ErrorAction Stop | Out-Null
+
+    Set-Item -Path $iconPath `
+        -Value "%SystemRoot%\System32\imageres.dll,-26" `
+        -ErrorAction Stop
+
+    # Register in Explorer namespace
+    New-Item -Path $nameSpacePath -Force -ErrorAction Stop | Out-Null
+    Set-Item -Path $nameSpacePath -Value "Printers" -ErrorAction Stop
+
+    # Hide the separate desktop icon, without hiding it in Explorer
+    $hidePath = "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\HideDesktopIcons\NewStartPanel"
+    New-Item -Path $hidePath -Force -ErrorAction Stop | Out-Null
+
+    New-ItemProperty -Path $hidePath `
+        -Name $clsid -Value 1 -PropertyType DWord `
+        -Force -ErrorAction Stop | Out-Null
+
+    Write-Host "Registry entries created successfully." -ForegroundColor Green
+    Write-Host "Printers registration completed!" -ForegroundColor Green
+}
+catch {
+    Write-Host "ERROR: $($_.Exception.Message)" -ForegroundColor Red
+}
+
+Write-Host ""
+Write-Host "Classic Printers pinned to Explorer sidebar successfully! ✅" -ForegroundColor Green
+Write-Host "--------------------------------------------------------"
+Write-Host ""
+
+##------------------------------------------------------##
+
+# ============================================================
+# 28. HIDE ONEDRIVE DESKTOP NAMESPACE ICONS
+# Windows PowerShell 5.1 Compatible
+# Automatically detects registered OneDrive namespace entries
+# Hides icons BEFORE automatic detection to minimize flashing
+# Does not delete files, shortcuts, or OneDrive registry entries
+# ============================================================
+
+Write-Host "`n-- Hiding OneDrive and Recycle Bin icons..." -ForegroundColor Gray
+
+# ------------------------------------------------------------
+# 1. REGISTRY CONFIGURATION
+# ------------------------------------------------------------
+$hidePaths = @(
+    "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\HideDesktopIcons\NewStartPanel",
+    "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\HideDesktopIcons\ClassicStartMenu"
+)
+
+$binGuid = "{645FF040-5081-101B-9F08-00AA002F954E}"
+
+# Standard OneDrive namespace CLSID
+$knownOneDriveClsids = @(
+    "{018D5C66-4533-4307-9B53-224DE2ED1FE6}"
+)
+
+# ------------------------------------------------------------
+# HELPER: APPLY HIDE VALUE
+# ------------------------------------------------------------
+if (-not (Get-Command "Set-DesktopIconHidden" -ErrorAction SilentlyContinue)) {
+    function Set-DesktopIconHidden {
+        param(
+            [Parameter(Mandatory = $true)]
+            [string]$Path,
+
+            [Parameter(Mandatory = $true)]
+            [string]$Clsid
+        )
+
+        try {
+            if (-not (Test-Path -LiteralPath $Path)) {
+                New-Item -Path $Path -Force -ErrorAction Stop | Out-Null
+            }
+
+            New-ItemProperty `
+                -LiteralPath $Path `
+                -Name $Clsid `
+                -Value 1 `
+                -PropertyType DWord `
+                -Force `
+                -ErrorAction Stop | Out-Null
+
+            return $true
+        }
+        catch {
+            Write-Host "[WARNING] Could not hide $Clsid : $($_.Exception.Message)" -ForegroundColor Yellow
+            return $false
+        }
+    }
+}
+
+# ------------------------------------------------------------
+# 2. HIDE RECYCLE BIN IMMEDIATELY
+# ------------------------------------------------------------
+Write-Host "[1/3] Hiding Recycle Bin..." -ForegroundColor Gray
+
+foreach ($path in $hidePaths) {
+    Set-DesktopIconHidden -Path $path -Clsid $binGuid | Out-Null
+}
+
+Write-Host "[OK] Recycle Bin hide settings applied." -ForegroundColor Green
+
+# ------------------------------------------------------------
+# 3. HIDE STANDARD ONEDRIVE CLSID BEFORE DETECTION
+# ------------------------------------------------------------
+Write-Host "[2/3] Applying initial OneDrive hide settings..." -ForegroundColor Gray
+
+foreach ($clsid in $knownOneDriveClsids) {
+    foreach ($path in $hidePaths) {
+        Set-DesktopIconHidden -Path $path -Clsid $clsid | Out-Null
+    }
+}
+
+Write-Host "[OK] Initial OneDrive hide settings applied." -ForegroundColor Green
+
+# ------------------------------------------------------------
+# 4. DETECT OTHER REGISTERED ONEDRIVE NAMESPACE ENTRIES
+# ------------------------------------------------------------
+Write-Host "`n=== Detecting OneDrive namespace icons ===" -ForegroundColor Cyan
+
+$namespacePaths = @(
+    "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Desktop\NameSpace",
+    "HKLM:\Software\Microsoft\Windows\CurrentVersion\Explorer\Desktop\NameSpace",
+    "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\MyComputer\NameSpace",
+    "HKLM:\Software\Microsoft\Windows\CurrentVersion\Explorer\MyComputer\NameSpace"
+)
+
+if (-not (Get-Command "Get-RegistryText" -ErrorAction SilentlyContinue)) {
+    function Get-RegistryText {
+        param(
+            [Parameter(Mandatory = $true)]
+            [string]$Path
+        )
+
+        $key = Get-Item -LiteralPath $Path -ErrorAction SilentlyContinue
+
+        if (-not $key) {
+            return
+        }
+
+        foreach ($name in @("", "LocalizedString", "System.DisplayName")) {
+            try {
+                $value = $key.GetValue(
+                    $name,
+                    $null,
+                    [Microsoft.Win32.RegistryValueOptions]::DoNotExpandEnvironmentNames
+                )
+
+                if ($value -is [string] -and
+                    -not [string]::IsNullOrWhiteSpace($value)) {
+                    $value
+                }
+            }
+            catch {
+                # Ignore inaccessible registry values
+            }
+        }
+    }
+}
+
+$detected = @{}
+
+foreach ($namespacePath in $namespacePaths) {
+    if (-not (Test-Path -LiteralPath $namespacePath -ErrorAction SilentlyContinue)) {
+        continue
+    }
+
+    $entries = Get-ChildItem -LiteralPath $namespacePath -ErrorAction SilentlyContinue
+
+    foreach ($entry in $entries) {
+        $clsid = $entry.PSChildName
+
+        if ($clsid -notmatch '^\{[0-9A-Fa-f-]{36}\}$') {
+            continue
+        }
+
+        $classPaths = @(
+            "HKCU:\Software\Classes\CLSID\$clsid",
+            "HKLM:\Software\Classes\CLSID\$clsid",
+            "HKLM:\Software\WOW6432Node\Classes\CLSID\$clsid"
+        )
+
+        $displayNames = @()
+        $displayNames += Get-RegistryText -Path $entry.PSPath
+
+        foreach ($classPath in $classPaths) {
+            $displayNames += Get-RegistryText -Path $classPath
+        }
+
+        $oneDriveName = $displayNames |
+            Where-Object { $_ -match '(?i)OneDrive' } |
+            Select-Object -First 1
+
+        if ($oneDriveName) {
+            $detected[$clsid] = $oneDriveName
+        }
+    }
+}
+
+# ------------------------------------------------------------
+# 5. HIDE ALL ADDITIONAL DETECTED ONEDRIVE CLSIDS
+# ------------------------------------------------------------
+foreach ($clsid in $detected.Keys) {
+    foreach ($path in $hidePaths) {
+        Set-DesktopIconHidden -Path $path -Clsid $clsid | Out-Null
+    }
+
+    Write-Host "[OK] Hidden: $($detected[$clsid]) ($clsid)" -ForegroundColor Green
+}
+
+if ($detected.Count -eq 0) {
+    Write-Host "[INFO] No additional OneDrive namespace entries detected." -ForegroundColor Yellow
+}
+
+# ------------------------------------------------------------
+# 6. FINISH
+# ------------------------------------------------------------
+Write-Host "`n Finished. Check the desktop icon." -ForegroundColor Green
+Write-Host ""
+Write-Host "OneDrive desktop icons hidden successfully! ✅" -ForegroundColor Green
+Write-Host "--------------------------------------------------"
+Write-Host ""
+
+##------------------------------------------------------##
+
+# 29. Conditional Transparency Tweak based on Hardware
+Write-Host "-- Checking hardware specifications..." -ForegroundColor Gray
+
+function Get-RealRAM {
+    try {
+        $ramBytes = (Get-CimInstance Win32_PhysicalMemory | Measure-Object Capacity -Sum).Sum
+        return [math]::Round($ramBytes / 1GB, 2)
+    }
+    catch {
+        return 8
+    }
+}
+
+function Get-LogicalCPU {
+    try {
+        return (Get-CimInstance Win32_ComputerSystem).NumberOfLogicalProcessors
+    }
+    catch {
+        return 4
+    }
+}
+
+$TotalRAM = Get-RealRAM
+$LogicalProcessors = Get-LogicalCPU
+
+Write-Host "   -> Detected RAM: $TotalRAM GB" -ForegroundColor DarkGray
+Write-Host "   -> Logical CPUs: $LogicalProcessors" -ForegroundColor DarkGray
+
+# Threshold for weak PC: Less than 8GB RAM or 4 or fewer logical processors
+if (($TotalRAM -lt 8) -or ($LogicalProcessors -le 4)) {
+    Write-Host "-- Low-spec hardware detected. Disabling Transparency..." -ForegroundColor Gray
+    reg add "HKCU\Software\Microsoft\Windows\CurrentVersion\Themes\Personalize" /v "EnableTransparency" /t REG_DWORD /d 0 /f | Out-Null
+    
+    Write-Host ""
+    Write-Host "Transparency disabled for performance! ✅" -ForegroundColor Green
+} else {
+    Write-Host ""
+    Write-Host "Hardware is adequate. Skipping transparency tweak. ✅" -ForegroundColor Green
+}
+
+Write-Host "--------------------------------------------------------"
+Write-Host ""
+
+# 30. Removing Windows.old Folder
+Write-Host "`n Removing Windows.old Folder..." -ForegroundColor Gray
+
+$WindowsOldPath = "C:\Windows.old"
+
+if (Test-Path -LiteralPath $WindowsOldPath) {
+    try {
+        Remove-Item -LiteralPath $WindowsOldPath -Recurse -Force -ErrorAction Stop
+
+        Write-Host ""
+        Write-Host "Windows.old folder removed successfully! ✅" -ForegroundColor Green
+    }
+    catch {
+        Write-Host ""
+        Write-Host "Failed to remove Windows.old folder! ❌" -ForegroundColor Red
+        Write-Host $_.Exception.Message -ForegroundColor DarkGray
+    }
+}
+else {
+    Write-Host ""
+    Write-Host "Windows.old folder not found. Nothing to remove." -ForegroundColor Yellow
+}
+
+Write-Host "--------------------------------------------------------"
+Write-Host ""
+
+# 31. Uninstall PC Health Check
+Write-Host "`n Uninstalling PC Health Check..." -ForegroundColor Gray
+
+$uninstallPaths = @(
+    "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\*",
+    "HKLM:\SOFTWARE\WOW6432Node\Microsoft\Windows\CurrentVersion\Uninstall\*",
+    "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\*"
+)
+
+$apps = Get-ItemProperty -Path $uninstallPaths -ErrorAction SilentlyContinue |
+    Where-Object { $_.DisplayName -like "*PC Health Check*" }
+
+if ($apps) {
+    foreach ($app in $apps) {
+        if ($app.PSChildName -match '^\{[0-9A-Fa-f-]+\}$') {
+            try {
+                $process = Start-Process -FilePath "msiexec.exe" `
+                    -ArgumentList "/x $($app.PSChildName) /quiet /norestart" `
+                    -Wait -PassThru -ErrorAction Stop
+
+                if ($process.ExitCode -eq 0) {
+                    Write-Host "PC Health Check uninstalled successfully! ✅" -ForegroundColor Green
+                }
+                else {
+                    Write-Host "Uninstaller returned exit code: $($process.ExitCode)" -ForegroundColor Yellow
+                }
+            }
+            catch {
+                Write-Host "Failed to uninstall PC Health Check: $($_.Exception.Message)" -ForegroundColor Red
+            }
+        }
+        else {
+            Write-Host "Non-MSI installer detected: $($app.DisplayName)" -ForegroundColor Yellow
+        }
+    }
+}
+else {
+    Write-Host "PC Health Check not found." -ForegroundColor DarkGray
+}
+
+# Block future reinstall
+Write-Host "Configuring PC Health Check reinstall flag..." -ForegroundColor Gray
+
+try {
+    $regPath = "HKLM:\SOFTWARE\Microsoft\PCHC"
+
+    New-Item -Path $regPath -Force -ErrorAction Stop | Out-Null
+    New-ItemProperty -Path $regPath -Name "PreviousUninstall" `
+        -PropertyType DWord -Value 1 -Force -ErrorAction Stop | Out-Null
+
+    Write-Host "PC Health Check reinstall flag configured! ✅" -ForegroundColor Green
+}
+catch {
+    Write-Host "Failed to configure reinstall flag: $($_.Exception.Message)" -ForegroundColor Red
+}
+
+Write-Host "--------------------------------------------------------"
+Write-Host ""
+
+
+# 32. Remove Windows Update Assistants (Dynamic)
+Write-Host "`n Removing Windows Update Assistants..." -ForegroundColor Gray
+
+# Search installed applications in the registry
+$uninstallPaths = @(
+    "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\*",
+    "HKLM:\SOFTWARE\WOW6432Node\Microsoft\Windows\CurrentVersion\Uninstall\*",
+    "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\*"
+)
+
+$assistants = Get-ItemProperty -Path $uninstallPaths -ErrorAction SilentlyContinue |
+    Where-Object {
+        $_.DisplayName -match '(?i)Windows\s*(10|11|12|[1-9]\d*)?\s*(Installation|Update|Upgrade)\s*Assistant|Windows Installation Assistant|Windows Update Assistant|Windows Upgrade Assistant'
+    } |
+    Sort-Object PSPath -Unique
+
+if ($assistants) {
+    foreach ($app in $assistants) {
+        Write-Host "Removing: $($app.DisplayName)..." -ForegroundColor DarkGray
+
+        # Prefer the registered quiet uninstaller
+        $command = if ($app.QuietUninstallString) {
+            $app.QuietUninstallString
+        }
+        else {
+            $app.UninstallString
+        }
+
+        if (-not $command) {
+            Write-Host "No uninstaller registered for $($app.DisplayName)." -ForegroundColor Yellow
+            continue
+        }
+
+        try {
+            if ($command -match '(?i)msiexec(?:\.exe)?') {
+                $command = $command -replace '(?i)/I(?=\s*\{)', '/X'
+
+                if ($command -notmatch '(?i)/quiet|/qn') {
+                    $command += " /quiet"
+                }
+
+                if ($command -notmatch '(?i)/norestart') {
+                    $command += " /norestart"
+                }
+
+                Start-Process -FilePath "$env:WINDIR\System32\cmd.exe" `
+                    -ArgumentList "/d /s /c `"`"$env:WINDIR\System32\msiexec.exe`" $($command -replace '(?i)^.*?msiexec(?:\.exe)?\s*', '')`"" `
+                    -Wait -ErrorAction Stop | Out-Null
+            }
+            else {
+                Write-Host "Using registered uninstaller for $($app.DisplayName)." -ForegroundColor DarkGray
+                Start-Process -FilePath "$env:WINDIR\System32\cmd.exe" `
+                    -ArgumentList "/d /c `"$command`"" `
+                    -Wait -ErrorAction Stop | Out-Null
+            }
+
+            Write-Host "Uninstall command completed for $($app.DisplayName). ✅" -ForegroundColor Green
+        }
+        catch {
+            Write-Host "Failed to uninstall $($app.DisplayName): $($_.Exception.Message)" -ForegroundColor Red
+        }
+    }
+}
+else {
+    Write-Host "No registered Windows Update Assistants found." -ForegroundColor DarkGray
+}
+
+# Clean up known assistant leftovers
+$residualPaths = @(
+    "$env:SystemDrive\Windows10Upgrade",
+    "$env:SystemDrive\Windows11InstallationAssistant",
+    "$env:ProgramFiles\WindowsInstallationAssistant",
+    "${env:ProgramFiles(x86)}\WindowsInstallationAssistant",
+    "$env:WINDIR\UpdateAssistant"
+)
+
+foreach ($path in ($residualPaths | Select-Object -Unique)) {
+    if (Test-Path -LiteralPath $path) {
+        try {
+            Remove-Item -LiteralPath $path -Recurse -Force -ErrorAction Stop
+            Write-Host "Removed residual folder: $path" -ForegroundColor Green
+        }
+        catch {
+            Write-Host "Could not remove $path : $($_.Exception.Message)" -ForegroundColor Yellow
+        }
+    }
+}
+
+Write-Host ""
+Write-Host "Windows Update Assistant cleanup completed! ✅" -ForegroundColor Green
+Write-Host "--------------------------------------------------------"
+Write-Host ""
+
+# 33. Adjusting Windows Services Startup Types
+Write-Host "-- Adjusting Windows services startup types..." -ForegroundColor Gray
+
+# ----------------------------------------------------------------------
+# 1. Automatic Services
+# ----------------------------------------------------------------------
+$automaticServices = @(
+    "Spooler"  # Print Spooler (Required for printing)
+)
+
+# ----------------------------------------------------------------------
+# 2. Native Windows Services
+# ----------------------------------------------------------------------
+$manualWindowsServices = @(
+    "ALG","AppMgmt","AppReadiness","Appinfo","AxInstSV","BDESVC","BTAGService",
+    "BcastDVRUserService","BluetoothUserService","Browser","CDPSvc","COMSysApp",
+    "CaptureService","CertPropSvc","ConsentUxUserSvc","CscService","DevQueryBroker",
+    "DeviceAssociationService","DeviceInstall","DevicePickerUserSvc","DevicesFlowUserSvc",
+    "DisplayEnhancementService","DmEnrollmentSvc","DsSvc","DsmSvc","EFS","EapHost",
+    "EntAppSvc","FDResPub","FrameServer","FrameServerMonitor","GraphicsPerfSvc","HvHost",
+    "IEEtwCollectorService","InstallService","InventorySvc","IpxlatCfgSvc","KtmRm",
+    "LicenseManager","LxpSvc","MSDTC","MSiSCSI","McpManagementService",
+    "MsKeyboardFilter","NPSMSvc","NaturalAuthentication","NcaSvc","NcbService",
+    "NcdAutoSetup","NetSetupSvc","Netman","NgcCtnrSvc","NgcSvc","NlaSvc","PNRPAutoReg",
+    "PcaSvc","PeerDistSvc","PenService","PerfHost","PhoneSvc","PimIndexMaintenanceSvc",
+    "PlugPlay","PolicyAgent","PrintNotify","PushToInstall","QWAVE","RasAuto","RasMan",
+    "RetailDemo","RmSvc","RpcLocator","SCPolicySvc","SCardSvr","SDRSVC","SEMgrSvc",
+    "SNMPTRAP","SNMPTrap","SSDPSRV","ScDeviceEnum","SensorDataService","SensorService",
+    "SensrSvc","SessionEnv","SharedAccess","SmsRouter","SstpSvc","StiSvc","StorSvc",
+    "TapiSrv","TextInputManagementService","TieringEngineService","TokenBroker",
+    "TroubleshootingSvc","TrustedInstaller","UdkUserSvc","UmRdpService","UserDataSvc",
+    "UsoSvc","VSS","VacSvc","WEPHOSTSVC","WFDSConMgrSvc","WMPNetworkSvc","WManSvc",
+    "WPDBusEnum","WalletService","WarpJITSvc","WbioSrvc","WdNisSvc","WdiServiceHost",
+    "WdiSystemHost","WebClient","Wecsvc","WerSvc","WiaRpc","WinRM","WpcMonSvc",
+    "WpnService","WwanSvc","autotimesvc","bthserv","camsvc","cbdhsvc","cloudidsvc",
+    "dcsvc","defragsvc","diagsvc","dmwappushservice","dot3svc","embeddedmode",
+    "fdPHost","fhsvc","hidserv","icssvc","lfsvc","lltdsvc","lmhosts","msiserver",
+    "netprofm","p2pimsvc","p2psvc","perceptionsimulation","pla","seclogon","smphost",
+    "svsvc","swprv","upnphost","vds","vmicguestinterface","vmicheartbeat",
+    "vmickvpexchange","vmicrdv","vmicshutdown","vmictimesync","vmicvmsession",
+    "vmicvss","vmvss","wbengine","wcncsvc","webthreatdefsvc","wercplsupport","wisvc",
+    "wlidsvc","wlpasvc","wmiApSrv","workfolderssvc","wuauserv","wudfsvc"
+)
+
+$disabledWindowsServices = @(
+    "AppVClient","AssignedAccessManagerSvc","DiagTrack","DialogBlockingService",
+    "NetTcpPortSharing","RemoteAccess","RemoteRegistry","shpamsvc","ssh-agent",
+    "tzautoupdate","WSAIFabricSvc","Winsock","ws2ifsl","WaaSMedicSvc","rspndr",
+    "lltdio","CDFS","DPS","UDFS","dcpsvc"
+)
+
+# ----------------------------------------------------------------------
+# 3. Third-Party & External App Services
+# ----------------------------------------------------------------------
+$manualExternalServices = @(
+    "MicrosoftEdgeElevationService", "edgeupdate", "edgeupdatem", # Edge Services
+    "OneDrive",                                                   # OneDrive
+    "WiseBootAssistant",                                          # Wise Care
+    "Adguard VPN Service",                                        # AdGuard
+    "WireSockAppService", "WireSockConnectService",               # WireSock
+    "TeraBoxUtility",                                             # TeraBox
+    "ViscosityService"                                            # Viscosity VPN
+)
+
+$disabledExternalServices = @(
+    "EPWD",                 # Check Point Endpoint Security VPN/ ExpressVPN / Third-party driver
+    "TracSrvWrapper",       # Check Point VPN
+    "NativePushService",    # Wondershare / Third-party Push Notification service
+    "LenovoVantageService"  # Lenovo
+)
+
+# ----------------------------------------------------------------------
+# Execution
+# ----------------------------------------------------------------------
+
+# Set Automatic Services
+$automaticServices | ForEach-Object { 
+    if (Get-Service -Name $_ -ErrorAction SilentlyContinue) { 
+        Set-Service -Name $_ -StartupType Automatic -ErrorAction SilentlyContinue 
+    } 
+}
+
+# Set Manual Services (Windows + External)
+($manualWindowsServices + $manualExternalServices) | ForEach-Object { 
+    if (Get-Service -Name $_ -ErrorAction SilentlyContinue) { 
+        Set-Service -Name $_ -StartupType Manual -ErrorAction SilentlyContinue 
+    } 
+}
+
+# Set Disabled Services (Windows + External)
+($disabledWindowsServices + $disabledExternalServices) | ForEach-Object { 
+    if (Get-Service -Name $_ -ErrorAction SilentlyContinue) { 
+        Set-Service -Name $_ -StartupType Disabled -ErrorAction SilentlyContinue 
+    } 
+}
+
+Write-Host ""
+Write-Host "Services startup types configured successfully! ✅" -ForegroundColor Green
+Write-Host "--------------------------------------------------------"
+Write-Host ""
+
+# 34. Install Power Plans
+Write-Host "`n--- Installing Power Plans ---" -ForegroundColor Cyan
+
+try {
+    # Temporarily allow script execution for the current process
+    Set-ExecutionPolicy -ExecutionPolicy Bypass -Scope Process -Force | Out-Null
+
+    # Download and execute the Power Plans installer directly from GitHub
+    iex (Invoke-RestMethod -Uri "https://raw.githubusercontent.com/TogoFire-Home/WorkstationTools/main/Tools/System/PowerPlans/Install-PowerPlans.ps1")
+
+} catch {
+    Write-Host "Failed to install Power Plans. Please check your connection." -ForegroundColor Red
+}
+
+Write-Host "--------------------------------------------------------"
+Write-Host ""
+
+# 35. DISABLE WPBT
+# ============================================================
+# DISABLE WINDOWS PLATFORM BINARY TABLE (WPBT)
+# ============================================================
+
+$ProgressPreference = "SilentlyContinue"
+$ErrorActionPreference = "SilentlyContinue"
+
+# ------------------------------------------------------------
+# DISABLE WINDOWS PLATFORM BINARY TABLE
+# ------------------------------------------------------------
+
+Write-Host ""
+Write-Host "============================================================" -ForegroundColor DarkGray
+Write-Host "  DISABLE WINDOWS PLATFORM BINARY TABLE (WPBT)" -ForegroundColor Cyan
+Write-Host "============================================================" -ForegroundColor DarkGray
+Write-Host ""
+
+try {
+    $registryPath = "HKLM:\SYSTEM\CurrentControlSet\Control\Session Manager"
+
+    if (-not (Test-Path $registryPath)) {
+        New-Item -Path $registryPath -Force | Out-Null
+    }
+
+    New-ItemProperty `
+        -Path $registryPath `
+        -Name "DisableWpbtExecution" `
+        -PropertyType DWord `
+        -Value 1 `
+        -Force `
+        -ErrorAction Stop | Out-Null
+
+    Write-Host "[OK] Windows Platform Binary Table execution disabled." -ForegroundColor Green
+    Write-Host "[INFO] DisableWpbtExecution = 1" -ForegroundColor Gray
+}
+catch {
+    Write-Host "[ERROR] Failed to update the registry: $($_.Exception.Message)" -ForegroundColor Red
+}
+
+Write-Host ""
+Write-Host "[DONE] Operation completed." -ForegroundColor Cyan
+Write-Host "--------------------------------------------------------"
+Write-Host ""
+
+# 36. Restore Windows Widgets Configuration
+
+Write-Host "`n================================================" -ForegroundColor Gray
+Write-Host "  WINDOWS WIDGETS - RESTORE CONFIGURATION" -ForegroundColor Gray
+Write-Host "================================================`n" -ForegroundColor Gray
+
+$PolicyPath = "HKLM:\SOFTWARE\Policies\Microsoft\Dsh"
+$PolicyName = "AllowNewsAndInterests"
+
+if (Test-Path $PolicyPath) {
+    $Policy = Get-ItemProperty -Path $PolicyPath -Name $PolicyName -ErrorAction SilentlyContinue
+
+    if ($null -ne $Policy) {
+        Remove-ItemProperty -Path $PolicyPath -Name $PolicyName -Force
+        Write-Host "[OK] Removed the Widgets policy." -ForegroundColor Green
+    }
+    else {
+        Write-Host "[INFO] The Widgets policy value was not found." -ForegroundColor Yellow
+    }
+}
+else {
+    Write-Host "[INFO] The Widgets policy key was not found." -ForegroundColor Yellow
+}
+
+Write-Host "`n[INFO] Updating computer policies..." -ForegroundColor Cyan
+& gpupdate.exe /target:computer /force
+
+Write-Host "`n[OK] Configuration completed." -ForegroundColor Green
+Write-Host "[INFO] Check Settings > Personalization > Taskbar > Widgets." -ForegroundColor Gray
+Write-Host "--------------------------------------------------------"
+Write-Host ""
+
+# 37 - IObit Unlocker - Version Check, Silent Installation
+
+$Url = "https://www.iobit.com/downloadcenter.php?product=iobit-unlocker"
+$InstallerPath = Join-Path $env:TEMP "iobitunlocker.exe"
+
+Write-Host "`n================================================" -ForegroundColor Gray
+Write-Host "  IOBIT UNLOCKER - VERSION CHECK AND INSTALLATION" -ForegroundColor Gray
+Write-Host "================================================`n" -ForegroundColor Gray
+
+function Get-VersionNumber {
+    param(
+        [string]$VersionText
+    )
+
+    if ([string]::IsNullOrWhiteSpace($VersionText)) {
+        return $null
+    }
+
+    $Match = [regex]::Match($VersionText, '\d+(?:\.\d+){1,3}')
+
+    if ($Match.Success) {
+        try {
+            return [version]$Match.Value
+        }
+        catch {
+            return $null
+        }
+    }
+
+    return $null
+}
+
+function Get-InstalledIObitVersion {
+    $UninstallPaths = @(
+        "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\*",
+        "HKLM:\SOFTWARE\WOW6432Node\Microsoft\Windows\CurrentVersion\Uninstall\*",
+        "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\*",
+        "HKCU:\SOFTWARE\WOW6432Node\Microsoft\Windows\CurrentVersion\Uninstall\*"
+    )
+
+    foreach ($Path in $UninstallPaths) {
+        $Apps = Get-ItemProperty -Path $Path -ErrorAction SilentlyContinue
+
+        foreach ($App in $Apps) {
+            if (
+                $App.DisplayName -match '(?i)IObit\s*Unlocker|^Unlocker(?:\s*\(32 bits\))?$' -or
+                $App.InstallLocation -match '(?i)\\IObit\\IObit Unlocker'
+            ) {
+                $Version = Get-VersionNumber -VersionText $App.DisplayVersion
+
+                if ($Version) {
+                    return $Version
+                }
+            }
+        }
+    }
+
+    # Fallback: check the installed executable.
+    $ExecutablePaths = @(
+        "${env:ProgramFiles(x86)}\IObit\IObit Unlocker\IObitUnlocker.exe",
+        "$env:ProgramFiles\IObit\IObit Unlocker\IObitUnlocker.exe"
+    )
+
+    foreach ($ExecutablePath in $ExecutablePaths) {
+        if ($ExecutablePath -and (Test-Path -LiteralPath $ExecutablePath)) {
+            $File = Get-Item -LiteralPath $ExecutablePath
+
+            $Version = Get-VersionNumber -VersionText $File.VersionInfo.ProductVersion
+
+            if (-not $Version) {
+                $Version = Get-VersionNumber -VersionText $File.VersionInfo.FileVersion
+            }
+
+            if ($Version) {
+                return $Version
+            }
+        }
+    }
+
+    return $null
+}
+
+# Original automatic process shutdown function preserved.
+function Stop-IObitUnlocker {
+    param(
+        [int]$TimeoutSeconds = 5
+    )
+
+    $NamePatterns = @(
+        "IObitUnlocker",
+        "IObitUnlockerEx",
+        "IObitUnlockerExtension",
+        "Unlocker"
+    )
+
+    $Deadline = [DateTime]::UtcNow.AddSeconds($TimeoutSeconds)
+
+    do {
+        $FoundProcesses = @(
+            Get-CimInstance Win32_Process -ErrorAction SilentlyContinue |
+                Where-Object {
+                    $Process = $_
+                    $ProcessName = [string]$Process.Name
+                    $ProcessPath = [string]$Process.ExecutablePath
+                    $ProcessTitle = [string]$Process.Caption
+
+                    $NameMatch = $false
+
+                    foreach ($Pattern in $NamePatterns) {
+                        if (
+                            $ProcessName -match [regex]::Escape($Pattern) -or
+                            $ProcessTitle -match [regex]::Escape($Pattern)
+                        ) {
+                            $NameMatch = $true
+                            break
+                        }
+                    }
+
+                    $PathMatch = (
+                        $ProcessPath -match '(?i)\\IObit\\IObit Unlocker\\'
+                    )
+
+                    $NameMatch -or $PathMatch
+                }
+        )
+
+        foreach ($ProcessInfo in $FoundProcesses) {
+            try {
+                $Process = Get-Process -Id $ProcessInfo.ProcessId `
+                    -ErrorAction SilentlyContinue
+
+                if ($null -ne $Process) {
+                    # Try a normal window close first.
+                    if ($Process.MainWindowHandle -ne 0) {
+                        [void]$Process.CloseMainWindow()
+                        Start-Sleep -Milliseconds 700
+                    }
+
+                    # Force termination if the process is still running.
+                    $StillRunning = Get-Process `
+                        -Id $ProcessInfo.ProcessId `
+                        -ErrorAction SilentlyContinue
+
+                    if ($null -ne $StillRunning) {
+                        Stop-Process -Id $ProcessInfo.ProcessId `
+                            -Force -ErrorAction SilentlyContinue
+                    }
+
+                    Write-Host "[OK] Closed: $($ProcessInfo.Name) (PID $($ProcessInfo.ProcessId))" `
+                        -ForegroundColor Green
+                }
+            }
+            catch {
+                Write-Host "[WARN] Could not close PID $($ProcessInfo.ProcessId)." `
+                    -ForegroundColor Yellow
+            }
+        }
+
+        Start-Sleep -Milliseconds 300
+
+    } while (
+        [DateTime]::UtcNow -lt $Deadline -and
+        @(
+            Get-CimInstance Win32_Process -ErrorAction SilentlyContinue |
+                Where-Object {
+                    $_.Name -match '(?i)IObitUnlocker|IObitUnlockerEx|Unlocker' -or
+                    $_.ExecutablePath -match '(?i)\\IObit\\IObit Unlocker\\'
+                }
+        ).Count -gt 0
+    )
+}
+
+try {
+    # 1. Detect the installed version.
+    $InstalledVersion = Get-InstalledIObitVersion
+
+    if ($InstalledVersion) {
+        Write-Host "[INFO] Installed version: $InstalledVersion" -ForegroundColor Cyan
+    }
+    else {
+        Write-Host "[INFO] Installed version not detected." -ForegroundColor Yellow
+    }
+
+    # 2. Download the installer.
+    Write-Host "[INFO] Downloading IObit Unlocker..." -ForegroundColor Cyan
+
+    Invoke-WebRequest -Uri $Url -OutFile $InstallerPath -ErrorAction Stop
+
+    if (-not (Test-Path -LiteralPath $InstallerPath)) {
+        throw "The installer file was not downloaded."
+    }
+
+    $FileInfo = Get-Item -LiteralPath $InstallerPath
+
+    if ($FileInfo.Length -lt 100KB) {
+        throw "The downloaded file is too small to be a valid installer."
+    }
+
+    # 3. Verify the installer's digital signature.
+    $Signature = Get-AuthenticodeSignature -FilePath $InstallerPath
+
+    if ($Signature.Status -ne "Valid") {
+        throw "The installer signature is not valid. Status: $($Signature.Status)"
+    }
+
+    $SignerSubject = $Signature.SignerCertificate.Subject
+
+    if ($SignerSubject -notmatch "IObit|ORANGE VIEW LIMITED") {
+        throw "Unexpected installer publisher: $SignerSubject"
+    }
+
+    Write-Host "[INFO] Verified publisher: $SignerSubject" -ForegroundColor Green
+
+    # 4. Read the downloaded installer's version.
+    $InstallerVersionText = $FileInfo.VersionInfo.ProductVersion
+
+    if ([string]::IsNullOrWhiteSpace($InstallerVersionText)) {
+        $InstallerVersionText = $FileInfo.VersionInfo.FileVersion
+    }
+
+    $InstallerVersion = Get-VersionNumber -VersionText $InstallerVersionText
+
+    if (-not $InstallerVersion) {
+        throw "Could not determine the installer version. Installation cancelled."
+    }
+
+    Write-Host "[INFO] Available installer version: $InstallerVersion" -ForegroundColor Cyan
+
+    # 5. Install only if the available version is newer.
+    if ($InstalledVersion -and $InstallerVersion -le $InstalledVersion) {
+        Write-Host "[INFO] Installed version is equal to or newer than the available version." -ForegroundColor Green
+        Write-Host "[INFO] Installation skipped." -ForegroundColor Green
+    }
+    else {
+        if ($InstalledVersion) {
+            Write-Host "[INFO] Updating from $InstalledVersion to $InstallerVersion..." -ForegroundColor Yellow
+        }
+        else {
+            Write-Host "[INFO] Installing version $InstallerVersion..." -ForegroundColor Yellow
+        }
+
+        # 6. Close the application before installation.
+        Stop-IObitUnlocker -TimeoutSeconds 8
+
+        # 7. Silent installation.
+        Write-Host "[INFO] Installing IObit Unlocker silently..." -ForegroundColor Cyan
+
+        $InstallProcess = Start-Process `
+            -FilePath $InstallerPath `
+            -ArgumentList "/VERYSILENT", "/NORESTART" `
+            -PassThru
+
+        # Wait for installer completion.
+        $InstallProcess.WaitForExit()
+
+        if ($InstallProcess.ExitCode -ne 0) {
+            throw "The installer exited with code $($InstallProcess.ExitCode)."
+        }
+
+        # 8. Close IObit Unlocker after installation.
+        Write-Host "[INFO] Closing IObit Unlocker..." -ForegroundColor Cyan
+
+        Stop-IObitUnlocker -TimeoutSeconds 8
+
+        # 9. Verify the installed version.
+        $NewInstalledVersion = Get-InstalledIObitVersion
+
+        if (-not $NewInstalledVersion) {
+            throw "Installation completed, but the installed version could not be detected."
+        }
+
+        if ($NewInstalledVersion -ge $InstallerVersion) {
+            Write-Host "[OK] Installed version: $NewInstalledVersion" -ForegroundColor Green
+        }
+        else {
+            throw "Installed version $NewInstalledVersion is older than expected version $InstallerVersion."
+        }
+    }
+
+    # 10. Final process verification.
+    $Remaining = @(
+        Get-CimInstance Win32_Process -ErrorAction SilentlyContinue |
+            Where-Object {
+                $_.Name -match '(?i)IObitUnlocker|IObitUnlockerEx|Unlocker' -or
+                $_.ExecutablePath -match '(?i)\\IObit\\IObit Unlocker\\'
+            }
+    )
+
+    if ($Remaining.Count -eq 0) {
+        Write-Host "[OK] IObit Unlocker is closed." -ForegroundColor Green
+    }
+    else {
+        foreach ($ProcessInfo in $Remaining) {
+            Write-Host "[WARN] Still running: $($ProcessInfo.Name), PID $($ProcessInfo.ProcessId)" `
+                -ForegroundColor Yellow
+        }
+    }
+
+    Write-Host "[OK] Process completed." -ForegroundColor Green
+}
+catch {
+    Write-Host "[ERROR] $($_.Exception.Message)" -ForegroundColor Red
+}
+finally {
+    # Always attempt automatic shutdown.
+    Stop-IObitUnlocker -TimeoutSeconds 3
+
+    # Remove the temporary installer.
+    if (Test-Path -LiteralPath $InstallerPath) {
+        Remove-Item -LiteralPath $InstallerPath -Force -ErrorAction SilentlyContinue
+    }
+}
+
+Write-Host ""
+Write-Host "--------------------------------------------------------"
 Write-Host ""
 
 ##------------------------------------------------------##
@@ -6419,74 +9634,132 @@ function Get-PwshVersion {
 Write-Host ""
 
 # --- 3.5. Install/Update PowerShell 7 (pwsh) via Winget ---
-Write-Host "Checking for PowerShell 7 (pwsh) installation and updates..."
-$pwshInstalledVersion = $null # Initialize to null
-if (Test-CommandExists "pwsh") {
-    $pwshInstalledVersion = Get-PwshVersion
-}
+# ==========================================
+# POWERSHELL 7 - INSTALL / UPDATE MANAGER
+# Controlled by feature flag
+# ==========================================
 
-if ($pwshInstalledVersion) {
-    Write-Host "PowerShell 7 (pwsh) detected: Version $($pwshInstalledVersion)"
+# Set to $true to enable installation/update checks.
+# Set to $false to disable this feature completely.
+$EnablePowerShell7Update = $false
 
-    # Get the latest available version from Winget
-    try {
-        # Using winget show for more structured output, then parsing
-        $wingetShowOutput = winget show Microsoft.PowerShell --exact
-        $latestPwshVersionString = ""
+function Update-PowerShell7 {
 
-        # Extract version from the "Version:" line. This is more robust.
-        $versionLine = $wingetShowOutput | Select-String -Pattern "Version:\s*(\S+)"
-        if ($versionLine) {
-            $latestPwshVersionString = $versionLine.Matches.Groups[1].Value
-        }
+    Write-Host "`nChecking for PowerShell 7 (pwsh) installation and updates..." -ForegroundColor Cyan
 
-        if ($latestPwshVersionString -and ($latestPwshVersionString -notlike "*< Not Available >*")) { # Check for "Not Available" case
-            $latestPwshVersion = [version]$latestPwshVersionString
-            Write-Host "Latest PowerShell 7 version available via Winget: $($latestPwshVersion)"
+    $pwshInstalledVersion = $null
 
-            if ($pwshInstalledVersion -lt $latestPwshVersion) {
-                Write-Host "Installed PowerShell 7 version is older. Attempting to update via Winget..."
-                winget upgrade Microsoft.PowerShell -e --accept-package-agreements --accept-source-agreements
-                if ($LASTEXITCODE -ne 0) {
-                    Write-Warning "Failed to update PowerShell 7 via Winget. Exit code: $LASTEXITCODE"
-                } else {
-                    Write-Host "PowerShell 7 updated successfully via Winget."
-                    # Reload PATH for the current session after update, if needed.
-                    # This is often done by Winget's installer, but it's good practice for the current session.
-                    $env:Path = [System.Environment]::GetEnvironmentVariable("Path", "Machine") + ";" + [System.Environment]::GetEnvironmentVariable("Path", "User")
-                    Write-Host "Current session PATH reloaded."
-                }
-            } else {
-                Write-Host "PowerShell 7 is already at the latest version or newer. No update needed."
+    if (Test-CommandExists "pwsh") {
+        $pwshInstalledVersion = Get-PwshVersion
+    }
+
+    if ($pwshInstalledVersion) {
+
+        Write-Host "PowerShell 7 (pwsh) detected: Version $pwshInstalledVersion"
+
+        try {
+            # Get the latest available version from Winget
+            $wingetShowOutput = winget show Microsoft.PowerShell --exact
+            $latestPwshVersionString = ""
+
+            # Extract version from the Version line
+            $versionLine = $wingetShowOutput |
+                Select-String -Pattern "Version:\s*(\S+)"
+
+            if ($versionLine) {
+                $latestPwshVersionString = $versionLine.Matches.Groups[1].Value
             }
-        } else {
-            Write-Warning "Could not determine the latest PowerShell 7 version from Winget (output: '$latestPwshVersionString'). Skipping update check."
+
+            if (
+                $latestPwshVersionString -and
+                ($latestPwshVersionString -notlike "*< Not Available >*")
+            ) {
+                $latestPwshVersion = [version]$latestPwshVersionString
+
+                Write-Host "Latest PowerShell 7 version available via Winget: $latestPwshVersion"
+
+                if ($pwshInstalledVersion -lt $latestPwshVersion) {
+
+                    Write-Host "Installed version is older. Attempting update via Winget..."
+
+                    winget upgrade Microsoft.PowerShell -e `
+                        --accept-package-agreements `
+                        --accept-source-agreements
+
+                    if ($LASTEXITCODE -ne 0) {
+                        Write-Warning "Failed to update PowerShell 7 via Winget. Exit code: $LASTEXITCODE"
+                    }
+                    else {
+                        Write-Host "PowerShell 7 updated successfully via Winget." -ForegroundColor Green
+
+                        # Reload PATH for the current session
+                        $machinePath = [System.Environment]::GetEnvironmentVariable("Path", "Machine")
+                        $userPath = [System.Environment]::GetEnvironmentVariable("Path", "User")
+
+                        $env:Path = "$machinePath;$userPath"
+
+                        Write-Host "Current session PATH reloaded."
+                    }
+                }
+                else {
+                    Write-Host "PowerShell 7 is already at the latest version or newer. No update needed." -ForegroundColor Green
+                }
+            }
+            else {
+                Write-Warning "Could not determine the latest PowerShell 7 version from Winget. Skipping update check."
+            }
+        }
+        catch {
+            Write-Error (
+                "An error occurred while checking/updating PowerShell 7 via Winget: {0}" -f
+                $_.Exception.Message
+            )
         }
     }
-    catch {
-        $errorMessage = $_.Exception.Message
-        Write-Error ("An error occurred while trying to check/update PowerShell 7 via Winget: {0}" -f $errorMessage)
-    }
-} else {
-    Write-Host "PowerShell 7 (pwsh) not found. Attempting to install PowerShell 7 via Winget..."
-    try {
-        winget install Microsoft.PowerShell -e --accept-package-agreements --accept-source-agreements
-        if ($LASTEXITCODE -ne 0) {
-            Write-Warning "Failed to install PowerShell 7 via Winget. Exit code: $LASTEXITCODE"
-        } else {
-            Write-Host "PowerShell 7 installed successfully via Winget."
-            # The PowerShell 7 installer should add pwsh.exe to the PATH.
-            # However, to ensure it's available in the current session, we can reload the Path.
-            $env:Path = [System.Environment]::GetEnvironmentVariable("Path", "Machine") + ";" + [System.Environment]::GetEnvironmentVariable("Path", "User")
-            Write-Host "PATH updated for the current session."
+    else {
+
+        Write-Host "PowerShell 7 (pwsh) not found. Attempting installation via Winget..."
+
+        try {
+            winget install Microsoft.PowerShell -e `
+                --accept-package-agreements `
+                --accept-source-agreements
+
+            if ($LASTEXITCODE -ne 0) {
+                Write-Warning "Failed to install PowerShell 7 via Winget. Exit code: $LASTEXITCODE"
+            }
+            else {
+                Write-Host "PowerShell 7 installed successfully via Winget." -ForegroundColor Green
+
+                # Reload PATH for the current session
+                $machinePath = [System.Environment]::GetEnvironmentVariable("Path", "Machine")
+                $userPath = [System.Environment]::GetEnvironmentVariable("Path", "User")
+
+                $env:Path = "$machinePath;$userPath"
+
+                Write-Host "PATH updated for the current session."
+            }
         }
-    }
-    catch {
-        $errorMessage = $_.Exception.Message
-        Write-Error ("An error occurred while trying to install PowerShell 7 via Winget: {0}" -f $errorMessage)
-        exit 1
+        catch {
+            Write-Error (
+                "An error occurred while installing PowerShell 7 via Winget: {0}" -f
+                $_.Exception.Message
+            )
+        }
     }
 }
+
+# ==========================================
+# EXECUTION GATE
+# ==========================================
+
+if ($EnablePowerShell7Update) {
+    Update-PowerShell7
+}
+else {
+    Write-Host "[SKIPPED] PowerShell 7 installation/update is disabled." -ForegroundColor DarkGray
+}
+
 Write-Host "" # Add a blank line for readability
 
 ##------------------------------------------------------##
@@ -7072,6 +10345,192 @@ Write-Host "--------------------------------------------------------`n" -Foregro
 
 ##------------------------------------------------------##
 
+# ============================================================
+# BLOCKIFY DESKTOP DEPLOYMENT
+# ============================================================
+
+Write-Host "[MODULE] Deploying Blockify Desktop via dynamic web resolution..." -ForegroundColor Cyan
+
+# Ensure TLS 1.2 compatibility
+[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
+
+# ------------------------------------------------------------
+# PATHS & CONFIGURATION
+# ------------------------------------------------------------
+$installDir     = "$env:APPDATA\Blockify"
+$versionMarker  = "$installDir\version.txt"
+$ua             = "Mozilla/5.0 (Windows NT 10.0; Win64; x64)"
+$tempZip        = "$env:TEMP\Blockify.zip"
+$extractPath    = "$env:TEMP\Blockify_Extract"
+$skipInstall    = $false
+
+try {
+    # ------------------------------------------------------------
+    # DETECT WINDOWS SERVER ENVIRONMENT
+    # ------------------------------------------------------------
+    Write-Host ">> Checking operating system type... " -ForegroundColor Yellow -NoNewline
+
+    $os = Get-CimInstance Win32_OperatingSystem
+    $isServer = ($os.ProductType -ne 1)
+
+    if ($isServer) {
+        Write-Host "[SERVER DETECTED - SKIPPING INSTALL]" -ForegroundColor DarkYellow
+        $skipInstall = $true
+    } else {
+        Write-Host "[WORKSTATION]" -ForegroundColor Green
+    }
+
+    # ------------------------------------------------------------
+    # DYNAMIC VERSION & URL RESOLUTION (Primary: GetBlockify Site)
+    # ------------------------------------------------------------
+    if (-not $skipInstall) {
+
+        Write-Host ">> Resolving latest version from GetBlockify..." -ForegroundColor Yellow
+
+        $targetUrl = $null
+        $latestVersionStr = $null
+
+        try {
+            $pageHtml = (Invoke-WebRequest -Uri "https://getblockify.com/desktop" -UserAgent $ua -UseBasicParsing -ErrorAction Stop).Content
+            
+            if ($pageHtml -match 'href="([^"]*?/downloads/Blockify-([\d\.]+)-win-x64\.zip)"') {
+                $targetUrl = $Matches[1]
+                if (-not $targetUrl.StartsWith("http")) {
+                    $targetUrl = "https://getblockify.com$targetUrl"
+                }
+                $latestVersionStr = $Matches[2]
+            }
+        } catch {
+            Write-Host "   [WARN] Primary site fetch failed, switching to GitHub fallback..." -ForegroundColor DarkYellow
+        }
+
+        # FALLBACK: GitHub Releases if primary site link extraction fails
+        if (-not $targetUrl -or -not $latestVersionStr) {
+            Write-Host ">> Checking GitHub fallback for latest release..." -ForegroundColor Yellow
+            $apiUrl = "https://api.github.com/repos/dhanur2/spotify-ad-blocker-blockify-desktop/releases/latest"
+            $headers = @{ "User-Agent" = $ua }
+            
+            $response = Invoke-RestMethod -Uri $apiUrl -Headers $headers
+            $latestVersionStr = $response.tag_name -replace '^v', ''
+            
+            foreach ($asset in $response.assets) {
+                if ($asset.name -match "win-x64\.zip") {
+                    $targetUrl = $asset.browser_download_url
+                    break
+                }
+            }
+        }
+
+        if (-not $targetUrl -or -not $latestVersionStr) {
+            throw "Could not resolve Blockify download URL or version from any source."
+        }
+
+        $latestVersion = [version]$latestVersionStr
+        Write-Host "[OK: v$latestVersionStr]" -ForegroundColor Green
+    }
+
+    # ------------------------------------------------------------
+    # DETECT CURRENT INSTALLED VERSION
+    # ------------------------------------------------------------
+    if (-not $skipInstall) {
+
+        Write-Host ">> Checking local version marker..." -ForegroundColor Yellow
+
+        $currentVersion = [version]"0.0.0.0"
+        $detected = $false
+
+        if (Test-Path $versionMarker) {
+            try {
+                $content = (Get-Content $versionMarker -Raw).Trim()
+                if ($content -match "([\d\.]+)") {
+                    $currentVersion = [version]$matches[1]
+                    $detected = $true
+                    Write-Host "   [VERSION FOUND] Installed: $currentVersion" -ForegroundColor Cyan
+                }
+            } catch {
+                Write-Host "   [READ FAILED]" -ForegroundColor DarkYellow
+            }
+        }
+
+        if (-not $detected) {
+            Write-Host "   [NO PREVIOUS VERSION MARKER]" -ForegroundColor DarkGray
+        }
+
+        # ------------------------------------------------------------
+        # VERSION COMPARISON
+        # ------------------------------------------------------------
+        if ($latestVersion -le $currentVersion) {
+            Write-Host ">> Status: [ALREADY UP TO DATE]" -ForegroundColor Green
+            $skipInstall = $true
+        }
+    }
+
+    # ------------------------------------------------------------
+    # DOWNLOAD AND EXTRACTION
+    # ------------------------------------------------------------
+    if (-not $skipInstall) {
+
+        Write-Host ">> Status: [UPDATE REQUIRED]" -ForegroundColor Cyan
+        Write-Host ">> Downloading package from $targetUrl... " -ForegroundColor Yellow -NoNewline
+        
+        Invoke-WebRequest -Uri $targetUrl -OutFile $tempZip -UserAgent $ua -ErrorAction Stop
+        Write-Host "[OK]" -ForegroundColor Green
+
+        # Prepare directories
+        if (-not (Test-Path $installDir)) {
+            New-Item -Path $installDir -ItemType Directory -Force | Out-Null
+        }
+        if (Test-Path $extractPath) {
+            Remove-Item $extractPath -Recurse -Force -ErrorAction SilentlyContinue
+        }
+        New-Item -Path $extractPath -ItemType Directory -Force | Out-Null
+
+        Write-Host ">> Extracting ZIP package... " -ForegroundColor Yellow -NoNewline
+        Expand-Archive -Path $tempZip -DestinationPath $extractPath -Force
+        Write-Host "[OK]" -ForegroundColor Green
+
+        # Locate the installer executable inside the extracted folder (.exe)
+        $installerExe = Get-ChildItem -Path $extractPath -Filter "*.exe" -Recurse | Select-Object -First 1
+
+        if (-not $installerExe) {
+            throw "No installer executable (.exe) found inside the extracted ZIP."
+        }
+
+        # ------------------------------------------------------------
+        # EXECUTE SILENT INSTALLATION (Using NSIS switch /S)
+        # ------------------------------------------------------------
+        Write-Host ">> Executing Blockify installer silently..." -ForegroundColor Yellow
+        
+        Start-Process -FilePath $installerExe.FullName -ArgumentList "/S" -Wait -NoNewWindow
+
+        # Save version marker
+        Set-Content -Path $versionMarker -Value $latestVersionStr -Force
+        Write-Host ">> Version marker updated to: $latestVersionStr" -ForegroundColor Gray
+        Write-Host ">> Deployment completed successfully." -ForegroundColor Green
+    }
+
+} catch {
+    Write-Host "[ERROR] $($_.Exception.Message)" -ForegroundColor Red
+} finally {
+    # ------------------------------------------------------------
+    # CLEANUP INSTALLER FILES AND ZIP
+    # ------------------------------------------------------------
+    if ((Test-Path $tempZip) -or (Test-Path $extractPath)) {
+        Write-Host ">> Cleaning up temporary files and installer artifacts..." -ForegroundColor Yellow
+
+        if (Test-Path $tempZip) {
+            Remove-Item $tempZip -Force -ErrorAction SilentlyContinue
+        }
+        if (Test-Path $extractPath) {
+            Remove-Item $extractPath -Recurse -Force -ErrorAction SilentlyContinue
+        }
+
+        Write-Host ">> Cleanup complete." -ForegroundColor Green
+    }
+}
+
+##------------------------------------------------------##
+
 # --- AUTOMATIC APP INSTALLATION (UNATTENDED) ---
 Write-Host "`n[MODULE] Deploying Essential Applications..." -ForegroundColor Cyan
 
@@ -7083,12 +10542,28 @@ $isServer = $osInfo.ProductType -ne 1  # 1 = Workstation, others = Server/DC
 $serverBlockedApps = @(
     "UpNote",
     "Calibre",
-    "Simple Radio Online"
+    "Simple Radio Online",
+    "SparkLabs.Viscosity",
+    "WireSock",
+    "Microsoft.IntelligentTerminal",
+    "Lively Weather",
+    "Calendar App",
+    "Energy Star X"
 )
 
 $appsToInstall = @(
+    @{ Name = "7zip"; ID = "7zip.7zip" },
+    @{ Name = "Supermium"; ID = "win32ss.Supermium" },
     @{ Name = "UpNote"; ID = "9mv7690m8f5n" },
+    @{ Name = "WinRAR"; ID = "RARLab.WinRAR" },
+    @{ Name = "Ookla Speedtest CLI"; ID = "Ookla.Speedtest.CLI" },
+    @{ Name = "Intelligent Terminal"; ID = "Microsoft.IntelligentTerminal" },
+    @{ Name = "Lively Weather"; ID = "9pp0mfqfvsc5" },
+    @{ Name = "Calendar App"; ID = "9pn24rvqdfrs" },
+    @{ Name = "Energy Star X"; ID = " 9nf7jtb3b17p" },
     @{ Name = "LibreWolf"; ID = "9nvn9sz8kfd7" },
+    @{ Name = "Viscosity"; ID = "SparkLabs.Viscosity" },
+    @{ Name = "WireSock"; ID = "NTKERNEL.WireSockVPNClient" },
     @{ Name = "ShareX"; ID = "ShareX.ShareX" },
     @{ Name = "CrystalDiskInfo"; ID = "CrystalDewWorld.CrystalDiskInfo" },
     @{ Name = "SSD Booster"; ID = "9nvmxq4ps0lb" },
@@ -7139,6 +10614,83 @@ Write-Host "`n--- Deployment Summary ---" -ForegroundColor Cyan
 Write-Host "Total Apps: $($appsToInstall.Count)" -ForegroundColor White
 Write-Host "Completed:  $installedCount" -ForegroundColor Green
 Write-Host "--------------------------------------------------------"
+
+##------------------------------------------------------##
+
+# ============================================================
+# WIRESOCK SECURE CONNECT - CMD CREATION
+# ============================================================
+
+Write-Host "[MODULE] Creating WireSock startup script..." -ForegroundColor Cyan
+
+# ------------------------------------------------------------
+# PATHS & CONFIGURATION
+# ------------------------------------------------------------
+$startupDir = "C:\ProgramData\Microsoft\Windows\Start Menu\Programs"
+$cmdPath    = Join-Path $startupDir "StartWireSock.cmd"
+
+# ------------------------------------------------------------
+# ENSURE TARGET DIRECTORY EXISTS
+# ------------------------------------------------------------
+if (-not (Test-Path $startupDir)) {
+    Write-Host ">> Creating target directory..." -ForegroundColor Yellow
+
+    New-Item -Path $startupDir -ItemType Directory -Force |
+        Out-Null
+}
+
+# ------------------------------------------------------------
+# CHECK IF CMD FILE ALREADY EXISTS
+# ------------------------------------------------------------
+if (Test-Path $cmdPath) {
+    Write-Host ">> CMD script already exists. Skipping creation." -ForegroundColor DarkYellow
+}
+else {
+
+    # --------------------------------------------------------
+    # CMD SCRIPT CONTENT
+    # --------------------------------------------------------
+    $cmdContent = @'
+@echo off
+title WireSock Secure Connect
+
+:: Check for administrator privileges
+net session >nul 2>&1
+if %errorlevel% neq 0 (
+    echo Requesting administrator privileges...
+    powershell.exe -NoProfile -ExecutionPolicy Bypass -Command "Start-Process -FilePath '%~f0' -Verb RunAs"
+    goto :eof
+)
+
+echo Starting WireSock services...
+
+net start "WireSockAppService"
+net start "WireSockConnectService"
+
+echo.
+echo Opening WireSock Connect...
+
+start "" "C:\Program Files\WireSock Secure Connect\bin\WireSockConnect.exe"
+
+echo.
+echo Process completed.
+'@
+
+    # --------------------------------------------------------
+    # CREATE CMD FILE
+    # --------------------------------------------------------
+    try {
+        Set-Content -Path $cmdPath -Value $cmdContent -Encoding ASCII
+
+        Write-Host ">> CMD script created successfully: $cmdPath" -ForegroundColor Green
+    }
+    catch {
+        Write-Host "[ERROR] Failed to create CMD script: $($_.Exception.Message)" -ForegroundColor Red
+    }
+}
+
+Write-Host "--------------------------------------------------------"
+Write-Host ""
 
 ##------------------------------------------------------##
 
@@ -7875,11 +11427,618 @@ Write-Host "--------------------------------------------------------"
 
 ##------------------------------------------------------##
 
+# ============================================================
+# Runtime Installer and .NET Cleanup
+# Package Manager: WinGet
+# ============================================================
+
+$ErrorActionPreference = "Continue"
+
+# ------------------------------------------------------------
+# Configuration
+# ------------------------------------------------------------
+
+$IgnoredExitCodes = @(
+    -1978335135,
+    -1978335189,
+    -1978335191,
+    -1978335221,
+    -1978335212
+)
+
+$FixedPackages = @(
+    "Microsoft.DirectX",
+    "Oracle.JavaRuntimeEnvironment",
+    "Microsoft.EdgeWebView2Runtime",
+    "Microsoft.VCRedist.2015+.x86",
+    "Microsoft.VCRedist.2015+.x64",
+    "Microsoft.VCRedist.2013.x86",
+    "Microsoft.VCRedist.2013.x64",
+    "Microsoft.VCRedist.2012.x86",
+    "Microsoft.VCRedist.2012.x64",
+    "Microsoft.VCRedist.2010.x86",
+    "Microsoft.VCRedist.2010.x64",
+    "Microsoft.VCRedist.2008.x86",
+    "Microsoft.VCRedist.2008.x64",
+    "Microsoft.VCRedist.2005.x86",
+    "Microsoft.VCRedist.2005.x64",
+    "Microsoft.VSTOR",
+    "Microsoft.XNARedist",
+    "Nvidia.PhysXLegacy",
+    "OpenAL.OpenAL",
+    "Microsoft.DotNet.Framework.DeveloperPack_4"
+)
+
+$DotNetPrefixes = @(
+    "Microsoft.DotNet.DesktopRuntime.",
+    "Microsoft.DotNet.SDK."
+)
+
+# Always preserve these .NET major versions.
+$FixedProtectedMajors = @(6, 8)
+
+# ------------------------------------------------------------
+# Counters
+# ------------------------------------------------------------
+
+$script:InstalledCount = 0
+$script:SkippedCount  = 0
+$script:FailedCount   = 0
+$script:RemovedCount  = 0
+
+# ------------------------------------------------------------
+# Logging
+# ------------------------------------------------------------
+
+function Write-Log {
+    param(
+        [Parameter(Mandatory = $true)]
+        [string]$Message,
+
+        [ValidateSet("INFO", "SUCCESS", "WARNING", "ERROR", "SKIP")]
+        [string]$Level = "INFO"
+    )
+
+    $Timestamp = Get-Date -Format "HH:mm:ss"
+
+    switch ($Level) {
+        "INFO" {
+            $Color = "Cyan"
+            $Prefix = "[INFO]"
+        }
+        "SUCCESS" {
+            $Color = "Green"
+            $Prefix = "[SUCCESS]"
+        }
+        "WARNING" {
+            $Color = "Yellow"
+            $Prefix = "[WARNING]"
+        }
+        "ERROR" {
+            $Color = "Red"
+            $Prefix = "[ERROR]"
+        }
+        "SKIP" {
+            $Color = "DarkYellow"
+            $Prefix = "[SKIP]"
+        }
+    }
+
+    Write-Host "[$Timestamp] $Prefix $Message" -ForegroundColor $Color
+}
+
+# ------------------------------------------------------------
+# WinGet availability
+# ------------------------------------------------------------
+
+function Test-WinGetAvailable {
+    try {
+        $null = Get-Command winget -ErrorAction Stop
+        return $true
+    }
+    catch {
+        return $false
+    }
+}
+
+# ------------------------------------------------------------
+# Registry inventory
+# ------------------------------------------------------------
+
+function Get-InstalledRegistryEntries {
+    $RegistryPaths = @(
+        "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\*",
+        "HKLM:\SOFTWARE\WOW6432Node\Microsoft\Windows\CurrentVersion\Uninstall\*",
+        "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\*"
+    )
+
+    foreach ($RegistryPath in $RegistryPaths) {
+        try {
+            Get-ItemProperty -Path $RegistryPath -ErrorAction SilentlyContinue |
+                Where-Object {
+                    -not [string]::IsNullOrWhiteSpace($_.DisplayName)
+                }
+        }
+        catch {
+            # Ignore inaccessible registry paths.
+        }
+    }
+}
+
+# ------------------------------------------------------------
+# Registry-based detection for packages with unreliable IDs
+# ------------------------------------------------------------
+
+function Test-PackageInRegistry {
+    param(
+        [Parameter(Mandatory = $true)]
+        [string]$PackageId
+    )
+
+    $Entries = @(Get-InstalledRegistryEntries)
+
+    foreach ($Entry in $Entries) {
+        $Name = [string]$Entry.DisplayName
+        $Version = [string]$Entry.DisplayVersion
+        $RegistryPath = [string]$Entry.PSPath
+
+        switch ($PackageId) {
+            "Microsoft.EdgeWebView2Runtime" {
+                if ($Name -match "^Microsoft Edge WebView2 Runtime(?:\s|$)") {
+                    Write-Log "Registry match: $Name $Version" "SUCCESS"
+                    return $true
+                }
+            }
+
+            "Microsoft.VCRedist.2010.x86" {
+                if (
+                    $Name -match "^Microsoft Visual C\+\+ 2010.*Redistributable" -and
+                    (
+                        $Name -match "\bx86\b" -or
+                        $RegistryPath -match "WOW6432Node"
+                    )
+                ) {
+                    Write-Log "Registry match: $Name $Version" "SUCCESS"
+                    return $true
+                }
+            }
+
+            "Microsoft.VCRedist.2010.x64" {
+                if (
+                    $Name -match "^Microsoft Visual C\+\+ 2010.*Redistributable" -and
+                    $Name -match "\bx64\b"
+                ) {
+                    Write-Log "Registry match: $Name $Version" "SUCCESS"
+                    return $true
+                }
+            }
+
+            "Microsoft.VCRedist.2005.x86" {
+                if (
+                    $Name -match "^Microsoft Visual C\+\+ 2005.*Redistributable" -and
+                    (
+                        $Name -match "\bx86\b" -or
+                        $RegistryPath -match "WOW6432Node"
+                    )
+                ) {
+                    Write-Log "Registry match: $Name $Version" "SUCCESS"
+                    return $true
+                }
+            }
+
+            "Microsoft.VCRedist.2005.x64" {
+                if (
+                    $Name -match "^Microsoft Visual C\+\+ 2005.*Redistributable" -and
+                    $Name -match "\bx64\b"
+                ) {
+                    Write-Log "Registry match: $Name $Version" "SUCCESS"
+                    return $true
+                }
+            }
+        }
+    }
+
+    return $false
+}
+
+# ------------------------------------------------------------
+# WinGet package detection
+# ------------------------------------------------------------
+
+function Test-WinGetPackageInstalled {
+    param(
+        [Parameter(Mandatory = $true)]
+        [string]$PackageId
+    )
+
+    try {
+        $Output = @(
+            & winget list `
+                --id $PackageId `
+                --exact `
+                --disable-interactivity 2>$null
+        )
+
+        $ResultCode = $LASTEXITCODE
+        $OutputText = $Output -join "`n"
+
+        if (
+            $ResultCode -eq 0 -and
+            $OutputText -match [regex]::Escape($PackageId)
+        ) {
+            return $true
+        }
+    }
+    catch {
+        # Continue to the next detection method.
+    }
+
+    return $false
+}
+
+function Test-PackageInstalled {
+    param(
+        [Parameter(Mandatory = $true)]
+        [string]$PackageId
+    )
+
+    if (Test-PackageInRegistry -PackageId $PackageId) {
+        return $true
+    }
+
+    if (Test-WinGetPackageInstalled -PackageId $PackageId) {
+        return $true
+    }
+
+    return $false
+}
+
+# ------------------------------------------------------------
+# Install fixed runtime packages
+# ------------------------------------------------------------
+
+function Install-WinGetPackage {
+    param(
+        [Parameter(Mandatory = $true)]
+        [string]$PackageId
+    )
+
+    Write-Log "Checking package: $PackageId"
+
+    if (Test-PackageInstalled -PackageId $PackageId) {
+        Write-Log "Already installed: $PackageId" "SKIP"
+        $script:SkippedCount++
+        return
+    }
+
+    Write-Log "Installing package: $PackageId"
+
+    try {
+        & winget install `
+            --id $PackageId `
+            --exact `
+            --source winget `
+            --silent `
+            --accept-package-agreements `
+            --accept-source-agreements `
+            --disable-interactivity
+
+        $ResultCode = $LASTEXITCODE
+
+        if ($ResultCode -eq 0) {
+            Write-Log "Install command completed: $PackageId" "SUCCESS"
+            $script:InstalledCount++
+        }
+        elseif ($IgnoredExitCodes -contains $ResultCode) {
+            Write-Log "WinGet returned an ignored code ($ResultCode): $PackageId" "SKIP"
+            $script:SkippedCount++
+        }
+        else {
+            Write-Log "Installation failed: $PackageId. Exit code: $ResultCode" "ERROR"
+            $script:FailedCount++
+        }
+    }
+    catch {
+        Write-Log "Installation error for ${PackageId}: $($_.Exception.Message)" "ERROR"
+        $script:FailedCount++
+    }
+}
+
+# ------------------------------------------------------------
+# Read installed .NET packages from the WinGet table
+# ------------------------------------------------------------
+
+function Get-InstalledDotNetPackages {
+    $Packages = @()
+
+    Write-Log "Reading installed .NET SDK and Desktop Runtime inventory."
+
+    try {
+        $Output = @(
+            & winget list --disable-interactivity 2>$null
+        )
+
+        $ResultCode = $LASTEXITCODE
+
+        if ($ResultCode -ne 0) {
+            Write-Log "WinGet could not return the installed package inventory." "WARNING"
+            return @()
+        }
+
+        foreach ($Line in $Output) {
+            $TrimmedLine = ([string]$Line).Trim()
+
+            if ([string]::IsNullOrWhiteSpace($TrimmedLine)) {
+                continue
+            }
+
+            # WinGet IDs are parsed independently of the table's
+            # localized column headings.
+            $IdMatches = [regex]::Matches(
+                $TrimmedLine,
+                'Microsoft\.DotNet\.(?:DesktopRuntime|SDK)\.\d+',
+                [System.Text.RegularExpressions.RegexOptions]::IgnoreCase
+            )
+
+            foreach ($IdMatch in $IdMatches) {
+                $PackageId = $IdMatch.Value
+
+                if ($PackageId -match '^Microsoft\.DotNet\.DesktopRuntime\.(\d+)$') {
+                    $Prefix = "Microsoft.DotNet.DesktopRuntime."
+                    $Major = [int]$Matches[1]
+                    $Family = "Desktop Runtime"
+                }
+                elseif ($PackageId -match '^Microsoft\.DotNet\.SDK\.(\d+)$') {
+                    $Prefix = "Microsoft.DotNet.SDK."
+                    $Major = [int]$Matches[1]
+                    $Family = "SDK"
+                }
+                else {
+                    continue
+                }
+
+                # Extract version-shaped values from the same row.
+                # The installed version normally appears before the
+                # available version in the WinGet list output.
+                $VersionMatches = [regex]::Matches(
+                    $TrimmedLine,
+                    '(?<![\d.])\d+\.\d+\.\d+(?:\.\d+)?(?![\d.])'
+                )
+
+                $ParsedVersion = $null
+
+                foreach ($VersionMatch in $VersionMatches) {
+                    try {
+                        $CandidateVersion = [version]$VersionMatch.Value
+
+                        # Ignore rows where the extracted value is
+                        # not consistent with the package major.
+                        if ($CandidateVersion.Major -eq $Major) {
+                            $ParsedVersion = $CandidateVersion
+                            break
+                        }
+                    }
+                    catch {
+                        # Ignore malformed version values.
+                    }
+                }
+
+                if ($null -eq $ParsedVersion) {
+                    Write-Log "Could not determine installed version for $PackageId." "WARNING"
+                    continue
+                }
+
+                $Packages += [PSCustomObject]@{
+                    Id      = $PackageId
+                    Prefix  = $Prefix
+                    Family  = $Family
+                    Major   = $Major
+                    Version = $ParsedVersion
+                }
+            }
+        }
+    }
+    catch {
+        Write-Log "Error reading .NET inventory: $($_.Exception.Message)" "WARNING"
+    }
+
+    # Remove duplicate records without collapsing different versions.
+    $Packages = @(
+        $Packages |
+            Sort-Object Id, Version -Unique
+    )
+
+    foreach ($Package in $Packages) {
+        Write-Log (
+            "Detected .NET {0}: ID={1}, Version={2}" -f
+            $Package.Family,
+            $Package.Id,
+            $Package.Version
+        ) "INFO"
+    }
+
+    return $Packages
+}
+
+# ------------------------------------------------------------
+# Determine protected .NET major versions
+# ------------------------------------------------------------
+
+function Get-ProtectedDotNetMajors {
+    param(
+        [Parameter(Mandatory = $true)]
+        [object[]]$Packages
+    )
+
+    $ModernMajors = @(
+        $Packages |
+            Where-Object { $_.Major -ge 9 } |
+            Select-Object -ExpandProperty Major -Unique |
+            Sort-Object -Descending
+    )
+
+    $LatestThree = @(
+        $ModernMajors | Select-Object -First 3
+    )
+
+    $Protected = @(
+        $FixedProtectedMajors
+        $LatestThree
+    ) | Select-Object -Unique
+
+    return @($Protected | Sort-Object)
+}
+
+# ------------------------------------------------------------
+# Remove outdated .NET packages
+# ------------------------------------------------------------
+
+function Remove-OldDotNetPackages {
+    Write-Log "Starting .NET cleanup."
+
+    $Packages = @(Get-InstalledDotNetPackages)
+
+    if ($Packages.Count -eq 0) {
+        Write-Log "No .NET SDK or Desktop Runtime packages were parsed from WinGet." "WARNING"
+        Write-Log "Cleanup was skipped to prevent accidental uninstallation." "WARNING"
+        return
+    }
+
+    $ProtectedMajors = @(Get-ProtectedDotNetMajors -Packages $Packages)
+
+    Write-Log "Protected .NET major versions: $($ProtectedMajors -join ', ')" "SUCCESS"
+
+    $PackagesToRemove = @()
+
+    # Remove all packages belonging to unprotected major versions.
+    $PackagesToRemove += @(
+        $Packages |
+            Where-Object {
+                $ProtectedMajors -notcontains $_.Major
+            }
+    )
+
+    # For each package family and protected major, retain only
+    # the newest installed version.
+    foreach ($Prefix in $DotNetPrefixes) {
+        foreach ($Major in $ProtectedMajors) {
+            $MatchingPackages = @(
+                $Packages |
+                    Where-Object {
+                        $_.Prefix -eq $Prefix -and
+                        $_.Major -eq $Major
+                    } |
+                    Sort-Object Version -Descending
+            )
+
+            if ($MatchingPackages.Count -gt 1) {
+                $PackagesToRemove += @(
+                    $MatchingPackages | Select-Object -Skip 1
+                )
+            }
+        }
+    }
+
+    $PackagesToRemove = @(
+        $PackagesToRemove |
+            Sort-Object Id, Version -Unique
+    )
+
+    if ($PackagesToRemove.Count -eq 0) {
+        Write-Log "No outdated .NET packages need to be removed." "SUCCESS"
+        return
+    }
+
+    foreach ($Package in $PackagesToRemove) {
+        Write-Log (
+            "Removing outdated .NET {0}: {1} ({2})" -f
+            $Package.Family,
+            $Package.Id,
+            $Package.Version
+        ) "WARNING"
+
+        try {
+            & winget uninstall `
+                --id $Package.Id `
+                --exact `
+                --version $Package.Version.ToString() `
+                --source winget `
+                --silent `
+                --accept-source-agreements `
+                --disable-interactivity
+
+            $ResultCode = $LASTEXITCODE
+
+            if ($ResultCode -eq 0) {
+                Write-Log "Removed: $($Package.Id), version $($Package.Version)" "SUCCESS"
+                $script:RemovedCount++
+            }
+            elseif ($IgnoredExitCodes -contains $ResultCode) {
+                Write-Log "Already installed: $($Package.Id)" "SKIP"
+                $script:SkippedCount++
+            }
+            else {
+                Write-Log "Could not remove $($Package.Id). Exit code: $ResultCode" "ERROR"
+                $script:FailedCount++
+            }
+        }
+        catch {
+            Write-Log "Uninstall error for $($Package.Id): $($_.Exception.Message)" "ERROR"
+            $script:FailedCount++
+        }
+    }
+}
+
+# ------------------------------------------------------------
+# Main execution
+# ------------------------------------------------------------
+
+Write-Host ""
+Write-Host "============================================================" -ForegroundColor Cyan
+Write-Host "           RUNTIME INSTALLER AND .NET CLEANUP" -ForegroundColor Cyan
+Write-Host "============================================================" -ForegroundColor Cyan
+Write-Host ""
+
+if (-not (Test-WinGetAvailable)) {
+    Write-Log "WinGet is not available. Runtime installation and cleanup were skipped." "ERROR"
+}
+else {
+    Write-Log "WinGet is available." "SUCCESS"
+
+    foreach ($PackageId in $FixedPackages) {
+        Install-WinGetPackage -PackageId $PackageId
+    }
+
+    Remove-OldDotNetPackages
+}
+
+# ------------------------------------------------------------
+# Execution summary
+# ------------------------------------------------------------
+
+Write-Host ""
+Write-Host "============================================================" -ForegroundColor Cyan
+Write-Host "                    EXECUTION SUMMARY" -ForegroundColor Cyan
+Write-Host "============================================================" -ForegroundColor Cyan
+
+Write-Host "Packages installed : $script:InstalledCount" -ForegroundColor Green
+Write-Host "Packages removed   : $script:RemovedCount" -ForegroundColor Yellow
+Write-Host "Packages skipped   : $script:SkippedCount" -ForegroundColor DarkYellow
+Write-Host "Packages failed    : $script:FailedCount" -ForegroundColor Red
+
+Write-Host "============================================================" -ForegroundColor Cyan
+Write-Host ""
+
+Write-Log "Runtime installation and cleanup module completed." "SUCCESS"
+
+##------------------------------------------------------##
+
 # --- INSTALL APPS VIA WINGET (WITH POPUP TIMEOUT) ---
 Write-Host "`n[MODULE] Starting Interactive App Installation..." -ForegroundColor Cyan
 $appsToInstall = @(
     @{ Name = "FluentFlyout"; ID = "9n45nsm4tnbp" },
     @{ Name = "TubeDigger"; ID = "TubeDigger.TubeDigger" },
+    @{ Name = "AdGuardVPN"; ID = "AdGuard.AdGuardVPN" },
     @{ Name = "SignalRgb"; ID = "WhirlwindFX.SignalRgb" },
     @{ Name = "Hydra"; ID = "HydraLauncher.Hydra" },
     @{ Name = "Signal"; ID = "xp89119p9f2pcq" },
@@ -7888,9 +12047,11 @@ $appsToInstall = @(
     @{ Name = "WhatsApp"; ID = "9nksqgp7f2nh" },
     @{ Name = "Outlook"; ID = "9nrx63209r7b" },
     @{ Name = "OneDrive"; ID = "Microsoft.OneDrive" },
+    @{ Name = "TeraBox"; ID = "xp8bz39v4j50xj" },
     @{ Name = "Microsoft Teams"; ID = "xp8bt8dw290mpq" },
     @{ Name = "Brave"; ID = "xp8c9qzms2pc1t" },
     @{ Name = "Zen"; ID = "Zen-Team.Zen-Browser" },
+    @{ Name = "Mozilla Firefox"; ID = "9nzvdkpmr9rd" },
     @{ Name = "Comet"; ID = "Perplexity.Comet" },
     @{ Name = "ChatGPT"; ID = "9nt1r1c2hh7j" },
     @{ Name = "Perplexity"; ID = "xp8jnqfbqh6pvf" }
@@ -7931,6 +12092,616 @@ Write-Host "--------------------------------------------------------"
 
 ##------------------------------------------------------##
 
+# ----------------------------------------------------------------------
+# Third-Party & External App Services Optimization
+# ----------------------------------------------------------------------
+Write-Host "-- Adjusting third-party app services..." -ForegroundColor Gray
+
+$manualExternalServices = @(
+    "OneDrive",                                                   # OneDrive
+    "WiseBootAssistant",                                          # Wise Care
+    "Adguard VPN Service",                                        # AdGuard
+    "WireSockAppService", "WireSockConnectService",               # WireSock
+    "TeraBoxUtility",                                             # TeraBox
+    "ViscosityService"                                            # Viscosity VPN
+)
+
+$disabledExternalServices = @(
+    "EPWD",              # Check Point Endpoint Security VPN / Third-party driver
+    "TracSrvWrapper",    # Check Point VPN
+    "NativePushService"  # Wondershare / Third-party Push Notification service
+)
+
+# Apply Manual startup type
+$manualExternalServices | ForEach-Object { 
+    if (Get-Service -Name $_ -ErrorAction SilentlyContinue) { 
+        Set-Service -Name $_ -StartupType Manual -ErrorAction SilentlyContinue 
+    } 
+}
+
+# Apply Disabled startup type
+$disabledExternalServices | ForEach-Object { 
+    if (Get-Service -Name $_ -ErrorAction SilentlyContinue) { 
+        Set-Service -Name $_ -StartupType Disabled -ErrorAction SilentlyContinue 
+    } 
+}
+
+Write-Host ""
+Write-Host "Third-party services configured successfully! ✅" -ForegroundColor Green
+Write-Host "--------------------------------------------------------"
+Write-Host ""
+
+##------------------------------------------------------##
+
+# --- Browser Tweaks: Chrome, Brave, Edge & Firefox ---
+Write-Host "-- Applying Browser Registry Tweaks (Chrome, Supermium, Brave, Edge & Firefox)..." -ForegroundColor Gray
+
+# List of registry paths for centralized policy management
+$browserPaths = @(
+    "HKLM:\SOFTWARE\Policies\Google\Chrome",
+    "HKLM:\SOFTWARE\Policies\Supermium",
+    "HKLM:\SOFTWARE\Policies\BraveSoftware\Brave",
+    "HKLM:\SOFTWARE\Policies\Microsoft\Edge",
+    "HKLM:\SOFTWARE\Policies\Mozilla\Firefox"
+)
+
+# Shared Policy Settings (Applies to most Chromium-based browsers and Firefox)
+$sharedTweaks = @{
+    "PasswordManagerEnabled"          = 1   # Keep "Offer to save passwords" active
+    "MetricsReportingEnabled"         = 0   # Disable telemetry and usage data collection
+    "BackgroundModeEnabled"           = 0   # Prevent browser from running in the background after closing
+    "HardwareAccelerationModeEnabled" = 0   # Disable GPU acceleration (may reduce performance, useful for troubleshooting/stability)
+    "ComponentUpdatesEnabled"         = 0   # Disable automatic component updates
+    "BuiltInComponentUpdaterEnabled"  = 0   # Disable built-in component updates
+    "NetworkPredictionOptions"        = 2   # Disable network prediction and prefetching
+    "SpellcheckEnabled"               = 0   # Disable built-in spellchecking
+    "AutofillCreditCardEnabled"       = 0   # Disable automatic credit card autofill
+}
+
+# --- DISABLE CHROMIUM AI FEATURES ---
+Write-Host "-- Disabling Chromium AI features (Edge / Chrome)..." -ForegroundColor Gray
+
+$chromiumAIPathList = @(
+    "HKLM:\SOFTWARE\Policies\Google\Chrome",
+    "HKLM:\SOFTWARE\Policies\Supermium",
+    "HKLM:\SOFTWARE\Policies\Microsoft\Edge"
+)
+
+foreach ($aiPath in $chromiumAIPathList) {
+
+    if (!(Test-Path $aiPath)) {
+        New-Item -Path $aiPath -Force | Out-Null
+    }
+
+    # Disable local AI / foundational model features
+    Set-ItemProperty -Path $aiPath -Name "GenAILocalFoundationalModelSettings" -Value 1 -Type DWord -ErrorAction SilentlyContinue
+}
+
+foreach ($basePath in $browserPaths) {
+    # Create the key if it does not exist
+    if (!(Test-Path $basePath)) { New-Item -Path $basePath -Force | Out-Null }
+    
+    # Determine the correct registry type (Firefox requires String for these policies)
+    $type = if ($basePath -like "*Mozilla*") { "String" } else { "DWord" }
+    
+    foreach ($name in $sharedTweaks.Keys) {
+        Set-ItemProperty -Path $basePath -Name $name -Value $sharedTweaks[$name] -Type $type -ErrorAction SilentlyContinue
+    }
+
+    # Remove DNS policies from HKLM ONLY for Brave to UNLOCK the button in the UI
+    if ($basePath -like "*BraveSoftware*") {
+        Remove-ItemProperty -Path $basePath -Name "DnsOverHttpsMode" -ErrorAction SilentlyContinue
+        Remove-ItemProperty -Path $basePath -Name "DnsOverHttpsTemplates" -ErrorAction SilentlyContinue
+    }
+    
+    # Remove DNS policies from HKLM ONLY for Chrome
+    #if ($basePath -like "*Google\Chrome*") {
+    #    Remove-ItemProperty -Path $basePath -Name "DnsOverHttpsMode" -ErrorAction SilentlyContinue
+    #    Remove-ItemProperty -Path $basePath -Name "DnsOverHttpsTemplates" -ErrorAction SilentlyContinue
+    #}
+}
+
+# --- FIREFOX SPECIFIC DEBLOAT ---
+# Policies specifically for Mozilla Firefox's engine
+$firefoxOnlyPath = "HKLM:\SOFTWARE\Policies\Mozilla\Firefox"
+$firefoxTweaks = @{
+    "DisableTelemetry"           = "1"  # Disable all telemetry reports
+    "DisableFirefoxStudies"      = "1"  # Prevent Mozilla from running SHIELD studies
+    "DisablePocket"              = "1"  # Remove the Pocket integration from the UI
+    "DisableAppUpdate"           = "1"  # Stop Firefox from updating automatically
+    "OverrideFirstRunPage"       = ""   # Skip the "Welcome" tab on new profiles
+    "OverridePostUpdatePage"     = ""   # Skip the "What's New" tab after updates
+    "DisableFirefoxScreenshots"  = "0"  # Keep screenshot tool enabled (useful utility)
+    "DisableFirefoxAccounts"     = "0"  # Keep Firefox Sync enabled
+    "DisableFeedbackCommands"    = "1"  # Remove "Submit Feedback" from menus
+    "DisableDefaultBrowserAgent" = "1"  # Disable the service that checks if Firefox is default
+    "DisableImportResources"     = "1"  # Disable prompts to import data from other browsers
+    "DisableDeveloperTools"      = "0"  # Ensure Developer Tools remain enabled
+    "DontCheckDefaultBrowser"    = "1"  # Disable the check for default browser
+    "DisableBackgroundUpdate"    = "1"  # Disable background updates
+}
+
+foreach ($name in $firefoxTweaks.Keys) {
+    Set-ItemProperty -Path $firefoxOnlyPath -Name $name -Value $firefoxTweaks[$name] -Type String -ErrorAction SilentlyContinue
+}
+
+# --- CHROME SPECIFIC DEBLOAT ---
+# Policies for Google Chrome
+$chromeOnlyPath = "HKLM:\SOFTWARE\Policies\Google\Chrome"
+$chromeTweaks = @{
+    "SyncDisabled"                      = 1     # Disable Sync
+    "DefaultBrowserSettingEnabled"      = 0     # Don't Check Default Browser
+    "DeveloperToolsAvailability"        = 1     # Enable Developer Mode
+    "ChromeCleanupEnabled"              = 0     # Disable Chrome Cleanup Tool
+    "ChromeCleanupReportingEnabled"     = 0     # Disable Cleanup reporting
+    #"HardwareMediaKeyHandlingEnabled"   = 0     # Disable media key handling
+}
+
+#Remove-ItemProperty -Path $chromeOnlyPath -Name "HardwareMediaKeyHandlingEnabled" -ErrorAction SilentlyContinue
+
+foreach ($name in $chromeTweaks.Keys) {
+    Set-ItemProperty -Path $chromeOnlyPath -Name $name -Value $chromeTweaks[$name] -Type DWord -ErrorAction SilentlyContinue
+}
+
+# --- SUPERMIUM SPECIFIC DEBLOAT ---
+# Policies for Supermium
+$supermiumPath = "HKLM:\SOFTWARE\Policies\Supermium"
+
+if (!(Test-Path $supermiumPath)) {
+    New-Item -Path $supermiumPath -Force | Out-Null
+}
+
+$supermiumTweaks = @{
+    "SyncDisabled"                      = 1  # Disable Google Sync
+    "DefaultBrowserSettingEnabled"      = 0  # Disable default browser check
+    "DeveloperToolsAvailability"        = 1  # Allow Developer Tools (F12)
+    #"HardwareMediaKeyHandlingEnabled"   = 0     # Disable media key handling
+}
+
+#Remove-ItemProperty -Path $supermiumPath -Name "HardwareMediaKeyHandlingEnabled" -ErrorAction SilentlyContinue
+
+foreach ($name in $supermiumTweaks.Keys) {
+    Set-ItemProperty -Path $supermiumPath -Name $name -Value $supermiumTweaks[$name] -Type DWord -ErrorAction SilentlyContinue
+}
+
+# --- BRAVE SPECIFIC DEBLOAT ---
+# Disables unnecessary Brave features and reduces optional data collection.
+
+$bravePath = "HKLM:\SOFTWARE\Policies\BraveSoftware\Brave"
+
+if (!(Test-Path $bravePath)) {
+    New-Item -Path $bravePath -Force | Out-Null
+}
+
+# Brave Feature Policies
+$braveTweaks = @{
+    "BraveVPNDisabled"             = 1  # Disable Brave VPN
+    "BraveWalletDisabled"          = 1  # Disable the built-in Crypto Wallet
+    "BraveAIChatEnabled"           = 0  # Disable Brave Leo AI Chat
+    "BraveRewardsDisabled"         = 1  # Disable Brave Rewards and related ads
+    "BraveTalkDisabled"            = 1  # Disable Brave Talk video calls
+    "BraveNewsDisabled"            = 1  # Disable Brave News on the New Tab page
+    "SyncDisabled"                 = 1  # Disable Brave Sync
+    "DefaultBrowserSettingEnabled" = 0  # Disable default browser checks and prompts
+    "DeveloperToolsAvailability"   = 2  # Allow access to Developer Tools
+    "BuiltInDnsClientEnabled"      = 1  # Enable the built-in DNS client
+}
+
+# Additional Brave Privacy Policies
+$bravePrivacyTweaks = @{
+    "SafeBrowsingSurveysEnabled"              = 0  # Disable Safe Browsing surveys
+    "UrlKeyedAnonymizedDataCollectionEnabled" = 0  # Disable anonymized URL-keyed data collection
+    "FeedbackSurveysEnabled"                  = 0  # Disable feedback surveys
+    "DomainReliabilityAllowed"                = 0  # Disable domain reliability reporting
+    "PrivacySandboxPromptEnabled"             = 0  # Disable Privacy Sandbox prompts
+    "UserFeedbackAllowed"                     = 0  # Disable user feedback reporting
+    "UrlKeyedMetricsAllowed"                  = 0  # Disable URL-keyed metrics collection
+}
+
+# Apply Brave Feature Policies
+foreach ($name in $braveTweaks.Keys) {
+    Set-ItemProperty -Path $bravePath -Name $name -Value $braveTweaks[$name] -Type DWord -ErrorAction SilentlyContinue
+}
+
+# Apply Brave Privacy Policies
+foreach ($name in $bravePrivacyTweaks.Keys) {
+    Set-ItemProperty -Path $bravePath -Name $name -Value $bravePrivacyTweaks[$name] -Type DWord -ErrorAction SilentlyContinue
+}
+
+# --- MICROSOFT EDGE SPECIFIC DEBLOAT ---
+# Extensive cleanup of Edge's tracking, shopping, and sidebar features
+$edgeOnlyPath = "HKLM:\SOFTWARE\Policies\Microsoft\Edge"
+$edgeTweaks = @{
+    "EdgeEnhanceImagesEnabled"         = 0  # Disable image super-resolution
+    "PersonalizationReportingEnabled"  = 0  # Disable personalization telemetry
+    "ShowRecommendationsEnabled"       = 0  # Remove recommendations from the UI
+    "HideFirstRunExperience"           = 1  # Skip the massive "First Run" setup
+    "UserFeedbackAllowed"              = 0  # Disable "Send Feedback"
+    "ConfigureDoNotTrack"              = 1  # Enable "Do Not Track" header
+    "AlternateErrorPagesEnabled"       = 0  # Disable Microsoft's error pages
+    "EdgeCollectionsEnabled"           = 0  # Disable the "Collections" feature
+    "EdgeFollowEnabled"                = 0  # Disable the "Follow Creator" feature
+    "EdgeShoppingAssistantEnabled"     = 0  # Disable shopping/coupons popups
+    "MicrosoftEdgeInsiderPromotionEnabled" = 0 # Disable Insider promotions
+    "RelatedMatchesCloudServiceEnabled" = 0 # Disable cloud-based related searches
+    "ShowMicrosoftRewards"             = 0  # Remove Rewards icon
+    "WebWidgetAllowed"                 = 0  # Disable the Edge "Desktop Widget"
+    "StartupBoostEnabled"              = 0  # Stop Edge from launching at Windows startup
+    "BingAdsSuppression"               = 1  # Suppress Bing search ads
+    "NewTabPageHideDefaultTopSites"    = 1  # Cleanup default sites on new tabs
+    "PromotionalTabsEnabled"           = 0  # Disable "Promotional" popups
+    "SendSiteInfoToImproveServices"    = 0  # Disable site tracking for "improvement"
+    "SpotlightExperiencesAndRecommendationsEnabled" = 0 # Disable spotlight ads
+    "DiagnosticData"                   = 0  # Set diagnostic data to minimal/off
+    "EdgeAssetDeliveryServiceEnabled"  = 0  # Disable asset background delivery
+    "CryptoWalletEnabled"              = 0  # Disable Edge Crypto Wallet
+    "WalletDonationEnabled"            = 0  # Disable donation features in Wallet
+    "HubsSidebarEnabled"               = 0  # Remove the Edge Sidebar
+    "CopilotPageAction"                = 0  # Disable the Copilot icon/action
+    "SmartScreenEnabled"               = 0  # Disable SmartScreen UI
+    "SmartScreenPuaFullScanEnabled"    = 0  # Disable SmartScreen PUA full scan
+    "DeveloperToolsAvailability"       = 1  # Enable Developer Mode tools
+    "BuiltInMicrosoftFormsEnabled"     = 0  # Disable internal Microsoft forms
+    "EdgeManagementEnabled"            = 0  # Minimize unnecessary remote management
+    "SyncDisabled"                     = 1  # Disable Sync
+}
+
+foreach ($name in $edgeTweaks.Keys) {
+    Set-ItemProperty -Path $edgeOnlyPath -Name $name -Value $edgeTweaks[$name] -Type DWord -ErrorAction SilentlyContinue
+}
+
+# --- UNLOCKED SETTINGS (PREFERENCES) ---
+# Set initial values but allow manual toggle in the UI (No "Managed by organization" lock)
+
+$userPaths = @(
+    "HKCU:\Software\Google\Chrome",
+    "HKCU:\Software\BraveSoftware\Brave",
+    "HKCU:\Software\Microsoft\Edge"
+)
+
+foreach ($uPath in $userPaths) {
+    if (!(Test-Path $uPath)) { New-Item -Path $uPath -Force | Out-Null }
+    
+    # Safe Browsing set to 0 (Disabled) but toggleable
+    Set-ItemProperty -Path $uPath -Name "SafeBrowsingEnabled" -Value 0 -Type DWord -ErrorAction SilentlyContinue
+    Set-ItemProperty -Path $uPath -Name "StatsReportingDisabled" -Value 1 -Type DWord -ErrorAction SilentlyContinue
+}
+
+# Firefox Specific (Manual Toggle)
+$ffPath = "HKCU:\Software\Mozilla\Firefox"
+if (!(Test-Path $ffPath)) { New-Item -Path $ffPath -Force | Out-Null }
+Set-ItemProperty -Path $ffPath -Name "DisableTelemetry" -Value "1" -Type String -ErrorAction SilentlyContinue
+
+# --- INTERACTIVE DNS OVER HTTPS WITH TIMEOUT (GOOGLE CHROME) ---
+Write-Host "Do you want to enable Secure DNS (DNS Over HTTPS) for CHROME? [Y/N] (Default: N in 5s): " -NoNewline
+
+$counterChrome = 5
+while ($counterChrome -gt 0 -and (-not [console]::KeyAvailable)) {
+    Write-Host "..$counterChrome " -NoNewline -ForegroundColor Gray
+    Start-Sleep -Seconds 1
+    $counterChrome--
+}
+
+if ([console]::KeyAvailable) {
+    $choiceChromeDNS = [console]::ReadKey($true).KeyChar
+    Write-Host ""
+} else {
+    Write-Host "`nTimeout reached. Disabling DNS Over HTTPS for Chrome..." -ForegroundColor Gray
+    $choiceChromeDNS = "n"
+}
+
+# Mandatory Policy Injection: Chrome requires HKLM enforcement to override managed state.
+# Value must be passed as String ("automatic" | "off") to maintain Chromium engine compatibility.
+$chromePolicyPath = "HKLM:\SOFTWARE\Policies\Google\Chrome"
+if ($choiceChromeDNS -eq 'y' -or $choiceChromeDNS -eq 'Y') {
+    Write-Host "-- Enabling DNS Over HTTPS for CHROME (Policy Mode)..." -ForegroundColor Cyan
+    Set-ItemProperty -Path $chromePolicyPath -Name "DnsOverHttpsMode" -Value "automatic" -Type String -ErrorAction SilentlyContinue
+} else {
+    Write-Host "-- Disabling DNS Over HTTPS for CHROME..." -ForegroundColor Yellow
+    Set-ItemProperty -Path $chromePolicyPath -Name "DnsOverHttpsMode" -Value "off" -Type String -ErrorAction SilentlyContinue
+}
+
+# --- CLEAR BUFFER ---
+# Clears any leftover keystrokes so the next question doesn't skip
+while ([console]::KeyAvailable) { [console]::ReadKey($true) | Out-Null }
+
+# --- INTERACTIVE DNS OVER HTTPS WITH TIMEOUT (BRAVE ONLY) ---
+Write-Host "Do you want to enable Secure DNS (DNS Over HTTPS) for BRAVE? [Y/N] (Default: N in 5s): " -NoNewline
+
+$counterBrave = 5
+while ($counterBrave -gt 0 -and (-not [console]::KeyAvailable)) {
+    Write-Host "..$counterBrave " -NoNewline -ForegroundColor Gray
+    Start-Sleep -Seconds 1
+    $counterBrave--
+}
+
+if ([console]::KeyAvailable) {
+    $choiceBraveDNS = [console]::ReadKey($true).KeyChar
+    Write-Host ""
+} else {
+    Write-Host "`nTimeout reached. Skipping DNS config..." -ForegroundColor Gray
+    $choiceBraveDNS = "n"
+}
+
+if ($choiceBraveDNS -eq 'y' -or $choiceBraveDNS -eq 'Y') {
+    Write-Host "-- Enabling DNS Over HTTPS for BRAVE (Unlocked Mode)..." -ForegroundColor Cyan
+    $braveUserPath = "HKCU:\Software\BraveSoftware\Brave"
+    Set-ItemProperty -Path $braveUserPath -Name "DnsOverHttpsMode" -Value "automatic" -Type String -ErrorAction SilentlyContinue
+} else {
+    Write-Host "-- DNS Over HTTPS for Brave remains disabled or unchanged." -ForegroundColor Yellow
+}
+
+# --- DNS CACHE OPTIMIZATION ---
+# Increases the efficiency of the local Windows DNS cache for faster page loads
+$dnsPath = "HKLM:\SYSTEM\CurrentControlSet\Services\Dnscache\Parameters"
+if (Test-Path $dnsPath) {
+    Set-ItemProperty -Path $dnsPath -Name "CacheHashTableBucketSize" -Value 1 -Type DWord
+    Set-ItemProperty -Path $dnsPath -Name "CacheHashTableSize" -Value 384 -Type DWord
+    Set-ItemProperty -Path $dnsPath -Name "MaxCacheEntryTtlLimit" -Value 10800 -Type DWord # 3 hours
+    Set-ItemProperty -Path $dnsPath -Name "MaxSOACacheEntryTtlLimit" -Value 301 -Type DWord
+}
+
+Write-Host "Browser tweaks applied successfully! ✅" -ForegroundColor Green
+Write-Host "--------------------------------------------------------"
+Write-Host ""
+
+##------------------------------------------------------##
+
+# ================================================================
+# SUPERMium - CONFIGURATION
+# Compatible with Windows PowerShell 5.1+
+# ================================================================
+
+# --- CONFIGURATION ---
+$browserCandidates = @(
+    "C:\Program Files\Supermium\chrome.exe",
+    "C:\Program Files (x86)\Supermium\chrome.exe"
+)
+
+$profileDir = Join-Path $env:LOCALAPPDATA "Supermium\User Data"
+$localState = Join-Path $profileDir "Local State"
+
+$shortcutDir  = Join-Path $env:ProgramData "Microsoft\Windows\Start Menu\Programs"
+$shortcutPath = Join-Path $shortcutDir "Supermium.lnk"
+
+$iconPath = Join-Path $env:USERPROFILE "AppData\Local\Supermium\User Data\Default\Google Profile.ico"
+
+$argument = "--extension-mime-request-handling=always-prompt-for-install"
+$labSetting = "extension-mime-request-handling@1"
+
+Write-Host ""
+Write-Host "================================================" -ForegroundColor DarkGray
+Write-Host "  SUPERMium - CONFIGURATION" -ForegroundColor Cyan
+Write-Host "================================================" -ForegroundColor DarkGray
+
+# --- 1. DETECT SUPERMium INSTALLATION ---
+Write-Host "`n[1/4] Detecting Supermium installation..." -ForegroundColor Cyan
+
+$existingShortcutTarget = $null
+
+if (Test-Path -LiteralPath $shortcutPath -PathType Leaf) {
+    try {
+        $shell = New-Object -ComObject WScript.Shell
+        $existingShortcut = $shell.CreateShortcut($shortcutPath)
+        $existingShortcutTarget = [string]$existingShortcut.TargetPath
+    }
+    catch {
+        $existingShortcutTarget = $null
+    }
+}
+
+# Prefer the executable already referenced by the shortcut if it exists.
+$browserPath = $null
+
+if ($existingShortcutTarget) {
+    foreach ($candidate in $browserCandidates) {
+        if (
+            $existingShortcutTarget -ieq $candidate -and
+            (Test-Path -LiteralPath $candidate -PathType Leaf)
+        ) {
+            $browserPath = $candidate
+            break
+        }
+    }
+}
+
+# If the shortcut does not identify an existing installation,
+# use the first existing candidate.
+if (-not $browserPath) {
+    foreach ($candidate in $browserCandidates) {
+        if (Test-Path -LiteralPath $candidate -PathType Leaf) {
+            $browserPath = $candidate
+            break
+        }
+    }
+}
+
+if (-not $browserPath) {
+    Write-Host "[ERROR] Supermium was not found in either location:" -ForegroundColor Red
+
+    foreach ($candidate in $browserCandidates) {
+        Write-Host "  - $candidate" -ForegroundColor Yellow
+    }
+
+    return
+}
+
+$browserDir = Split-Path -Parent $browserPath
+
+Write-Host "[OK] Supermium found:" -ForegroundColor Green
+Write-Host "     $browserPath" -ForegroundColor Gray
+
+# --- 2. CLOSE SUPERMium IF RUNNING ---
+Write-Host "`n[2/4] Checking Supermium processes..." -ForegroundColor Cyan
+
+try {
+    $processes = @(
+        Get-CimInstance Win32_Process -Filter "Name = 'chrome.exe'" |
+            Where-Object {
+                $_.ExecutablePath -and
+                $_.ExecutablePath -ieq $browserPath
+            }
+    )
+
+    if ($processes.Count -gt 0) {
+        foreach ($process in $processes) {
+            Stop-Process -Id $process.ProcessId -Force -ErrorAction SilentlyContinue
+        }
+
+        Start-Sleep -Seconds 2
+        Write-Host "[OK] Supermium processes closed." -ForegroundColor Green
+    }
+    else {
+        Write-Host "[SKIP] Supermium is not running." -ForegroundColor DarkGray
+    }
+}
+catch {
+    Write-Host "[WARNING] Could not inspect every browser process: $($_.Exception.Message)" -ForegroundColor Yellow
+}
+
+# --- 3. CREATE OR UPDATE START MENU SHORTCUT ---
+Write-Host "`n[3/4] Checking Start Menu shortcut..." -ForegroundColor Cyan
+
+try {
+    $shortcutNeedsUpdate = $false
+    $expectedIcon = if (Test-Path -LiteralPath $iconPath -PathType Leaf) {
+        $iconPath
+    }
+    else {
+        "$browserPath,0"
+    }
+
+    if (-not (Test-Path -LiteralPath $shortcutPath -PathType Leaf)) {
+        $shortcutNeedsUpdate = $true
+        Write-Host "[INFO] Shortcut does not exist." -ForegroundColor Gray
+    }
+    else {
+        $shell = New-Object -ComObject WScript.Shell
+        $shortcut = $shell.CreateShortcut($shortcutPath)
+
+        if ($shortcut.TargetPath -ine $browserPath) {
+            $shortcutNeedsUpdate = $true
+        }
+
+        if ($shortcut.WorkingDirectory -ine $browserDir) {
+            $shortcutNeedsUpdate = $true
+        }
+
+        if ([string]$shortcut.Arguments -notmatch [regex]::Escape($argument)) {
+            $shortcutNeedsUpdate = $true
+        }
+
+        $actualIcon = ([string]$shortcut.IconLocation).Trim().Trim('"')
+        $normalizedExpectedIcon = $expectedIcon.Trim().Trim('"')
+
+        if ($actualIcon -ine $normalizedExpectedIcon) {
+            $shortcutNeedsUpdate = $true
+        }
+    }
+
+    if ($shortcutNeedsUpdate) {
+        if (-not (Test-Path -LiteralPath $shortcutDir -PathType Container)) {
+            New-Item -Path $shortcutDir -ItemType Directory -Force |
+                Out-Null
+        }
+
+        $shell = New-Object -ComObject WScript.Shell
+        $shortcut = $shell.CreateShortcut($shortcutPath)
+
+        $shortcut.TargetPath = $browserPath
+        $shortcut.WorkingDirectory = $browserDir
+        $shortcut.IconLocation = $expectedIcon
+
+        # Preserve existing arguments and add the flag only if missing.
+        $existingArgs = [string]$shortcut.Arguments
+
+        if ($existingArgs -notmatch [regex]::Escape($argument)) {
+            $existingArgs = ($existingArgs.Trim() + " " + $argument).Trim()
+        }
+
+        $shortcut.Arguments = $existingArgs
+        $shortcut.Save()
+
+        Write-Host "[OK] Shortcut created or updated." -ForegroundColor Green
+        Write-Host "     $shortcutPath" -ForegroundColor Gray
+    }
+    else {
+        Write-Host "[SKIP] Shortcut is already correctly configured." -ForegroundColor DarkGray
+    }
+}
+catch {
+    Write-Host "[WARNING] Shortcut check/update failed: $($_.Exception.Message)" -ForegroundColor Yellow
+}
+
+# --- 4. CHECK AND UPDATE LOCAL STATE ---
+Write-Host "`n[4/4] Checking Supermium Local State..." -ForegroundColor Cyan
+
+try {
+    if (-not (Test-Path -LiteralPath $localState -PathType Leaf)) {
+        Write-Host "[SKIP] Local State does not exist yet." -ForegroundColor DarkGray
+    }
+    else {
+        $jsonText = Get-Content -LiteralPath $localState -Raw -Encoding UTF8
+        $state = $jsonText | ConvertFrom-Json
+
+        $labs = @()
+
+        if ($state.browser -and $state.browser.enabled_labs_experiments) {
+            $labs = @($state.browser.enabled_labs_experiments)
+        }
+
+        if ($labs -contains $labSetting) {
+            Write-Host "[SKIP] Local State setting is already configured." -ForegroundColor DarkGray
+        }
+        else {
+            # Back up only when a change is required.
+            $backupPath = "$localState.bak-$(Get-Date -Format 'yyyyMMdd-HHmmss')"
+            Copy-Item -LiteralPath $localState -Destination $backupPath -Force
+
+            if (-not $state.browser) {
+                $state | Add-Member `
+                    -MemberType NoteProperty `
+                    -Name browser `
+                    -Value ([PSCustomObject]@{})
+            }
+
+            $labs += $labSetting
+            $state.browser.enabled_labs_experiments = @($labs)
+
+            $updatedJson = $state | ConvertTo-Json -Depth 100
+            $tempPath = "$localState.tmp"
+
+            try {
+                Set-Content -LiteralPath $tempPath -Value $updatedJson -Encoding UTF8
+
+                # Validate JSON before replacing the original file.
+                $null = Get-Content -LiteralPath $tempPath -Raw -Encoding UTF8 |
+                    ConvertFrom-Json
+
+                Move-Item -LiteralPath $tempPath -Destination $localState -Force
+
+                Write-Host "[OK] Local State setting added." -ForegroundColor Green
+                Write-Host "[BACKUP] $backupPath" -ForegroundColor Gray
+            }
+            finally {
+                if (Test-Path -LiteralPath $tempPath) {
+                    Remove-Item -LiteralPath $tempPath -Force -ErrorAction SilentlyContinue
+                }
+            }
+        }
+    }
+}
+catch {
+    Write-Host "[WARNING] Local State check/update failed: $($_.Exception.Message)" -ForegroundColor Yellow
+}
+
+Write-Host ""
+Write-Host "-- Finished --" -ForegroundColor Cyan
+Write-Host "Open Supermium using the Start Menu shortcut." -ForegroundColor Cyan
+Write-Host ""
+
+##------------------------------------------------------##
+
 # --- Gaming Essentials Pack (5-second Timeout) ---
 Write-Host "`n--- Gaming Essentials Check ---" -ForegroundColor Cyan
 
@@ -7960,9 +12731,50 @@ Write-Host ""
 
 # --- 4.1 Software Installations via Chocolatey ---
 Write-Host "Starting software installations via Chocolatey..."
+Write-Host ""
 
+# Detect whether the operating system is Windows Server
+$isWindowsServer = $false
+
+try {
+    $osInfo = Get-CimInstance -ClassName Win32_OperatingSystem -ErrorAction Stop
+
+    # ProductType:
+    # 1 = Workstation (Windows 10/11)
+    # 2 = Domain Controller
+    # 3 = Server
+    $isWindowsServer = ($osInfo.ProductType -ne 1)
+
+    if ($isWindowsServer) {
+        Write-Host "[INFO] Windows Server detected: $($osInfo.Caption)" -ForegroundColor Yellow
+        Write-Host "[INFO] Server-specific application exclusions enabled." -ForegroundColor Yellow
+    }
+    else {
+        Write-Host "[INFO] Windows client detected: $($osInfo.Caption)" -ForegroundColor Green
+    }
+}
+catch {
+    Write-Warning "Unable to detect the operating system type. Server-specific exclusions will not be applied."
+}
+
+Write-Host ""
+
+# Packages that must NOT be installed on Windows Server.
+# Add more Chocolatey package IDs to this list as needed.
+$packagesToSkipOnServer = @(
+    "webcamoid"
+    "th-ch-youtube-music"
+    "jami"
+    "audacity"
+    "qalculate"
+
+    # Add more packages below, for example:
+    # "vlc"
+    # "paint.net"
+)
+
+# Packages to install through Chocolatey
 $packagesToInstall = @(
-    "7zip"
     "webcamoid"
     "dart-sdk" # Its path handling is separate below
     "qdir"
@@ -7989,48 +12801,70 @@ $packagesToInstall = @(
     "hashcheck"
     "openhashtab"
     "jami"
+    "rustdesk"
     "sd-card-formatter"
     "th-ch-youtube-music"
     "winscp.install"
     "zstandard"
-    "wiresockvpnclient"
-    "winrar"
 )
 
 # Handle Python separately before the loop to ensure robust check
 if (-not (Test-PythonInstalled)) {
     Write-Host "Python (v3+) not found or not suitable. Attempting to install Python via Chocolatey..."
+
     try {
         choco install python -y --no-progress
+
         if ($LASTEXITCODE -ne 0) {
             Write-Warning "Failed to install Python. Chocolatey exit code: $LASTEXITCODE"
-        } else {
-            Write-Host "Python installed successfully."
+        }
+        else {
+            Write-Host "Python installed successfully." -ForegroundColor Green
         }
     }
     catch {
         $errorMessage = $_.Exception.Message
         Write-Error ("An error occurred while trying to install Python: {0}" -f $errorMessage)
     }
-} else {
+}
+else {
     Write-Host "Python (v3+) is already installed. Skipping Chocolatey installation for Python."
 }
-Write-Host "" # Add a blank line for readability
 
+Write-Host ""
 
+# Install the specified packages
 foreach ($package in $packagesToInstall) {
+
+    # Skip packages listed in $packagesToSkipOnServer on Windows Server
+    if ($isWindowsServer -and $packagesToSkipOnServer -contains $package) {
+        Write-Host "[SKIP] $package is excluded on Windows Server." -ForegroundColor Yellow
+        Write-Host ""
+        continue
+    }
+
     Write-Host "Checking and installing $package..."
+
     try {
-        # Check if the package is already installed
-        # The -r (raw) and --exact flags ensure precise matching and machine-readable output.
-        if ((choco list --local-only --exact $package -r).Count -eq 0) {
+        # Check whether the package is already installed
+        $installedPackages = @(
+            choco list --local-only --exact $package -r 2>$null
+        )
+
+        if ($LASTEXITCODE -ne 0) {
+            Write-Warning "Could not reliably check whether $package is installed. Skipping installation to avoid an unintended change."
+        }
+        elseif ($installedPackages.Count -eq 0) {
             choco install $package -y --no-progress
+
             if ($LASTEXITCODE -ne 0) {
                 Write-Warning "Failed to install $package. Chocolatey exit code: $LASTEXITCODE"
-            } else {
-                Write-Host "$package installed successfully."
             }
-        } else {
+            else {
+                Write-Host "$package installed successfully." -ForegroundColor Green
+            }
+        }
+        else {
             Write-Host "$package is already installed. Skipping."
         }
     }
@@ -8038,6 +12872,7 @@ foreach ($package in $packagesToInstall) {
         $errorMessage = $_.Exception.Message
         Write-Error ("An error occurred while trying to install {0}: {1}" -f $package, $errorMessage)
     }
+
     Write-Host ""
 }
 
@@ -8165,9 +13000,14 @@ Write-Host ""
 ##------------------------------------------------------##
 
 # --- 6. DISABLE STARTUP (DIRECT TASK MANAGER STATUS) ---
-Write-Host "Adjusting startup status in Task Manager..." -ForegroundColor Cyan
+# ==========================================
+# STARTUP APPLICATIONS - DISABLE MANAGER
+# Registry + Startup Folders
+# ==========================================
 
-# Targets
+Write-Host "`n=== Configuring Startup Applications ===" -ForegroundColor Cyan
+
+# --- 1. TARGET APPLICATIONS ---
 $targets = @(
     "StickyPassword",
     "steam",
@@ -8175,18 +13015,27 @@ $targets = @(
     "Update",
     "EADM",
     "EpicGamesLauncher",
-    "Everything", 
+    "Everything",
     "Lightshot",
     "stpass",
     "Signal",
-    "Teams"
+    "Teams",
+    "PDFMonitor",
+    "Pawzy",
+    "IDMan",
+    "TrGUI",
+    "pritunl",
+    "teraboxwebservice"
 )
 
-# Binary Value for "Disabled" (03)
-$disabledVal = [byte[]](0x03,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00)
+# --- 2. REGISTRY CONFIGURATION ---
+$disabledVal = [byte[]](
+    0x03, 0x00, 0x00, 0x00,
+    0x00, 0x00, 0x00, 0x00,
+    0x00, 0x00, 0x00, 0x00
+)
 
-# Registry Paths
-$paths = @(
+$startupApprovedPaths = @(
     "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\StartupApproved\Run",
     "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\StartupApproved\Task",
     "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\StartupApproved\Run",
@@ -8194,30 +13043,239 @@ $paths = @(
     "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\StartupApproved\Task"
 )
 
-foreach ($path in $paths) {
-    if (Test-Path $path) {
-        $key = Get-Item $path
-        foreach ($valName in $key.GetValueNames()) {
-            $shouldDisable = $false
-            
-            # Check if the registry item matches any of our targets
-            foreach ($t in $targets) {
-                if ($valName -match $t) {
-                    $shouldDisable = $true
+$runPaths = @(
+    "HKCU:\Software\Microsoft\Windows\CurrentVersion\Run",
+    "HKCU:\Software\Microsoft\Windows\CurrentVersion\RunOnce",
+    "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Run",
+    "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\RunOnce",
+    "HKLM:\SOFTWARE\WOW6432Node\Microsoft\Windows\CurrentVersion\Run",
+    "HKLM:\SOFTWARE\WOW6432Node\Microsoft\Windows\CurrentVersion\RunOnce"
+)
+
+$backupPath = "HKCU:\Software\StartupDisabledBackup"
+
+if (-not (Test-Path $backupPath)) {
+    New-Item -Path $backupPath -Force | Out-Null
+}
+
+# --- 3. DISABLE STARTUPAPPROVED ENTRIES ---
+Write-Host "`n[1/5] Updating StartupApproved entries..." -ForegroundColor Cyan
+
+foreach ($path in $startupApprovedPaths) {
+    if (-not (Test-Path $path)) {
+        continue
+    }
+
+    try {
+        $key = Get-Item -LiteralPath $path -ErrorAction Stop
+
+        foreach ($name in $key.GetValueNames()) {
+            foreach ($target in $targets) {
+                if ($name -match [regex]::Escape($target)) {
+                    try {
+                        Set-ItemProperty -LiteralPath $path `
+                            -Name $name `
+                            -Value $disabledVal `
+                            -ErrorAction Stop
+
+                        Write-Host "[DISABLED] $name ($path)" `
+                            -ForegroundColor Green
+                    }
+                    catch {
+                        Write-Host "[ERROR] $name : $($_.Exception.Message)" `
+                            -ForegroundColor Red
+                    }
+
+                    break
+                }
+            }
+        }
+    }
+    catch {
+        Write-Host "[WARNING] Cannot access $path : $($_.Exception.Message)" `
+            -ForegroundColor Yellow
+    }
+}
+
+# --- 4. REMOVE MATCHING RUN ENTRIES WITH BACKUP ---
+Write-Host "`n[2/5] Checking Run registry entries..." -ForegroundColor Cyan
+
+foreach ($path in $runPaths) {
+    if (-not (Test-Path $path)) {
+        continue
+    }
+
+    try {
+        $key = Get-Item -LiteralPath $path -ErrorAction Stop
+
+        foreach ($name in $key.GetValueNames()) {
+            $value = [string]$key.GetValue($name)
+            $matched = $false
+
+            foreach ($target in $targets) {
+                if (
+                    $name -match [regex]::Escape($target) -or
+                    $value -match [regex]::Escape($target)
+                ) {
+                    $matched = $true
                     break
                 }
             }
 
-            if ($shouldDisable) {
-                Set-ItemProperty -Path $path -Name $valName -Value $disabledVal -Force
-                Write-Host "[$valName] Status changed to DISABLED in: $path" -ForegroundColor Green
+            if (-not $matched) {
+                continue
+            }
+
+            try {
+                $backupName = "Run_" + [guid]::NewGuid().ToString("N")
+
+                New-ItemProperty -Path $backupPath `
+                    -Name $backupName `
+                    -Value "$path|$name|$value" `
+                    -PropertyType String `
+                    -Force `
+                    -ErrorAction Stop | Out-Null
+
+                Remove-ItemProperty -LiteralPath $path `
+                    -Name $name `
+                    -Force `
+                    -ErrorAction Stop
+
+                Write-Host "[DISABLED] $name removed from $path" `
+                    -ForegroundColor Green
+            }
+            catch {
+                Write-Host "[ERROR] $name ($path): $($_.Exception.Message)" `
+                    -ForegroundColor Red
             }
         }
     }
+    catch {
+        Write-Host "[WARNING] Cannot access $path : $($_.Exception.Message)" `
+            -ForegroundColor Yellow
+    }
 }
 
-Write-Host "--------------------------------------------------------"
-Write-Host "Done." -ForegroundColor Cyan
+# --- 5. DELETE PAWZY.BAT FROM USER STARTUP ---
+Write-Host "`n[3/5] Checking Pawzy startup entry..." -ForegroundColor Cyan
+
+$startupFolder = [Environment]::GetFolderPath("Startup")
+$pawzy = Join-Path $startupFolder "Pawzy.bat"
+
+if (Test-Path -LiteralPath $pawzy) {
+    try {
+        Remove-Item -LiteralPath $pawzy -Force -ErrorAction Stop
+        Write-Host "[DELETED] Pawzy.bat removed from Startup." -ForegroundColor Green
+    }
+    catch {
+        Write-Host "[ERROR] Pawzy.bat : $($_.Exception.Message)" -ForegroundColor Red
+    }
+}
+else {
+    Write-Host "[INFO] Pawzy.bat not found in Startup." -ForegroundColor DarkGray
+}
+
+# --- 6. DELETE MATCHING ITEMS IN STARTUP FOLDERS ---
+Write-Host "`n[4/5] Checking user and common Startup items..." `
+    -ForegroundColor Cyan
+
+$startupFolders = @(
+    [Environment]::GetFolderPath("Startup"),
+    [Environment]::GetFolderPath("CommonStartup")
+) | Where-Object {
+    $_ -and (Test-Path -LiteralPath $_)
+} | Select-Object -Unique
+
+foreach ($folder in $startupFolders) {
+    try {
+        $items = Get-ChildItem -LiteralPath $folder -Force `
+            -ErrorAction Stop |
+            Where-Object { -not $_.PSIsContainer }
+
+        foreach ($item in $items) {
+            $matched = $false
+
+            # Match item name against all configured targets.
+            foreach ($target in $targets) {
+                if ($item.Name -match [regex]::Escape($target)) {
+                    $matched = $true
+                    break
+                }
+            }
+
+            # For shortcuts, also inspect their actual target.
+            if (
+                -not $matched -and
+                $item.Extension -eq ".lnk"
+            ) {
+                try {
+                    $shell = New-Object -ComObject WScript.Shell
+                    $shortcut = $shell.CreateShortcut($item.FullName)
+                    $shortcutTarget = [string]$shortcut.TargetPath
+
+                    foreach ($target in $targets) {
+                        if ($shortcutTarget -match [regex]::Escape($target)) {
+                            $matched = $true
+                            break
+                        }
+                    }
+                }
+                catch {
+                    Write-Host "[WARNING] Cannot inspect shortcut $($item.Name)" `
+                        -ForegroundColor Yellow
+                }
+            }
+
+            if (-not $matched) {
+                continue
+            }
+
+            # Permanently delete the matching Startup item.
+            try {
+                Remove-Item -LiteralPath $item.FullName `
+                    -Force `
+                    -ErrorAction Stop
+
+                Write-Host "[DELETED] Startup item: $($item.Name)" `
+                    -ForegroundColor Green
+            }
+            catch {
+                Write-Host "[ERROR] $($item.Name): $($_.Exception.Message)" `
+                    -ForegroundColor Red
+            }
+        }
+    }
+    catch {
+        Write-Host "[WARNING] Cannot inspect $folder : $($_.Exception.Message)" `
+            -ForegroundColor Yellow
+    }
+}
+
+# --- 7. VERIFY TARGET EXECUTABLES ---
+Write-Host "`n[5/5] Checking target executables..." -ForegroundColor Cyan
+
+$executables = @(
+    "C:\Program Files\PDFgear\PDFMonitor.exe",
+    "C:\Program Files (x86)\Internet Download Manager\IDMan.exe",
+    "C:\Program Files (x86)\CheckPoint\Endpoint Connect\TrGUI.exe",
+    "C:\Program Files (x86)\Pritunl\pritunl.exe",
+    "$env:APPDATA\TeraBox\teraboxwebservice.exe",
+    "C:\Program Files (x86)\Skillbrains\lightshot\Lightshot.exe"
+)
+
+foreach ($exe in $executables) {
+    if (Test-Path -LiteralPath $exe) {
+        Write-Host "[FOUND] $exe" -ForegroundColor Gray
+    }
+    else {
+        Write-Host "[NOT FOUND] $exe" -ForegroundColor DarkGray
+    }
+}
+
+Write-Host "`n==========================================" -ForegroundColor Cyan
+Write-Host "Startup configuration completed." -ForegroundColor Cyan
+Write-Host "Review any [ERROR] or [WARNING] messages above."
+Write-Host "==========================================" -ForegroundColor Cyan
 Write-Host ""
 
 ##------------------------------------------------------##
@@ -8301,39 +13359,47 @@ Write-Host ""
 
 ##------------------------------------------------------##
 
-# --- 9. GIT CONTEXT MENU OPTIMIZATION (FORCE SHIFT-ONLY) ---
-# Hides "Git GUI Here" and "Git Bash Here" from the standard context menu.
-# This ensures they only appear when holding SHIFT + Right Click, as per common debloat standards.
-Write-Host "Optimizing Git Context Menu (Force Shift-only access)..." -ForegroundColor Cyan
+# --- 9. Git Context Menu Purge ---
+# ==============================================================================
+# SCRIPT: Git Context Menu Removal
+# DESCRIPTION: Removes Git GUI Here and Git Bash Here context menu entries.
+#              Checks standard machine-wide and current-user registry locations.
+# ==============================================================================
+
+Write-Host "`n--- Removing Git Context Menu Entries ---" -ForegroundColor Cyan
 
 $gitMenuPaths = @(
-    # Standard Classes Root paths
-    "HKCR:\Directory\shell\git_shell",
-    "HKCR:\Directory\shell\git_gui",
-    "HKCR:\Directory\Background\shell\git_shell",
-    "HKCR:\Directory\Background\shell\git_gui",
-    "HKCR:\LibraryFolder\background\shell\git_gui",
-    "HKCR:\LibraryFolder\background\shell\git_shell",
+    "HKCU:\Software\Classes\Directory\shell\git_shell",
+    "HKCU:\Software\Classes\Directory\shell\git_gui",
+    "HKCU:\Software\Classes\Directory\Background\shell\git_shell",
+    "HKCU:\Software\Classes\Directory\Background\shell\git_gui",
+    "HKCU:\Software\Classes\LibraryFolder\background\shell\git_gui",
+    "HKCU:\Software\Classes\LibraryFolder\background\shell\git_shell",
 
-    # Machine-wide paths (High Priority / HKLM)
     "HKLM:\SOFTWARE\Classes\Directory\shell\git_shell",
     "HKLM:\SOFTWARE\Classes\Directory\shell\git_gui",
-    "HKLM:\SOFTWARE\Classes\Directory\background\shell\git_shell",
-    "HKLM:\SOFTWARE\Classes\Directory\background\shell\git_gui",
+    "HKLM:\SOFTWARE\Classes\Directory\Background\shell\git_shell",
+    "HKLM:\SOFTWARE\Classes\Directory\Background\shell\git_gui",
     "HKLM:\SOFTWARE\Classes\LibraryFolder\background\shell\git_gui",
     "HKLM:\SOFTWARE\Classes\LibraryFolder\background\shell\git_shell"
 )
 
+$removed = 0
+
 foreach ($path in $gitMenuPaths) {
-    if (Test-Path $path) {
-        # Adding the 'Extended' string value hides the entry from the normal menu
-        # It will now require SHIFT + Right Click to be visible.
-        Set-ItemProperty -Path $path -Name "Extended" -Value "" -Force | Out-Null
-        Write-Host "Extended attribute applied: $path" -ForegroundColor Gray
+    if (Test-Path -LiteralPath $path) {
+        try {
+            Remove-Item -LiteralPath $path -Recurse -Force -ErrorAction Stop
+            Write-Host "[REMOVED] $path" -ForegroundColor Green
+            $removed++
+        }
+        catch {
+            Write-Host "[ERROR] $path : $($_.Exception.Message)" -ForegroundColor Red
+        }
     }
 }
 
-Write-Host "Git menu items successfully moved to 'Shift + Right Click'. ✅" -ForegroundColor Green
+Write-Host "`n[OK] Removed $removed Git context-menu entries." -ForegroundColor Cyan
 Write-Host "--------------------------------------------------------"
 
 ##------------------------------------------------------##
