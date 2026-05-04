@@ -1995,7 +1995,7 @@ if ([console]::KeyAvailable) {
     Write-Host ""
 } else {
     Write-Host "`nTimeout reached. Continuing with OneDrive removal..." -ForegroundColor Gray
-    $choiceOD = "n"
+    $choiceOD = "y"
 }
 
 if ($choiceOD -eq 'y' -or $choiceOD -eq 'Y') {
@@ -2380,7 +2380,7 @@ if ([console]::KeyAvailable) {
     Write-Host ""
 } else {
     Write-Host "`nTimeout reached. Skipping Edge uninstallation..." -ForegroundColor Gray
-    $choiceEdge = "n"
+    $choiceEdge = "y"
 }
 
 if ($choiceEdge -eq 'y' -or $choiceEdge -eq 'Y') {
@@ -2804,7 +2804,7 @@ if ([console]::KeyAvailable) {
     Write-Host ""
 } else {
     Write-Host "`nDefender lives to nag another day." -ForegroundColor DarkGray
-    $choice = "n"
+    $choice = "y"
 }
 
 if ($choice -eq 'y' -or $choice -eq 'Y') {
@@ -3199,7 +3199,7 @@ if ([console]::KeyAvailable) {
     Write-Host ""
 } else {
     Write-Host "`nTimeout reached. Skipping check..." -ForegroundColor Gray
-    $runCheck = "n"
+    $runCheck = "y"
 }
 
 if ($runCheck -eq 'y') {
@@ -3268,7 +3268,7 @@ Write-Host "`nProcess finished." -ForegroundColor Gray
             Write-Host ""
         } else {
             Write-Host "`nTimeout reached. Proceeding with Auto-Fix (Default)..." -ForegroundColor Gray
-            $ansFix = "y"
+            $ansFix = "n"
         }
 
         if ($ansFix -eq 'y') {
