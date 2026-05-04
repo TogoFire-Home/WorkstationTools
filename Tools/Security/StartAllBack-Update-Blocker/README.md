@@ -64,5 +64,5 @@ Run the script from an **Elevated PowerShell (Administrator)** terminal.
 If you want to run the script directly from GitHub without downloading it manually, run the following command in an **Elevated PowerShell (Administrator)**:
 
 ```powershell
-Set-ExecutionPolicy -ExecutionPolicy Bypass -Scope Process -Force | Out-Null; iex (Invoke-RestMethod -Uri "https://raw.githubusercontent.com/TogoFire-Home/WorkstationTools/main/StartAllBack-Update-Blocker/Block-StartAllBack.ps1")
+Set-ExecutionPolicy -ExecutionPolicy Bypass -Scope Process -Force | Out-Null; iex (Invoke-RestMethod -Uri "https://raw.githubusercontent.com/TogoFire-Home/WorkstationTools/main/Tools/Security/StartAllBack-Update-Blocker/Block-StartAllBack.ps1")
 ```
